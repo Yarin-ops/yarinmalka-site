@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>הירשם | YARIN.MALKA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Karantina:wght@700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+</head>
+<body>
+
+<header class="header">
+  <a href="/" class="logo-block">
+    <div class="logo">YARIN<span class="dot">.</span>MALKA</div>
+    <div class="logo-tagline">AI<span class="sep">·</span>TECH<span class="sep">·</span>TOOLS</div>
+  </a>
+  <nav class="nav">
+    <a href="/">בית</a>
+    <a href="/guides.html">מדריכים</a>
+    <a href="/about.html">אודות</a>
+    <a href="/signup.html" class="active">הירשם</a>
+  </nav>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+
+<section class="signup-page">
+  <div class="tag">רשימת תפוצה</div>
+  <h1>מדריך אחד בשבוע. <em>בלי רעש.</em></h1>
+  <p class="lead">מדריכים פרקטיים על AI, טכנולוגיה וכלים, ישר לאימייל שלך. תוכל לבטל בכל רגע.</p>
+
+  <div class="signup-form">
+    <form onsubmit="event.preventDefault(); alert('בקרוב יחובר ל-MailerLite');">
+      <input type="text" placeholder="שם פרטי" required>
+      <input type="email" placeholder="האימייל שלך" required>
+      <button type="submit">הירשם חינם</button>
+    </form>
+
+    <ul class="signup-features">
+      <li>מדריך עמוק אחד בשבוע</li>
+      <li>בעברית פשוטה, בלי ז'רגון</li>
+      <li>תוכן פרקטי שאפשר ליישם מחר</li>
+      <li>אין שיווקיות, אין מכירות</li>
+      <li>ביטול בלחיצה אחת</li>
+    </ul>
+  </div>
+</section>
+
+<footer class="footer">
+  <div>© 2026 Yarin Malka · AI · TECH · TOOLS</div>
+  <div class="footer-links">
+    <a href="/about.html">אודות</a>
+    <a href="/guides.html">מדריכים</a>
+    <a href="/signup.html">הירשם</a>
+  </div>
+</footer>
+
+<script>
+function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark';var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('theme',n);}
+</script>
+
+</body>
+</html>

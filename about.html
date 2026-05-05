@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>אודות | YARIN.MALKA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Karantina:wght@700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+</head>
+<body>
+
+<header class="header">
+  <a href="/" class="logo-block">
+    <div class="logo">YARIN<span class="dot">.</span>MALKA</div>
+    <div class="logo-tagline">AI<span class="sep">·</span>TECH<span class="sep">·</span>TOOLS</div>
+  </a>
+  <nav class="nav">
+    <a href="/">בית</a>
+    <a href="/guides.html">מדריכים</a>
+    <a href="/about.html" class="active">אודות</a>
+    <a href="/signup.html">הירשם</a>
+  </nav>
+  <div class="header-actions">
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+    <a href="/signup.html" class="cta-btn">הצטרף לרשימה</a>
+  </div>
+</header>
+
+<section class="about-hero">
+  <div class="tag">אודות</div>
+  <h1 class="title">היי, אני <em>ירין.</em></h1>
+  <p class="subtitle">מתכנן פיננסי, סוכן ביטוח פנסיוני, וחובב טכנולוגיה ובינה מלאכותית. את האתר הזה אני בונה כדי לחלוק את מה שאני לומד.</p>
+</section>
+
+<section class="about-section">
+  <h2>למה האתר הזה</h2>
+  <p>רוב התוכן על AI בעברית הוא <strong>שטחי</strong> או <strong>טכני מדי</strong>. אין באמצע כמעט כלום. אני בונה את האמצע הזה — מדריכים פרקטיים על איך AI יכול לחסוך לך שעות, אבל בעברית פשוטה ובלי הייפ.</p>
+
+  <h2>מה תמצא כאן</h2>
+  <p>מדריך עמוק <strong>אחד בשבוע</strong>. כל מדריך מתמקד בכלי אחד, רעיון אחד, או טכניקה אחת. בסוף הקריאה אתה יכול ליישם בפועל — לא צריך לקרוא 5 מאמרים נוספים.</p>
+  <p>בנוסף, פוסטים קצרים בוואטסאפ Status על חדשות, טיפים, ותובנות. אם תרצה להישאר מעודכן — <strong>הירשם לרשימת התפוצה</strong>.</p>
+
+  <h2>מי הקהל</h2>
+  <p>בעלי עסקים קטנים, פרילנסרים, יזמים, אנשי מקצוע פיננסיים, ובכלל — כל מי שרוצה להבין איך להשתמש ב-AI בעבודה היומיומית בלי לבזבז שעות.</p>
+
+  <h2>מה לא תמצא כאן</h2>
+  <p>הייפ. שיווקיות. הבטחות שווא. "AI יחליף את כולם". אני לא בעניין של זה.</p>
+
+  <div class="cta-box">
+    <div class="cta-title">רוצה לקבל את <span style="background:linear-gradient(135deg,var(--purple-light),var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">המדריכים</span> החדשים?</div>
+    <div class="cta-sub">אחת לשבוע, ישר לאימייל. בלי רעש.</div>
+    <form class="cta-form" onsubmit="event.preventDefault(); alert('בקרוב יחובר ל-MailerLite')">
+      <input type="email" placeholder="האימייל שלך" required>
+      <button type="submit">הירשם</button>
+    </form>
+    <div class="cta-note">ביטול בלחיצה אחת.</div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div>© 2026 Yarin Malka · AI · TECH · TOOLS</div>
+  <div class="footer-links">
+    <a href="/about.html">אודות</a>
+    <a href="/guides.html">מדריכים</a>
+    <a href="/signup.html">הירשם</a>
+  </div>
+</footer>
+
+<script>
+function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark';var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('theme',n);}
+</script>
+
+</body>
+</html>
