@@ -218,12 +218,39 @@
       <div class="guide-end-cta">
         <div class="title">רוצה את <em style="font-style:normal;background:linear-gradient(135deg,var(--accent-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">המדריך הבא?</em></div>
         <div class="sub">מדריך עמוק אחד בשבוע. בעברית, פרקטי, בלי רעש.</div>
-        <form onsubmit="event.preventDefault(); alert('בקרוב יחובר ל-MailerLite');">
-          <input type="email" placeholder="האימייל שלך" required>
-          <button type="submit">הירשם</button>
+        <form id="guideEndForm" novalidate>
+          <input type="email" name="email" placeholder="האימייל שלך" required>
+          <button type="submit" id="guideEndBtn">הירשם</button>
         </form>
+        <div id="guideEndMsg" style="display:none;font-size:13px;padding:10px 14px;border-radius:8px;margin-top:10px;text-align:center;font-family:Heebo"></div>
         <div class="small-note">ביטול בלחיצה אחת.</div>
       </div>
+
+      <script>
+      document.getElementById('guideEndForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const btn = document.getElementById('guideEndBtn');
+        const msg = document.getElementById('guideEndMsg');
+        const email = form.email.value.trim();
+        if (!email) return;
+        btn.disabled = true; btn.textContent = 'שולח...'; msg.style.display = 'none';
+        try {
+          const res = await fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+          const json = await res.json();
+          if (json.ok) {
+            msg.textContent = '✓ נרשמת בהצלחה!';
+            msg.style.background = 'rgba(16,185,129,0.12)'; msg.style.color = '#6ee7b7'; msg.style.border = '1px solid rgba(16,185,129,0.3)';
+            form.reset(); btn.textContent = 'נרשמת ✓';
+          } else { throw new Error(json.error || 'failed'); }
+        } catch (err) {
+          msg.textContent = 'משהו השתבש. נסה שוב.';
+          msg.style.background = 'rgba(239,68,68,0.12)'; msg.style.color = '#fca5a5'; msg.style.border = '1px solid rgba(239,68,68,0.3)';
+          btn.disabled = false; btn.textContent = 'הירשם';
+        }
+        msg.style.display = 'block';
+      });
+      </script>
 
     </div>
   </article>

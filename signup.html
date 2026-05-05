@@ -53,10 +53,11 @@
 <!-- SIGNUP FORM -->
 <div class="signup-block reveal">
     <div class="signup-form">
-        <form onsubmit="event.preventDefault(); alert('בקרוב יחובר ל-MailerLite');">
-            <input type="text" placeholder="שם פרטי" required>
-            <input type="email" placeholder="האימייל שלך" required>
-            <button type="submit">הירשם חינם</button>
+        <form id="signupForm" novalidate>
+            <input type="text" name="name" placeholder="שם פרטי" required>
+            <input type="email" name="email" placeholder="האימייל שלך" required>
+            <button type="submit" id="signupBtn">הירשם חינם</button>
+            <div id="signupMsg" style="display:none;font-size:14px;padding:12px 16px;border-radius:10px;margin-top:6px;text-align:center;font-family:Heebo"></div>
         </form>
 
         <ul class="signup-features">
@@ -68,6 +69,42 @@
         </ul>
     </div>
 </div>
+
+<script>
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('signupBtn');
+  const msg = document.getElementById('signupMsg');
+  const data = { name: form.name.value.trim(), email: form.email.value.trim() };
+  if (!data.email) return;
+  btn.disabled = true;
+  btn.textContent = 'שולח...';
+  msg.style.display = 'none';
+  try {
+    const res = await fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+    const json = await res.json();
+    if (json.ok) {
+      msg.textContent = '✓ נרשמת בהצלחה! בקרוב תקבל את המדריך הראשון.';
+      msg.style.background = 'rgba(16,185,129,0.12)';
+      msg.style.color = '#6ee7b7';
+      msg.style.border = '1px solid rgba(16,185,129,0.3)';
+      form.reset();
+      btn.textContent = 'נרשמת ✓';
+    } else {
+      throw new Error(json.error || 'failed');
+    }
+  } catch (err) {
+    msg.textContent = 'משהו השתבש. נסה שוב או שלח לי מייל.';
+    msg.style.background = 'rgba(239,68,68,0.12)';
+    msg.style.color = '#fca5a5';
+    msg.style.border = '1px solid rgba(239,68,68,0.3)';
+    btn.disabled = false;
+    btn.textContent = 'הירשם חינם';
+  }
+  msg.style.display = 'block';
+});
+</script>
 
 <!-- FOOTER -->
 <footer>
