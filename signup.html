@@ -14,6 +14,9 @@
 </head>
 <body>
 
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
 <!-- NAV -->
 <nav id="mainNav">
     <div class="nav-inner">
@@ -106,7 +109,11 @@
 </a>
 
 <script>
-window.addEventListener('scroll',()=>{document.getElementById('mainNav').classList.toggle('nav-bg',window.scrollY>50)});
+const progressBar=document.getElementById('scrollProgress');
+window.addEventListener('scroll',()=>{
+  document.getElementById('mainNav').classList.toggle('nav-bg',window.scrollY>50);
+  if(progressBar){const h=document.documentElement.scrollHeight-window.innerHeight;progressBar.style.width=(window.scrollY/h*100)+'%';}
+});
 const hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobileMenu');
 hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');mobileMenu.classList.toggle('open')});
 function closeMenu(){hamburger.classList.remove('active');mobileMenu.classList.remove('open')}
