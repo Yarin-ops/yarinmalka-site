@@ -44,55 +44,116 @@
 </div>
 
 <!-- HERO -->
-<section class="page-hero reveal">
+<section class="page-hero reveal" style="max-width:1100px;">
+    <div class="bg-grid"></div>
+    <div class="orb orb-blue orb-float-1" style="top:0;right:5%;width:380px;height:380px;opacity:0.30;"></div>
+    <div class="orb orb-purple orb-float-2" style="bottom:0;left:5%;width:340px;height:340px;opacity:0.25;"></div>
     <span class="badge" style="color:var(--blue);border-color:rgba(59,130,246,0.3)">אקדמיה</span>
-    <h1>כל ה<em>מדריכים.</em></h1>
-    <p class="lead">מדריך עמוק אחד בשבוע. AI, טכנולוגיה וכלים — בעברית פשוטה, בלי בייט, בלי הייפ.</p>
+    <h1>אקדמיה <em>פרקטית.</em></h1>
+    <p class="lead">מדריך עמוק אחד בשבוע. AI, טכנולוגיה וכלים — בעברית פשוטה, בלי בייט, בלי הייפ. תכלס בלבד.</p>
+    <div class="guides-stats">
+        <div class="guides-stat"><div class="n">1</div><div class="l">מדריך זמין</div></div>
+        <div class="guides-stat"><div class="n">7+</div><div class="l">בכתיבה</div></div>
+        <div class="guides-stat"><div class="n">52</div><div class="l">מתוכננים בשנה</div></div>
+    </div>
 </section>
 
-<!-- GUIDE GRID -->
-<div class="guide-grid">
-    <a href="/guides/claude-excel.html" class="guide-card reveal reveal-delay-1">
-        <span class="guide-card-tag">AI · אקסל</span>
-        <h3>Claude בתוך Excel — מה זה משנה למי שעובד עם גיליונות</h3>
-        <p>התוסף הרשמי החדש של Anthropic מכניס את Claude לתוך Excel. הוא רואה את כל הגיליון, מבין נוסחאות, ובונה דשבורדים מבקשה אחת.</p>
-        <div class="footer-meta">
-            <span>05.05.2026</span>
-            <span>7 דקות קריאה</span>
+<!-- FEATURED GUIDE -->
+<div class="featured-guide reveal">
+    <a href="/guides/claude-excel.html">
+        <div class="featured-art">
+            <img src="/assets/screenshots/excel-claude-dashboard.png" alt="Claude בתוך Excel — דשבורד">
+        </div>
+        <div class="featured-content">
+            <span class="featured-flag">המדריך החדש · 05.05.2026</span>
+            <h2>Claude בתוך Excel — מה זה משנה למי שעובד עם גיליונות</h2>
+            <p class="featured-desc">התוסף הרשמי החדש של Anthropic מכניס את Claude לתוך Excel. הוא רואה את כל הגיליון, מבין נוסחאות, ובונה דשבורדים מבקשה אחת — והנה כל מה שצריך לדעת.</p>
+            <div class="featured-meta">
+                <span>7 דקות קריאה</span>
+                <span>· AI · אקסל</span>
+                <span>· 5 שימושים מעשיים</span>
+            </div>
+            <span class="featured-cta">קרא את המדריך <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></span>
         </div>
     </a>
+</div>
 
-    <div class="guide-card upcoming reveal reveal-delay-2">
-        <span class="guide-card-tag">בקרוב</span>
+<!-- FILTERS -->
+<div class="guide-filters reveal">
+    <button class="active">הכל</button>
+    <button>AI</button>
+    <button>אקסל ונתונים</button>
+    <button>אוטומציה</button>
+    <button>פיננסים</button>
+    <button>כלים</button>
+</div>
+
+<!-- COMING SOON GRID -->
+<div class="guide-grid">
+    <div class="guide-card upcoming theme-purple reveal reveal-delay-1">
+        <div class="card-art"><span class="glyph">AI</span></div>
+        <span class="guide-card-tag">בקרוב · AI</span>
         <h3>5 כלי AI חינם — אחד לכל צורך</h3>
         <p>Claude, Perplexity, NotebookLM, ChatGPT, Gemini. לכל אחד יש משימה שהוא הכי טוב בה.</p>
         <div class="footer-meta">
             <span>בקרוב</span>
-            <span>—</span>
+            <span>5 כלים</span>
         </div>
-        <div class="lock-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
     </div>
 
-    <div class="guide-card upcoming reveal reveal-delay-3">
-        <span class="guide-card-tag">בקרוב</span>
+    <div class="guide-card upcoming theme-blue reveal reveal-delay-2">
+        <div class="card-art"><span class="glyph">3</span></div>
+        <span class="guide-card-tag">בקרוב · AI</span>
         <h3>מודלי שפה, תמונה, קול — מתי משתמשים במה</h3>
         <p>3 משפחות עיקריות של AI, וההבדל המעשי שלא מספרים לך.</p>
         <div class="footer-meta">
             <span>בקרוב</span>
-            <span>—</span>
+            <span>3 משפחות</span>
         </div>
-        <div class="lock-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
     </div>
 
-    <div class="guide-card upcoming reveal">
-        <span class="guide-card-tag">בקרוב</span>
+    <div class="guide-card upcoming theme-green reveal reveal-delay-3">
+        <div class="card-art"><span class="glyph">?</span></div>
+        <span class="guide-card-tag">בקרוב · יסודות</span>
         <h3>מה זה בעצם בינה מלאכותית?</h3>
         <p>הסבר פשוט ובלי הייפ. מה זה בעצם, איך זה עובד, ולמה זה לא קסם.</p>
         <div class="footer-meta">
             <span>בקרוב</span>
-            <span>—</span>
+            <span>יסודות</span>
         </div>
-        <div class="lock-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+    </div>
+
+    <div class="guide-card upcoming theme-pink reveal">
+        <div class="card-art"><span class="glyph">⚡</span></div>
+        <span class="guide-card-tag">בקרוב · אוטומציה</span>
+        <h3>Make + AI — לבנות אוטומציה ראשונה ב-30 דקות</h3>
+        <p>סוף סוף יוצרים אוטומציה אמיתית בלי קוד. דוגמה מלאה מהקצה לקצה.</p>
+        <div class="footer-meta">
+            <span>בקרוב</span>
+            <span>30 דקות</span>
+        </div>
+    </div>
+
+    <div class="guide-card upcoming theme-purple reveal reveal-delay-1">
+        <div class="card-art"><span class="glyph">$</span></div>
+        <span class="guide-card-tag">בקרוב · פיננסים</span>
+        <h3>מה הסוכן הפיננסי שלך לא יספר לך</h3>
+        <p>5 דברים שכדאי לבדוק לפני שחותמים על תוכנית פנסיה או ביטוח.</p>
+        <div class="footer-meta">
+            <span>בקרוב</span>
+            <span>פיננסי</span>
+        </div>
+    </div>
+
+    <div class="guide-card upcoming theme-blue reveal reveal-delay-2">
+        <div class="card-art"><span class="glyph">⌘</span></div>
+        <span class="guide-card-tag">בקרוב · כלים</span>
+        <h3>Notion AI בעברית — האם זה עובד באמת?</h3>
+        <p>בודקים את היכולות של Notion AI על תוכן בעברית, ומה כדאי לדעת.</p>
+        <div class="footer-meta">
+            <span>בקרוב</span>
+            <span>Notion</span>
+        </div>
     </div>
 </div>
 
