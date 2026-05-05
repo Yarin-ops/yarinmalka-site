@@ -1,5 +1,5 @@
 /* ================================================
-   YARIN.MALKA — Unified Design System
+   YARIN.MALKA - Unified Design System
    Master: dark glassmorphism + purple accent #6C3CE1
    Theme: dark (default), light via [data-theme="light"]
    ================================================ */
@@ -84,7 +84,7 @@ body {
   transition: background 0.3s ease, color 0.3s ease;
   position: relative;
 }
-/* Mesh gradient backdrop — multi-color floating glows fixed to viewport */
+/* Mesh gradient backdrop - multi-color floating glows fixed to viewport */
 body::before {
   content: '';
   position: fixed;
@@ -1798,7 +1798,7 @@ footer {
   position: relative;
 }
 
-/* === IMAGE PLACEHOLDER (for guides — marks where a screenshot is needed) === */
+/* === IMAGE PLACEHOLDER (for guides - marks where a screenshot is needed) === */
 .img-placeholder {
   background: linear-gradient(135deg, rgba(108,60,225,0.06), rgba(59,130,246,0.04));
   border: 2px dashed rgba(108,60,225,0.35);
