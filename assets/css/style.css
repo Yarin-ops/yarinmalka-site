@@ -7,8 +7,8 @@
 *,*::before,*::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #08080f;
-  --bg-soft: #0e0e1a;
+  --bg: #0a0a16;
+  --bg-soft: #12122a;
   --accent: #6C3CE1;
   --accent-light: #a78bfa;
   --accent-dark: #4F2EAB;
@@ -92,10 +92,10 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 60% 40% at 80% 5%, rgba(108,60,225,0.18) 0%, transparent 55%),
-    radial-gradient(ellipse 45% 35% at 5% 30%, rgba(59,130,246,0.13) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 35% at 95% 60%, rgba(236,72,153,0.10) 0%, transparent 55%),
-    radial-gradient(ellipse 55% 35% at 15% 90%, rgba(16,185,129,0.10) 0%, transparent 55%);
+    radial-gradient(ellipse 60% 40% at 80% 5%, rgba(108,60,225,0.32) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 35% at 5% 30%, rgba(59,130,246,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 35% at 95% 60%, rgba(236,72,153,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 35% at 15% 90%, rgba(16,185,129,0.16) 0%, transparent 55%);
   animation: meshFloat 20s ease-in-out infinite;
 }
 @keyframes meshFloat {
@@ -114,6 +114,69 @@ nav#mainNav, main, section, footer, .marquee, .guide-grid, .guide-page, .signup-
   position: relative;
   z-index: 2;
 }
+
+/* === FLOATING GEOMETRIC SHAPES === */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 0;
+}
+.orb-purple { background: radial-gradient(circle, var(--accent), transparent 70%); }
+.orb-blue   { background: radial-gradient(circle, var(--blue), transparent 70%); }
+.orb-pink   { background: radial-gradient(circle, var(--pink), transparent 70%); }
+.orb-green  { background: radial-gradient(circle, var(--green), transparent 70%); }
+.orb-float-1 { animation: orbFloat1 18s ease-in-out infinite; }
+.orb-float-2 { animation: orbFloat2 22s ease-in-out infinite; }
+.orb-float-3 { animation: orbFloat3 26s ease-in-out infinite; }
+@keyframes orbFloat1 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(40px,-30px) scale(1.1); }
+}
+@keyframes orbFloat2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(-30px,40px) scale(0.9); }
+}
+@keyframes orbFloat3 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33% { transform: translate(20px,30px) scale(1.05); }
+  66% { transform: translate(-20px,-20px) scale(0.95); }
+}
+
+/* === GRID PATTERN (subtle) === */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 80px 80px;
+  -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+          mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+  z-index: 0;
+}
+[data-theme="light"] .bg-grid {
+  background-image:
+    linear-gradient(rgba(31,41,55,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(31,41,55,0.04) 1px, transparent 1px);
+}
+
+/* === SECTION COLOR THEMES === */
+.sec-purple { --sec-accent: var(--accent); }
+.sec-blue   { --sec-accent: var(--blue); }
+.sec-green  { --sec-accent: var(--green); }
+.sec-pink   { --sec-accent: var(--pink); }
+.sec-purple .sec-label { color: var(--accent); }
+.sec-blue .sec-label   { color: var(--blue); }
+.sec-green .sec-label  { color: var(--green); }
+.sec-pink .sec-label   { color: var(--pink); }
+.sec-blue .sec-title .accent  { background: linear-gradient(135deg, var(--blue-light), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.sec-green .sec-title .accent { background: linear-gradient(135deg, var(--green-light), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.sec-pink .sec-title .accent  { background: linear-gradient(135deg, #f9a8d4, var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.sec-purple .sec-title .accent { background: linear-gradient(135deg, var(--accent-light), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 
@@ -147,19 +210,17 @@ img { max-width: 100%; display: block; }
 /* === MOUSE-FOLLOW GLOW (hero, page-hero) === */
 .cursor-glow {
   position: absolute;
-  top: var(--mx, 50%);
-  left: var(--my, 50%);
+  top: 50%;
+  left: 50%;
   width: 600px; height: 600px;
   margin-top: -300px; margin-left: -300px;
-  background: radial-gradient(circle, rgba(108,60,225,0.18), transparent 60%);
+  background: radial-gradient(circle, rgba(108,60,225,0.28), transparent 60%);
   pointer-events: none;
   filter: blur(20px);
   z-index: 0;
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  opacity: 0.7;
+  transition: opacity 0.4s ease, top 0.6s cubic-bezier(0.17,0.67,0.3,1.33), left 0.6s cubic-bezier(0.17,0.67,0.3,1.33);
 }
-.hero:hover .cursor-glow,
-.page-hero:hover .cursor-glow { opacity: 1; }
 
 /* === NOISE OVERLAY (subtle texture) === */
 body::after {
@@ -593,9 +654,18 @@ nav#mainNav {
 .sec-title {
   font-family: 'Karantina';
   font-weight: 700;
-  font-size: clamp(40px, 6vw, 64px);
-  line-height: 1.1;
-  margin-bottom: 14px;
+  font-size: clamp(48px, 7.5vw, 84px);
+  line-height: 1;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+.sec-title .accent {
+  background: linear-gradient(135deg, var(--accent-light), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  position: relative;
 }
 .sec-desc {
   color: var(--text3);
@@ -768,7 +838,8 @@ nav#mainNav {
   height: 80px;
   background: linear-gradient(transparent, var(--bg));
 }
-.about-text h2 { font-weight: 700; font-size: clamp(26px, 3.5vw, 34px); margin-bottom: 20px; }
+.about-text h2 { font-weight: 700; font-size: clamp(28px, 4vw, 40px); margin-bottom: 20px; font-family: 'Karantina'; line-height: 1; letter-spacing: -0.01em; }
+.about-text h2 .accent { background: linear-gradient(135deg, var(--blue-light), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .about-text p { color: var(--text3); font-size: 15px; line-height: 2; margin-bottom: 16px; }
 .about-stats {
   display: flex;
