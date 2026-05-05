@@ -5,419 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Claude for Excel — מה זה משנה למי שעובד עם גיליונות | YARIN.MALKA</title>
 <meta name="description" content="התוסף הרשמי החדש של Anthropic מכניס את Claude לתוך Excel. הוא רואה את כל הגיליון, מבין נוסחאות, ובונה דשבורדים מבקשה אחת.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='80' y2='80'%3E%3Cstop offset='0%25' stop-color='%236C3CE1'/%3E%3Cstop offset='100%25' stop-color='%233b82f6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='1.5' y='1.5' width='77' height='77' rx='18' fill='%230a0a0a' stroke='url(%23g)' stroke-width='1.5'/%3E%3Ctext x='40' y='47' text-anchor='middle' font-family='Helvetica,Arial' font-weight='300' font-size='28' fill='%23f0f0f0' letter-spacing='2'%3EYM%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Karantina:wght@700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
 <script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
-<style>
-.guide-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 60px 60px 100px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 260px;
-  gap: 60px;
-  align-items: start;
-}
-.guide-main { min-width: 0; }
-
-.guide-breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  margin-bottom: 28px;
-  font-weight: 500;
-}
-.guide-breadcrumb .academy {
-  background: rgba(59, 130, 246, 0.12);
-  color: var(--blue-light);
-  border: 1px solid rgba(59, 130, 246, 0.4);
-  padding: 5px 14px;
-  border-radius: 999px;
-  font-size: 11px;
-}
-.guide-breadcrumb .sep { color: var(--text-muted); }
-
-.guide-title {
-  font-family: 'Karantina', 'Heebo', sans-serif;
-  font-size: 96px;
-  font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -0.025em;
-  margin-bottom: 28px;
-}
-.guide-title .accent {
-  background: linear-gradient(135deg, var(--purple-light) 0%, var(--purple) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.guide-lead {
-  font-size: 22px;
-  color: var(--text-soft);
-  font-weight: 300;
-  line-height: 1.55;
-  margin-bottom: 36px;
-}
-
-.guide-meta {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-  align-items: center;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  color: var(--text-muted);
-  letter-spacing: 0.05em;
-  padding-bottom: 28px;
-  border-bottom: 1px solid var(--border-soft);
-  margin-bottom: 48px;
-}
-.guide-meta .author {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.guide-meta .avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--purple), var(--purple-dark));
-  font-family: 'Inter';
-  font-size: 12px;
-  font-weight: 700;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 14px rgba(108, 60, 225, 0.5);
-}
-.guide-meta .dot-sep { color: #333; }
-
-.guide-content h2 {
-  font-family: 'Heebo';
-  font-size: 38px;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  margin: 60px 0 18px;
-  color: var(--text);
-  scroll-margin-top: 100px;
-}
-.guide-content h3 {
-  font-family: 'Heebo';
-  font-size: 24px;
-  font-weight: 700;
-  margin: 36px 0 14px;
-  color: var(--text);
-}
-.guide-content p {
-  font-size: 18px;
-  color: var(--text-soft);
-  font-weight: 300;
-  line-height: 1.8;
-  margin-bottom: 18px;
-}
-.guide-content strong { color: var(--text); font-weight: 600; }
-.guide-content ul, .guide-content ol { padding-right: 24px; margin-bottom: 18px; }
-.guide-content li {
-  font-size: 18px;
-  color: var(--text-soft);
-  font-weight: 300;
-  line-height: 1.75;
-  margin-bottom: 8px;
-}
-.guide-content code {
-  background: rgba(108, 60, 225, 0.12);
-  border: 1px solid rgba(108, 60, 225, 0.3);
-  padding: 3px 10px;
-  border-radius: 6px;
-  font-family: 'Inter';
-  font-size: 0.9em;
-  color: #c4b5fd;
-  font-weight: 500;
-}
-.guide-content a {
-  color: var(--purple-light);
-  text-decoration: underline;
-  text-decoration-color: rgba(167, 139, 250, 0.4);
-  text-underline-offset: 4px;
-}
-.guide-content a:hover { color: var(--text); }
-
-.feature-mockup {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
-  margin: 24px 0;
-  font-family: 'Inter';
-  position: relative;
-}
-.feature-mockup::before {
-  content: 'דוגמה לשיחה';
-  position: absolute;
-  top: -10px;
-  right: 24px;
-  background: var(--bg);
-  padding: 0 12px;
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  font-weight: 500;
-  font-family: 'Inter';
-}
-.mockup-you {
-  color: var(--text-muted);
-  margin-bottom: 14px;
-  font-size: 14px;
-  line-height: 1.5;
-  display: flex;
-  gap: 10px;
-  font-family: 'Heebo';
-}
-.mockup-you::before {
-  content: '◆';
-  color: var(--text-muted);
-  font-size: 12px;
-  margin-top: 3px;
-  font-family: 'Inter';
-}
-.mockup-claude {
-  background: rgba(108, 60, 225, 0.12);
-  border-right: 3px solid var(--purple);
-  padding: 14px 18px;
-  border-radius: 12px;
-  color: #cbd5e1;
-  line-height: 1.6;
-  font-size: 14px;
-  font-family: 'Heebo';
-}
-
-.screenshot {
-  background: rgba(255,255,255,0.03);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 8px;
-  margin: 32px 0;
-  position: relative;
-}
-.screenshot::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 14px;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(108,60,225,0.4), transparent 50%, rgba(59,130,246,0.3));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-.screenshot img { width: 100%; display: block; border-radius: 10px; }
-.screenshot .caption {
-  font-size: 13px;
-  color: var(--text-muted);
-  font-family: 'Inter';
-  text-align: center;
-  padding: 12px 8px 4px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-}
-
-.note-box {
-  background: rgba(245, 158, 11, 0.08);
-  border: 1px solid rgba(245, 158, 11, 0.25);
-  border-right: 3px solid #f59e0b;
-  border-radius: 10px;
-  padding: 18px 22px;
-  margin: 28px 0;
-  color: #fcd34d;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.6;
-}
-.note-box strong { color: #fde68a; font-weight: 700; }
-
-.sources {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid var(--border-soft);
-  border-radius: 14px;
-  padding: 22px 26px;
-  margin-top: 32px;
-}
-.sources-title {
-  font-size: 13px;
-  color: var(--text-muted);
-  font-family: 'Inter';
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 500;
-  margin-bottom: 12px;
-}
-.sources ul { list-style: none; padding: 0; margin: 0; }
-.sources li {
-  font-size: 15px;
-  margin-bottom: 8px;
-  color: var(--text-soft);
-}
-
-.guide-toc {
-  position: sticky;
-  top: 110px;
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 24px 22px;
-  align-self: start;
-}
-.guide-toc h4 {
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  color: var(--text-muted);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 500;
-  margin-bottom: 16px;
-}
-.guide-toc ul { list-style: none; padding: 0; margin: 0; }
-.guide-toc li {
-  font-size: 14px;
-  color: var(--text-soft);
-  padding: 9px 0;
-  padding-right: 14px;
-  border-right: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
-}
-.guide-toc a {
-  color: inherit;
-  text-decoration: none;
-  font-weight: 400;
-}
-.guide-toc li:hover {
-  color: var(--text);
-  border-right-color: rgba(108, 60, 225, 0.5);
-}
-
-.guide-end-cta {
-  margin-top: 56px;
-  background: linear-gradient(135deg, rgba(108, 60, 225, 0.18), rgba(59, 130, 246, 0.10));
-  backdrop-filter: blur(20px);
-  border-radius: 22px;
-  padding: 44px 36px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-.guide-end-cta::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 22px;
-  padding: 1.5px;
-  background: linear-gradient(135deg, rgba(108,60,225,0.6), transparent 50%, rgba(59,130,246,0.4));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-.guide-end-cta .title {
-  font-family: 'Karantina', 'Heebo', sans-serif;
-  font-size: 56px;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  margin-bottom: 12px;
-}
-.guide-end-cta .sub {
-  font-size: 18px;
-  color: var(--text-soft);
-  font-weight: 300;
-  margin-bottom: 26px;
-  line-height: 1.5;
-}
-.guide-end-cta form {
-  display: flex;
-  gap: 10px;
-  max-width: 460px;
-  margin: 0 auto 14px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.guide-end-cta input {
-  flex: 1;
-  min-width: 200px;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 14px 18px;
-  color: var(--text);
-  font-size: 15px;
-  font-family: 'Heebo';
-  outline: none;
-}
-.guide-end-cta input:focus { border-color: var(--purple); }
-.guide-end-cta button {
-  background: linear-gradient(135deg, var(--purple), var(--purple-dark));
-  color: white;
-  border: none;
-  padding: 14px 28px;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  font-family: 'Heebo';
-  cursor: pointer;
-  box-shadow: 0 0 24px rgba(108, 60, 225, 0.4);
-}
-.guide-end-cta .small-note {
-  font-size: 12px;
-  color: var(--text-muted);
-  font-family: 'Inter';
-}
-
-@media (max-width: 1024px) {
-  .guide-page { grid-template-columns: 1fr; padding: 50px 40px 80px; gap: 30px; }
-  .guide-toc { position: static; }
-}
-@media (max-width: 768px) {
-  .guide-page { padding: 40px 24px 60px; }
-  .guide-title { font-size: 60px; }
-  .guide-lead { font-size: 18px; }
-  .guide-content h2 { font-size: 28px; }
-  .guide-content p, .guide-content li { font-size: 16px; }
-}
-</style>
 </head>
 <body>
 
-<header class="header">
-  <a href="/" class="logo-block">
-    <div class="logo">YARIN<span class="dot">.</span>MALKA</div>
-    <div class="logo-tagline">AI<span class="sep">·</span>TECH<span class="sep">·</span>TOOLS</div>
-  </a>
-  <nav class="nav">
-    <a href="/">בית</a>
-    <a href="/guides.html" class="active">מדריכים</a>
-    <a href="/about.html">אודות</a>
-    <a href="/signup.html">הירשם</a>
-  </nav>
-  <div class="header-actions">
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-    </button>
-    <a href="/signup.html" class="cta-btn">הצטרף לרשימה</a>
-  </div>
-</header>
+<!-- NAV -->
+<nav id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+        <div class="nav-links">
+            <a href="/#services">שירותים</a>
+            <a href="/guides.html" class="active">מדריכים</a>
+            <a href="/about.html">אודות</a>
+            <a href="/#portfolio">פרויקטים</a>
+            <button class="theme-toggle-nav" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+            </button>
+            <a href="https://forms.agentdesk.co.il" class="nav-cta" target="_blank">בואו נדבר</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="/#services" onclick="closeMenu()">שירותים</a>
+    <a href="/guides.html" onclick="closeMenu()">מדריכים</a>
+    <a href="/about.html" onclick="closeMenu()">אודות</a>
+    <a href="/#portfolio" onclick="closeMenu()">פרויקטים</a>
+    <a href="https://forms.agentdesk.co.il" target="_blank" onclick="closeMenu()">בואו נדבר</a>
+</div>
 
 <div class="guide-page">
 
@@ -459,7 +80,7 @@
       <p>זה לא צ'אטבוט שמשולב באקסל. זה <strong>Claude שעובד עם</strong> אקסל.</p>
 
       <div class="screenshot">
-        <img src="../assets/screenshots/excel-claude-dashboard.png" alt="Claude בונה דשבורד מכירות בתוך Excel">
+        <img src="/assets/screenshots/excel-claude-dashboard.png" alt="Claude בונה דשבורד מכירות בתוך Excel">
         <div class="caption">דשבורד מכירות שלם שנבנה בבקשה אחת — תאים, נוסחאות, עיצוב מותנה, גרף ו-KPIs</div>
       </div>
 
@@ -489,7 +110,7 @@
       <p>יש לך מודל פיננסי עם הנחות בסיס (ריבית, אינפלציה, גידול). אתה רוצה לבדוק תרחיש: "מה קורה אם הריבית עולה ל-6%?"</p>
       <p>Claude מעדכן את ההנחה ומשמר את כל התלויות — כל תא שתלוי בריבית מתעדכן אוטומטית. בלי לשבור את הקובץ, בלי ליצור עותק.</p>
 
-      <h2 id="limits">מה זה <em style="font-style:normal; color:var(--purple-light)">לא</em> עושה</h2>
+      <h2 id="limits">מה זה <em style="font-style:normal;color:var(--accent-light)">לא</em> עושה</h2>
       <p>כן, יש מגבלות אמיתיות. כדאי לדעת אותן מראש.</p>
       <p><strong>1. אין VBA ואין Macros.</strong> התוסף לא רואה ולא מריץ קוד VBA או Macros. אם המודל שלך מסתמך על אוטומציה כזו — זה מחוץ לתחום.</p>
       <p><strong>2. אין Data Tables.</strong> טבלאות נתונים מובנות של אקסל (Data Tables) לא נתמכות. רק טווחים רגילים.</p>
@@ -523,7 +144,7 @@
       <h2 id="audience">למי זה שווה</h2>
       <p><strong>שווה מאוד אם אתה:</strong></p>
       <ul>
-        <li>אנליסט שמקבל קבצים ירושה</li>
+        <li>אנליסט שמקבל קבצים בירושה</li>
         <li>מתכנן פיננסי / רואה חשבון / סוכן ביטוח / יועץ</li>
         <li>יזם או מנהל שעובד עם נתונים פנימיים</li>
         <li>מי שכבר עייף מלהעתיק עמודות ל-ChatGPT</li>
@@ -548,7 +169,7 @@
       </div>
 
       <div class="guide-end-cta">
-        <div class="title">רוצה את <em style="font-style:normal; background:linear-gradient(135deg,var(--purple-light),var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">המדריך הבא?</em></div>
+        <div class="title">רוצה את <em style="font-style:normal;background:linear-gradient(135deg,var(--accent-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">המדריך הבא?</em></div>
         <div class="sub">מדריך עמוק אחד בשבוע. בעברית, פרקטי, בלי רעש.</div>
         <form onsubmit="event.preventDefault(); alert('בקרוב יחובר ל-MailerLite');">
           <input type="email" placeholder="האימייל שלך" required>
@@ -576,18 +197,53 @@
 
 </div>
 
-<footer class="footer">
-  <div>© 2026 Yarin Malka · AI · TECH · TOOLS</div>
-  <div class="footer-links">
-    <a href="/about.html">אודות</a>
-    <a href="/guides.html">מדריכים</a>
-    <a href="/signup.html">הירשם</a>
-  </div>
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+                <p>פיתוח אתרים, ייעוץ פיננסי וסדנאות מקצועיות. פתרונות דיגיטליים לעסקים בישראל.</p>
+            </div>
+            <div class="footer-col">
+                <h4>ניווט</h4>
+                <a href="/">בית</a>
+                <a href="/#services">שירותים</a>
+                <a href="/guides.html">מדריכים</a>
+                <a href="/about.html">אודות</a>
+                <a href="/#portfolio">פרויקטים</a>
+                <a href="/signup.html">רשימת תפוצה</a>
+            </div>
+            <div class="footer-col">
+                <h4>יצירת קשר</h4>
+                <a href="tel:0536805136">053-680-5136</a>
+                <a href="mailto:yarinmalka7@gmail.com">yarinmalka7@gmail.com</a>
+                <a href="https://forms.agentdesk.co.il" target="_blank">forms.agentdesk.co.il</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 YARIN.MALKA. כל הזכויות שמורות.</span>
+            <div class="footer-socials">
+                <a href="https://wa.me/972536805136" target="_blank" aria-label="WhatsApp"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+                <a href="#" aria-label="LinkedIn"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+            </div>
+        </div>
+    </div>
 </footer>
 
+<!-- WHATSAPP -->
+<a href="https://wa.me/972536805136" target="_blank" class="wa-float" aria-label="WhatsApp">
+    <svg width="26" height="26" fill="#fff" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
 <script>
+window.addEventListener('scroll',()=>{document.getElementById('mainNav').classList.toggle('nav-bg',window.scrollY>50)});
+const hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobileMenu');
+hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');mobileMenu.classList.toggle('open')});
+function closeMenu(){hamburger.classList.remove('active');mobileMenu.classList.remove('open')}
+const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible')}})},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el=>observer.observe(el));
 function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark';var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('theme',n);}
 </script>
-
 </body>
 </html>
