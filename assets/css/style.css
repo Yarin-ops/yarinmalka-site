@@ -2052,7 +2052,7 @@ footer {
   .hero-sub { font-size: 17px; margin-bottom: 12px; }
   .hero-desc { font-size: 14px; max-width: 100%; margin: 0 auto 28px; line-height: 1.75; }
   .hero-badge { margin-bottom: 20px; font-size: 11px; }
-  .hero-photo { display: block; width: 240px; height: 240px; margin: 0 auto; }
+  .hero-photo { display: block; width: 240px; height: 240px; margin: 0 auto; position: relative; z-index: 2; opacity: 1 !important; transform: none !important; }
   .hero-photo .ft-1 { top: 8%; right: -4%; font-size: 10px; padding: 6px 12px; }
   .hero-photo .ft-2 { bottom: 14%; left: -8%; font-size: 10px; padding: 6px 12px; }
   .hero-photo .ft-3 { top: 50%; right: -10%; font-size: 10px; padding: 6px 12px; }
