@@ -2262,8 +2262,19 @@ footer {
   .guide-toc { position: static; }
 }
 @media (max-width: 768px) {
+  /* Nav */
   .nav-links { display: none; }
   .hamburger { display: flex; }
+
+  /* Container & section spacing */
+  .container { padding: 0 20px; }
+  .sec { padding: 80px 0; }
+  .sec-header { margin-bottom: 40px; }
+  .sec-title { font-size: clamp(40px, 11vw, 60px); }
+  .sec-desc { font-size: 14px; line-height: 1.75; padding: 0 8px; }
+  .sec-label { font-size: 11px; }
+
+  /* Hero (homepage) */
   .hero { min-height: auto; padding-top: 96px; padding-bottom: 60px; }
   .hero-wrap { flex-direction: column-reverse; gap: 32px; padding: 0 20px; text-align: center; }
   .hero-content { width: 100%; }
@@ -2276,29 +2287,142 @@ footer {
   .hero-photo .ft-1 { top: 8%; right: -4%; font-size: 10px; padding: 6px 12px; }
   .hero-photo .ft-2 { bottom: 14%; left: -8%; font-size: 10px; padding: 6px 12px; }
   .hero-photo .ft-3 { top: 50%; right: -10%; font-size: 10px; padding: 6px 12px; }
-  .srv-grid, .proc-grid { grid-template-columns: 1fr; }
-  .stats { gap: 40px; }
+
+  /* Marquee */
+  .marquee { padding: 18px 0; }
+  .marquee-item { font-size: 13px; }
+  .marquee-track { gap: 36px; }
+
+  /* Stats */
+  .stats { gap: 28px; padding: 48px 0; }
+  .stat-n { font-size: 2.6rem; }
+  .stat-l { font-size: 0.78rem; }
   .stat-div { display: none; }
-  .footer-grid { grid-template-columns: 1fr; }
-  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+
+  /* Services */
+  .srv-grid, .proc-grid { grid-template-columns: 1fr; gap: 16px; }
+  .srv-card { padding: 32px 26px 28px; }
+  .srv-card h3 { font-size: 1.1rem; }
+
+  /* Process */
+  .proc-step { padding: 28px 24px; }
+
+  /* Portfolio */
+  .port-grid { grid-template-columns: 1fr; gap: 16px; }
+  .port-thumb { height: 170px; }
+  .port-thumb-art svg { width: 44px; height: 44px; }
+  .port-info { padding: 18px 22px; }
+  .port-info h3 { font-size: 1rem; }
+  .port-info p { font-size: 0.8rem; }
+
+  /* About */
+  .about-text h2 { font-size: clamp(40px, 11vw, 60px); }
   .about-stats { flex-direction: column; }
   .about-stat { border-left: 1px solid var(--glass-border) !important; }
   .about-stat:first-child { border-radius: 0 0 var(--radius) var(--radius) !important; }
   .about-stat:last-child { border-radius: var(--radius) var(--radius) 0 0 !important; }
-  .page-hero { padding: 130px 24px 50px; }
+
+  /* Testimonial */
+  .testi-card { padding: 32px 26px; }
+  .testi-card blockquote { font-size: 1rem; line-height: 1.7; }
+
+  /* CTA section */
+  .cta-sec { padding: 80px 0; }
+  .cta-content h2 { font-size: clamp(40px, 11vw, 60px); }
+  .cta-content .sub { font-size: 1rem; }
+  .cta-btn { padding: 14px 28px; font-size: 0.95rem; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; margin-bottom: 32px; }
+  .footer-brand p { max-width: 100%; font-size: 13px; }
+  .footer-social-strip { gap: 8px; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  footer { padding: 44px 0 28px; }
+
+  /* Page hero (about / workshops / guides) */
+  .page-hero { padding: 110px 20px 40px; }
+  .page-hero h1 { font-size: clamp(44px, 12vw, 64px); }
+  .page-hero .lead { font-size: 15px; line-height: 1.65; }
+  .page-hero .badge { margin-bottom: 18px; }
+
+  /* Workshops */
+  .workshops-grid { grid-template-columns: 1fr; padding: 16px 20px 60px; gap: 18px; }
+  .workshop-head { padding: 22px 22px 18px; gap: 14px; }
+  .workshop-icon { width: 46px; height: 46px; border-radius: 12px; }
+  .workshop-icon svg { width: 22px; height: 22px; }
+  .workshop-head h3 { font-size: 1.15rem; line-height: 1.25; }
+  .workshop-head p { font-size: 0.82rem; line-height: 1.6; }
+  .workshop-body { padding: 18px 22px; gap: 14px; }
+  .workshop-section h4 { font-size: 0.7rem; }
+  .workshop-section ul li { font-size: 0.82rem; padding-right: 16px; }
+  .workshop-target { font-size: 0.78rem; padding-top: 12px; }
+  .workshop-foot { padding: 14px 22px; flex-direction: column; align-items: stretch; gap: 12px; }
+  .workshop-meta { justify-content: center; gap: 14px; flex-wrap: wrap; font-size: 0.74rem; }
+  .workshop-cta { justify-content: center; padding: 10px 18px; }
+
+  /* Guides */
   .guide-page { padding: 110px 24px 60px; }
-  .workshops-grid { grid-template-columns: 1fr; padding: 24px 20px 60px; gap: 20px; }
-  .port-grid { grid-template-columns: 1fr; }
   .guide-content h2 { font-size: 26px; }
   .guide-content p, .guide-content li { font-size: 16px; }
   .guide-end-cta .title { font-size: 42px; }
+  .guide-card { padding: 26px 22px; }
+
+  /* Signup */
   .signup-form { padding: 32px 24px; }
+  .signup-block { padding: 0 20px; }
 }
-@media (max-width: 420px) {
+
+@media (max-width: 480px) {
+  .container { padding: 0 16px; }
+  .sec { padding: 64px 0; }
+  .sec-header { margin-bottom: 32px; }
+  .sec-title { font-size: clamp(36px, 12vw, 50px); }
+
+  /* Hero */
   .hero { padding-top: 88px; padding-bottom: 48px; }
   .hero h1 { font-size: clamp(42px, 12vw, 56px); }
   .hero-photo { width: 200px; height: 200px; }
   .hero-photo .float-tag { font-size: 9px; padding: 5px 10px; }
-  .hero-btns .btn { flex: 1; justify-content: center; }
+  .hero-btns { flex-direction: column; width: 100%; }
+  .hero-btns .btn { width: 100%; justify-content: center; }
   .nav-cta { display: none; }
+
+  /* Page hero */
+  .page-hero { padding: 100px 16px 32px; }
+  .page-hero h1 { font-size: clamp(38px, 11vw, 52px); }
+
+  /* CTA */
+  .cta-sec { padding: 64px 0; }
+  .cta-content h2 { font-size: clamp(36px, 11vw, 50px); }
+
+  /* Workshops */
+  .workshops-grid { padding: 12px 16px 48px; gap: 14px; }
+  .workshop-head { padding: 18px 18px 16px; gap: 12px; }
+  .workshop-icon { width: 40px; height: 40px; border-radius: 10px; }
+  .workshop-icon svg { width: 20px; height: 20px; }
+  .workshop-head h3 { font-size: 1.05rem; }
+  .workshop-body { padding: 16px 18px; gap: 12px; }
+  .workshop-foot { padding: 12px 18px; }
+
+  /* Stats */
+  .stats { gap: 22px; padding: 36px 0; }
+  .stat-n { font-size: 2.3rem; }
+
+  /* Services / Process */
+  .srv-card, .proc-step { padding: 26px 22px; }
+  .srv-card h3 { font-size: 1.05rem; }
+
+  /* Portfolio */
+  .port-thumb { height: 150px; }
+  .port-info { padding: 16px 18px; }
+
+  /* Marquee */
+  .marquee-item { font-size: 12px; }
+  .marquee-track { gap: 28px; }
+
+  /* WhatsApp float - tighter to edge */
+  .wa-float { bottom: 20px; left: 20px; }
+
+  /* Testimonial */
+  .testi-card { padding: 26px 22px; }
 }
