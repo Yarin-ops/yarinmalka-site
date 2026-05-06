@@ -1063,12 +1063,13 @@ footer {
 .footer-col a:hover { color: var(--text); }
 .footer-bottom {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding-top: 24px;
   border-top: 1px solid var(--footer-border);
   font-size: 12px;
   color: var(--text3);
+  text-align: center;
 }
 .footer-socials { display: flex; gap: 16px; }
 .footer-socials a { color: var(--text3); transition: color 0.3s; }
@@ -2043,8 +2044,18 @@ footer {
 @media (max-width: 768px) {
   .nav-links { display: none; }
   .hamburger { display: flex; }
-  .hero-photo { display: none; }
-  .hero-wrap { padding: 0 20px; }
+  .hero { min-height: auto; padding-top: 96px; padding-bottom: 60px; }
+  .hero-wrap { flex-direction: column-reverse; gap: 32px; padding: 0 20px; text-align: center; }
+  .hero-content { width: 100%; }
+  .hero-content .hero-btns { justify-content: center; }
+  .hero h1 { font-size: clamp(48px, 13vw, 72px); margin-bottom: 14px; }
+  .hero-sub { font-size: 17px; margin-bottom: 12px; }
+  .hero-desc { font-size: 14px; max-width: 100%; margin: 0 auto 28px; line-height: 1.75; }
+  .hero-badge { margin-bottom: 20px; font-size: 11px; }
+  .hero-photo { display: block; width: 240px; height: 240px; margin: 0 auto; }
+  .hero-photo .ft-1 { top: 8%; right: -4%; font-size: 10px; padding: 6px 12px; }
+  .hero-photo .ft-2 { bottom: 14%; left: -8%; font-size: 10px; padding: 6px 12px; }
+  .hero-photo .ft-3 { top: 50%; right: -10%; font-size: 10px; padding: 6px 12px; }
   .srv-grid, .proc-grid { grid-template-columns: 1fr; }
   .stats { gap: 40px; }
   .stat-div { display: none; }
@@ -2060,4 +2071,12 @@ footer {
   .guide-content p, .guide-content li { font-size: 16px; }
   .guide-end-cta .title { font-size: 42px; }
   .signup-form { padding: 32px 24px; }
+}
+@media (max-width: 420px) {
+  .hero { padding-top: 88px; padding-bottom: 48px; }
+  .hero h1 { font-size: clamp(42px, 12vw, 56px); }
+  .hero-photo { width: 200px; height: 200px; }
+  .hero-photo .float-tag { font-size: 9px; padding: 5px 10px; }
+  .hero-btns .btn { flex: 1; justify-content: center; }
+  .nav-cta { display: none; }
 }
