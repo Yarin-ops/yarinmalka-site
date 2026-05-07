@@ -129,18 +129,29 @@
 </div>
 
 <!-- FILTERS -->
-<div class="guide-filters reveal">
-    <button class="active">הכל</button>
-    <button>AI</button>
-    <button>אקסל ונתונים</button>
-    <button>אוטומציה</button>
-    <button>פיננסים</button>
-    <button>כלים</button>
+<div class="guide-filters reveal" id="guideFilters">
+    <button class="active" data-cat="all">הכל</button>
+    <button data-cat="ai">AI</button>
+    <button data-cat="excel">אקסל ונתונים</button>
+    <button data-cat="automation">אוטומציה</button>
+    <button data-cat="finance">פיננסים</button>
+    <button data-cat="tools">כלים</button>
 </div>
 
 <!-- COMING SOON GRID -->
-<div class="guide-grid">
-    <a href="/guides/5-free-ai-tools.html" class="guide-card theme-purple reveal reveal-delay-1" style="text-decoration:none;color:inherit">
+<div class="guide-grid" id="guideGrid">
+    <a href="/guides/claude-excel.html" data-cat="ai excel tools" class="guide-card theme-blue reveal" style="text-decoration:none;color:inherit">
+        <div class="card-art"><span class="glyph">XL</span></div>
+        <span class="guide-card-tag">AI · אקסל</span>
+        <h3>Claude בתוך Excel - מה זה משנה למי שעובד עם גיליונות</h3>
+        <p>התוסף הרשמי החדש של Anthropic מכניס את Claude לתוך Excel. דשבורדים מבקשה אחת.</p>
+        <div class="footer-meta">
+            <span>05.05.2026</span>
+            <span>7 דקות קריאה</span>
+        </div>
+    </a>
+
+    <a href="/guides/5-free-ai-tools.html" data-cat="ai tools" class="guide-card theme-purple reveal reveal-delay-1" style="text-decoration:none;color:inherit">
         <div class="card-art"><span class="glyph">AI</span></div>
         <span class="guide-card-tag">AI · כלים</span>
         <h3>5 כלי AI חינמיים ששווה להכיר</h3>
@@ -151,7 +162,7 @@
         </div>
     </a>
 
-    <div class="guide-card upcoming theme-blue reveal reveal-delay-2">
+    <div class="guide-card upcoming theme-blue reveal reveal-delay-2" data-cat="ai">
         <div class="card-art"><span class="glyph">3</span></div>
         <span class="guide-card-tag">בקרוב · AI</span>
         <h3>מודלי שפה, תמונה, קול - מתי משתמשים במה</h3>
@@ -162,7 +173,7 @@
         </div>
     </div>
 
-    <div class="guide-card upcoming theme-green reveal reveal-delay-3">
+    <div class="guide-card upcoming theme-green reveal reveal-delay-3" data-cat="ai">
         <div class="card-art"><span class="glyph">?</span></div>
         <span class="guide-card-tag">בקרוב · יסודות</span>
         <h3>מה זה בעצם בינה מלאכותית?</h3>
@@ -173,7 +184,7 @@
         </div>
     </div>
 
-    <div class="guide-card upcoming theme-pink reveal">
+    <div class="guide-card upcoming theme-pink reveal" data-cat="automation ai">
         <div class="card-art"><span class="glyph">⚡</span></div>
         <span class="guide-card-tag">בקרוב · אוטומציה</span>
         <h3>Make + AI - לבנות אוטומציה ראשונה ב-30 דקות</h3>
@@ -184,7 +195,7 @@
         </div>
     </div>
 
-    <div class="guide-card upcoming theme-purple reveal reveal-delay-1">
+    <div class="guide-card upcoming theme-purple reveal reveal-delay-1" data-cat="finance">
         <div class="card-art"><span class="glyph">$</span></div>
         <span class="guide-card-tag">בקרוב · פיננסים</span>
         <h3>מה הסוכן הפיננסי שלך לא יספר לך</h3>
@@ -195,7 +206,7 @@
         </div>
     </div>
 
-    <div class="guide-card upcoming theme-blue reveal reveal-delay-2">
+    <div class="guide-card upcoming theme-blue reveal reveal-delay-2" data-cat="tools ai">
         <div class="card-art"><span class="glyph">⌘</span></div>
         <span class="guide-card-tag">בקרוב · כלים</span>
         <h3>Notion AI בעברית - האם זה עובד באמת?</h3>
@@ -204,6 +215,10 @@
             <span>בקרוב</span>
             <span>Notion</span>
         </div>
+    </div>
+
+    <div class="guide-empty" id="guideEmpty">
+        <p>אין כרגע מדריכים בקטגוריה הזו. <a href="/signup.html">הירשם לרשימה</a> ותהיה ראשון לדעת כשמתפרסם חדש.</p>
     </div>
 </div>
 
@@ -276,6 +291,27 @@ const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isI
 document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el=>observer.observe(el));
 document.querySelectorAll('[data-magnetic]').forEach(btn=>{const s=12;btn.addEventListener('pointermove',(e)=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)/r.width*s}px,${(e.clientY-r.top-r.height/2)/r.height*s}px)`;});btn.addEventListener('pointerleave',()=>{btn.style.transform='';});});
 function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark';var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('theme',n);}
+
+// Guide filters
+const filterBtns=document.querySelectorAll('#guideFilters button');
+const guideCards=document.querySelectorAll('#guideGrid .guide-card');
+const emptyMsg=document.getElementById('guideEmpty');
+filterBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    filterBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat=btn.dataset.cat;
+    let visible=0;
+    guideCards.forEach(card=>{
+      const cats=(card.dataset.cat||'').split(/\s+/);
+      const show=cat==='all'||cats.includes(cat);
+      card.style.display=show?'':'none';
+      if(show)visible++;
+    });
+    if(emptyMsg)emptyMsg.style.display=visible===0?'block':'none';
+  });
+});
+if(emptyMsg)emptyMsg.style.display='none';
 </script>
 <!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "9105c6491cdc412ba8510ee4615553c5"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
