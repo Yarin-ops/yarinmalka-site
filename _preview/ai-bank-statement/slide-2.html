@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Karantina:wght@700&family=Inter:wght@300;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; }
+body {
+  font-family: 'Heebo', system-ui, sans-serif;
+  background: #050508; color: #f0f0f0;
+  padding: 110px 100px;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+}
+body::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 15%, rgba(108, 60, 225, 0.30) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 10% 85%, rgba(59, 130, 246, 0.20) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+body::after {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle at center, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 30px 30px; pointer-events: none; z-index: 0;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+.content { position: relative; z-index: 2; display: flex; flex-direction: column; height: 100%; }
+.top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px; }
+.tag {
+  background: rgba(108, 60, 225, 0.15); color: #c4b3ff;
+  border: 1px solid rgba(108, 60, 225, 0.4);
+  padding: 14px 30px; border-radius: 999px;
+  font-size: 26px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+}
+.page-num {
+  font-family: 'Inter', sans-serif; font-size: 26px; color: #888;
+  font-weight: 500; letter-spacing: 0.15em;
+}
+.h {
+  font-family: 'Karantina', sans-serif;
+  font-weight: 700;
+  font-size: 110px; line-height: 0.95;
+  letter-spacing: -0.01em;
+  margin-bottom: 50px;
+  color: #fff;
+}
+.h .accent {
+  background: linear-gradient(135deg, #c4b3ff, #6C3CE1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 50px;
+}
+.col {
+  border-radius: 28px;
+  padding: 36px 32px;
+}
+.col.before {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.col.after {
+  background: rgba(108,60,225,0.06);
+  border: 1px solid rgba(108,60,225,0.4);
+}
+.col-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 22px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.col.before .col-tag { color: #888; }
+.col.after .col-tag { color: #c4b3ff; }
+
+.bank-row {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: #94a3b8;
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  justify-content: space-between;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bank-row .amt { color: #cbd5e1; flex-shrink: 0; }
+.fade {
+  background: linear-gradient(to top, rgba(5,5,8,1), transparent);
+  height: 60px;
+  margin-top: -60px;
+  position: relative;
+  z-index: 2;
+}
+
+.insight-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 0;
+  font-size: 22px;
+  color: #cbd5e1;
+  line-height: 1.45;
+  border-bottom: 1px solid rgba(108,60,225,0.15);
+}
+.insight-row:last-child { border-bottom: none; }
+.insight-row .dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c4b3ff, #6C3CE1);
+  margin-top: 12px;
+  flex-shrink: 0;
+}
+.insight-row strong { color: #f0f0f0; font-weight: 600; }
+
+.bottom-note {
+  font-size: 28px;
+  line-height: 1.55;
+  color: #cbd5e1;
+  font-weight: 300;
+  margin-bottom: auto;
+  padding: 28px 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.bottom-note strong {
+  color: #f0f0f0; font-weight: 600;
+  background: linear-gradient(135deg, rgba(108, 60, 225, 0.30), rgba(59, 130, 246, 0.15));
+  padding: 4px 12px; border-radius: 8px;
+  border: 1px solid rgba(108,60,225,0.3);
+}
+.foot {
+  margin-top: 30px; padding-top: 36px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.mark-block { display: flex; flex-direction: column; gap: 8px; }
+.mark { font-family: 'Inter', sans-serif; font-size: 28px; font-weight: 300; letter-spacing: 0.4em; color: #f0f0f0; text-transform: uppercase; }
+.mark .dot { color: #6C3CE1; text-shadow: 0 0 12px rgba(108, 60, 225, 0.8); font-weight: 700; }
+.tagline { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.35em; color: #6C3CE1; text-transform: uppercase; }
+.tagline .sep { color: #444; margin: 0 6px; }
+.swipe { font-family: 'Inter', sans-serif; font-size: 22px; color: #888; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
+.swipe::before { content: '←'; font-size: 28px; color: #c4b3ff; }
+</style>
+</head>
+<body>
+<div class="content">
+  <div class="top-row">
+    <div class="tag">AI · ACADEMY</div>
+    <div class="page-num" dir="ltr">2 / 4</div>
+  </div>
+
+  <div class="h">לפני<br><span class="accent">ואחרי.</span></div>
+
+  <div class="compare">
+    <div class="col before">
+      <div class="col-tag">לפני · הדוח הגולמי</div>
+      <div class="bank-row"><span>15.04 SUPERSAL</span><span class="amt">-187</span></div>
+      <div class="bank-row"><span>16.04 PAZ</span><span class="amt">-280</span></div>
+      <div class="bank-row"><span>17.04 SPOTIFY</span><span class="amt">-19.90</span></div>
+      <div class="bank-row"><span>17.04 NETFLIX</span><span class="amt">-54</span></div>
+      <div class="bank-row"><span>18.04 BUSINESS</span><span class="amt">+12500</span></div>
+      <div class="bank-row"><span>19.04 RAMI LEVI</span><span class="amt">-340</span></div>
+      <div class="bank-row"><span>20.04 GAME PASS</span><span class="amt">-45</span></div>
+      <div class="bank-row"><span>20.04 BNL</span><span class="amt">-1200</span></div>
+      <div class="bank-row"><span>21.04 BUDGET</span><span class="amt">-89</span></div>
+      <div class="bank-row"><span>22.04 SHUFERSAL</span><span class="amt">-156</span></div>
+      <div class="fade"></div>
+    </div>
+    <div class="col after">
+      <div class="col-tag">אחרי · 5 תובנות</div>
+      <div class="insight-row"><span class="dot"></span>27% מההכנסה ל<strong>סופר ומסעדות</strong></div>
+      <div class="insight-row"><span class="dot"></span>3 מנויים <strong>שלא מנצלים</strong> (350 ש"ח)</div>
+      <div class="insight-row"><span class="dot"></span>כל יום 25 בחודש - <strong>גירעון</strong></div>
+      <div class="insight-row"><span class="dot"></span>חיסכון אפשרי: <strong>1,200 ש"ח/חודש</strong></div>
+      <div class="insight-row"><span class="dot"></span>הוצאת <strong>אוכל מחוץ לבית</strong> בעלייה של 18%</div>
+    </div>
+  </div>
+
+  <div class="bottom-note">
+    זאת לא קסם. זה <strong>Claude שקרא את ה-PDF שלך</strong> וענה בעברית רגילה. בלי קוד. בלי כלים יקרים.
+  </div>
+
+  <div class="foot">
+    <div class="mark-block">
+      <div class="mark">YARIN<span class="dot">.</span>MALKA</div>
+      <div class="tagline">AI<span class="sep">·</span>TECH<span class="sep">·</span>TOOLS</div>
+    </div>
+    <div class="swipe">SWIPE 3/4</div>
+  </div>
+</div>
+</body>
+</html>

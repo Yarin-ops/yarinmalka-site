@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>אישור חבילה: AI מנתח דוח בנקאי</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;900&family=Karantina:wght@700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #06031a;
+  color: #f0f0f0;
+  font-family: 'Heebo', system-ui, sans-serif;
+  padding: 32px 20px 100px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 80% 10%, rgba(108,60,225,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 20% 90%, rgba(59,130,246,0.10) 0%, transparent 60%);
+}
+.wrap { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+
+.head {
+  text-align: center;
+  margin-bottom: 56px;
+  padding: 60px 32px;
+  background: linear-gradient(135deg, rgba(108,60,225,0.10), rgba(59,130,246,0.06));
+  border: 1px solid rgba(108,60,225,0.3);
+  border-radius: 24px;
+}
+.head .label {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: #c4b3ff; margin-bottom: 12px;
+}
+.head h1 {
+  font-family: 'Karantina', sans-serif;
+  font-weight: 700;
+  font-size: clamp(36px, 6vw, 64px);
+  line-height: 1; margin-bottom: 14px;
+  letter-spacing: -0.02em;
+}
+.head h1 .accent {
+  background: linear-gradient(135deg, #c4b3ff, #6C3CE1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.head .lead { color: #94a3b8; font-size: 15px; max-width: 560px; margin: 0 auto; }
+
+.section-head {
+  display: flex; align-items: center; gap: 14px;
+  margin: 56px 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(108,60,225,0.25);
+}
+.section-head .num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  background: rgba(108,60,225,0.18);
+  color: #c4b3ff;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+.section-head h2 {
+  font-family: 'Karantina', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  letter-spacing: -0.02em;
+  flex: 1;
+}
+.muted { color: #94a3b8; font-size: 13px; margin-bottom: 20px; padding: 0 4px; }
+.muted strong { color: #c4b3ff; font-weight: 600; }
+
+.action-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: all 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+.action-card:hover {
+  border-color: rgba(108,60,225,0.4);
+  background: rgba(108,60,225,0.04);
+  transform: translateX(-3px);
+}
+.action-card .ico {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  background: rgba(108,60,225,0.15);
+  border: 1px solid rgba(108,60,225,0.3);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.action-card .ico svg { width: 20px; height: 20px; color: #c4b3ff; }
+.action-card .body { flex: 1; }
+.action-card .name { font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+.action-card .meta { color: #94a3b8; font-size: 12px; }
+.action-card .arrow { color: #c4b3ff; font-size: 18px; }
+
+.slides-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 16px 0;
+}
+.slide-thumb {
+  background: #050508;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s;
+}
+.slide-thumb:hover {
+  border-color: rgba(108,60,225,0.5);
+  transform: translateY(-3px);
+}
+.slide-thumb img { width: 100%; display: block; aspect-ratio: 1080/1920; object-fit: cover; }
+.slide-thumb .lbl {
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(108,60,225,0.06);
+  border: 1px solid rgba(108,60,225,0.3);
+  border-radius: 16px;
+  padding: 24px 28px;
+  margin-top: 56px;
+}
+.checklist h3 {
+  font-size: 18px; font-weight: 700;
+  margin-bottom: 10px; color: #d4c4ff;
+}
+.checklist .item {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 14px; color: #cbd5e1; padding: 6px 0;
+}
+.checklist .item::before {
+  content: '☐'; color: #a78bfa; font-size: 18px; flex-shrink: 0;
+}
+
+.decision-box {
+  margin-top: 56px;
+  padding: 32px;
+  background: linear-gradient(135deg, rgba(108,60,225,0.12), rgba(59,130,246,0.08));
+  border: 2px solid rgba(108,60,225,0.4);
+  border-radius: 20px;
+  text-align: center;
+}
+.decision-box h3 {
+  font-family: 'Karantina', sans-serif;
+  font-size: 32px; font-weight: 700;
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+.decision-box p { color: #cbd5e1; font-size: 14px; line-height: 1.7; }
+.decision-box p strong { color: #c4b3ff; font-weight: 600; }
+.options {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  margin: 20px 0 12px;
+}
+.opt {
+  padding: 12px 22px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.opt.yes { background: rgba(16,185,129,0.15); color: #6ee7b7; border-color: rgba(16,185,129,0.4); }
+.opt.fix { background: rgba(245,158,11,0.15); color: #fcd34d; border-color: rgba(245,158,11,0.4); }
+.opt.no { background: rgba(239,68,68,0.10); color: #fca5a5; border-color: rgba(239,68,68,0.3); }
+
+@media (max-width: 720px) {
+  .slides-grid { grid-template-columns: repeat(2, 1fr); }
+  .head h1 { font-size: 32px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div class="label">חבילה לאישור</div>
+    <h1>AI מנתח את הדוח הבנקאי שלך<br><span class="accent">ב-10 דקות.</span></h1>
+    <div class="lead">
+      חבילה מלאה: מאמר לאתר + 4 סלייידים לרשתות + טקסטים לקופי-פייסט. הכל מחכה לאישור שלך לפני פרסום.
+    </div>
+  </div>
+
+  <!-- 01: Article -->
+  <div class="section-head"><div class="num">01</div><h2>המאמר המלא</h2></div>
+  <p class="muted">8 דקות קריאה · 1,500 מילים · יורד ל-<strong>yarinmalka.co.il/guides/ai-bank-statement</strong> אחרי אישור</p>
+
+  <a class="action-card" href="article-preview.html" target="_blank">
+    <div class="ico"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+    <div class="body">
+      <div class="name">קרא את המאמר המלא</div>
+      <div class="meta">תצוגה מקדימה בעיצוב סופי, בדיוק כפי שיופיע באתר</div>
+    </div>
+    <div class="arrow">←</div>
+  </a>
+
+  <!-- 02: Slides -->
+  <div class="section-head"><div class="num">02</div><h2>4 סלייידים לרשתות</h2></div>
+  <p class="muted">1080×1920 · מתאים ל-<strong>אינסטגרם סטוריז</strong>, <strong>WhatsApp Status</strong>, ו-<strong>פוסט קרוסל</strong>.</p>
+
+  <div class="slides-grid">
+    <a class="slide-thumb" href="slide-1.png" target="_blank">
+      <img src="slide-1.png" alt="Slide 1: 200 שורות, 10 דקות">
+      <div class="lbl">1 / 4 · ההוק</div>
+    </a>
+    <a class="slide-thumb" href="slide-2.png" target="_blank">
+      <img src="slide-2.png" alt="Slide 2: לפני ואחרי">
+      <div class="lbl">2 / 4 · לפני/אחרי</div>
+    </a>
+    <a class="slide-thumb" href="slide-3.png" target="_blank">
+      <img src="slide-3.png" alt="Slide 3: 5 שאלות">
+      <div class="lbl">3 / 4 · 5 השאלות</div>
+    </a>
+    <a class="slide-thumb" href="slide-4.png" target="_blank">
+      <img src="slide-4.png" alt="Slide 4: 3 צעדים">
+      <div class="lbl">4 / 4 · CTA</div>
+    </a>
+  </div>
+
+  <!-- 03: Social copy -->
+  <div class="section-head"><div class="num">03</div><h2>טקסטים מוכנים לקופי-פייסט</h2></div>
+  <p class="muted">5 פלטפורמות: WhatsApp · Instagram · X · LinkedIn · ויראלי. כפתור העתקה ליד כל אחד.</p>
+
+  <a class="action-card" href="social-copy.html" target="_blank">
+    <div class="ico"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+    <div class="body">
+      <div class="name">פתח דף הטקסטים</div>
+      <div class="meta">קליק על "העתק" ליד כל בלוק - והדבק בפלטפורמה</div>
+    </div>
+    <div class="arrow">←</div>
+  </a>
+
+  <!-- Checklist -->
+  <div class="checklist">
+    <h3>צ'קליסט בדיקה לפני אישור</h3>
+    <div class="item">המאמר נכתב בקול שלך - ישיר, בלי "כעצמאי, אתה" וכו'</div>
+    <div class="item">הוראות האבטחה ברורות (לא להעלות פרטים מזהים)</div>
+    <div class="item">המלצת Claude כראשי (במקום ChatGPT) מתאימה לעמדה שלך</div>
+    <div class="item">הסלייידים נראים מקצועיים ועם השפה המיתוגית</div>
+    <div class="item">הזרימה הגיונית: בעיה → פתרון → 5 שאלות → צעדים</div>
+    <div class="item">הטקסטים לרשתות לא נשמעים גנריים</div>
+    <div class="item">קישורים פנימיים למדריכים אחרים תקינים</div>
+  </div>
+
+  <!-- Decision -->
+  <div class="decision-box">
+    <h3>החלטה: מה לעשות עכשיו?</h3>
+    <div class="options">
+      <span class="opt yes">✓ מושלם - תפרסם</span>
+      <span class="opt fix">~ יש תיקונים</span>
+      <span class="opt no">× החלף נושא</span>
+    </div>
+    <p>תגיד לי בצ'אט באיזה כיוון.<br>אם <strong>תיקונים</strong> - תפרט מה.<br>אחרי האישור אני מפרסם לאתר ב-3 דקות (sitemap, JSON-LD, כרטיס בעמוד מדריכים).</p>
+  </div>
+
+</div>
+</body>
+</html>

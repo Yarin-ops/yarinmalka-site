@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Karantina:wght@700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; }
+body {
+  font-family: 'Heebo', system-ui, sans-serif;
+  background: #050508; color: #f0f0f0;
+  padding: 110px 100px;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+}
+body::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 30%, rgba(108, 60, 225, 0.32) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(59, 130, 246, 0.20) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+body::after {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle at center, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 30px 30px; pointer-events: none; z-index: 0;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+.content { position: relative; z-index: 2; display: flex; flex-direction: column; height: 100%; }
+.top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 60px; }
+.tag {
+  background: rgba(108, 60, 225, 0.15); color: #c4b3ff;
+  border: 1px solid rgba(108, 60, 225, 0.4);
+  padding: 14px 30px; border-radius: 999px;
+  font-size: 26px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+}
+.page-num {
+  font-family: 'Inter', sans-serif; font-size: 26px; color: #888;
+  font-weight: 500; letter-spacing: 0.15em;
+}
+.kicker {
+  font-family: 'Inter', sans-serif;
+  font-size: 32px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #c4b3ff;
+  margin-bottom: 32px;
+  font-weight: 600;
+}
+.h {
+  font-family: 'Karantina', sans-serif;
+  font-weight: 700;
+  font-size: 152px; line-height: 0.92;
+  letter-spacing: -0.02em;
+  margin-bottom: 80px;
+  color: #fff;
+}
+.h .accent {
+  background: linear-gradient(135deg, #c4b3ff, #6C3CE1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.steps {
+  display: flex; flex-direction: column; gap: 32px;
+  margin-bottom: auto;
+}
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+}
+.step-num {
+  flex-shrink: 0;
+  width: 100px; height: 100px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, rgba(108, 60, 225, 0.30), rgba(59, 130, 246, 0.20));
+  border: 1px solid rgba(108, 60, 225, 0.5);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Karantina', sans-serif;
+  font-size: 64px;
+  color: #c4b3ff;
+  font-weight: 700;
+}
+.step-text {
+  font-size: 36px;
+  line-height: 1.45;
+  color: #cbd5e1;
+  font-weight: 300;
+  padding-top: 12px;
+}
+.step-text strong {
+  color: #f0f0f0;
+  font-weight: 600;
+}
+
+.cta-block {
+  margin-top: 60px;
+  padding: 40px 44px;
+  background: linear-gradient(135deg, rgba(108, 60, 225, 0.15), rgba(59, 130, 246, 0.08));
+  border: 2px solid rgba(108, 60, 225, 0.45);
+  border-radius: 28px;
+  text-align: center;
+}
+.cta-line {
+  font-family: 'Heebo', sans-serif;
+  font-size: 30px;
+  color: #cbd5e1;
+  margin-bottom: 12px;
+}
+.cta-url {
+  font-family: 'Inter', sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #c4b3ff, #6C3CE1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.04em;
+}
+
+.foot {
+  margin-top: 56px; padding-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.mark-block { display: flex; flex-direction: column; gap: 8px; }
+.mark { font-family: 'Inter', sans-serif; font-size: 28px; font-weight: 300; letter-spacing: 0.4em; color: #f0f0f0; text-transform: uppercase; }
+.mark .dot { color: #6C3CE1; text-shadow: 0 0 12px rgba(108, 60, 225, 0.8); font-weight: 700; }
+.tagline { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.35em; color: #6C3CE1; text-transform: uppercase; }
+.tagline .sep { color: #444; margin: 0 6px; }
+.last-note {
+  font-family: 'Inter', sans-serif; font-size: 22px; color: #c4b3ff;
+  font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="content">
+  <div class="top-row">
+    <div class="tag">AI · ACADEMY</div>
+    <div class="page-num" dir="ltr">4 / 4</div>
+  </div>
+
+  <div class="kicker">לעשות עכשיו</div>
+  <div class="h">10 דקות.<br><span class="accent">תוצאה לחיים.</span></div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>הורד את הדוח הבנקאי האחרון</strong> מאתר הבנק (PDF או CSV).
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>השחר פרטים מזהים</strong> - מספרי חשבון, ת"ז, אשראי. 5 דקות ב-PDF Editor.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        פתח <strong>claude.ai</strong>, גרור את הקובץ, הדבק את 5 השאלות מהמדריך - ושאל.
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-block">
+    <div class="cta-line">המדריך השלם + הפרומפטים:</div>
+    <div class="cta-url">yarinmalka.co.il/guides</div>
+  </div>
+
+  <div class="foot">
+    <div class="mark-block">
+      <div class="mark">YARIN<span class="dot">.</span>MALKA</div>
+      <div class="tagline">AI<span class="sep">·</span>TECH<span class="sep">·</span>TOOLS</div>
+    </div>
+    <div class="last-note">END</div>
+  </div>
+</div>
+</body>
+</html>
