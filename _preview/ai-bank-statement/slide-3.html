@@ -12,7 +12,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; }
 body {
   font-family: 'Heebo', system-ui, sans-serif;
   background: #050508; color: #f0f0f0;
-  padding: 110px 100px;
+  padding: 100px 90px;
   display: flex; flex-direction: column;
   position: relative; overflow: hidden;
 }
@@ -30,7 +30,7 @@ body::after {
   mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
 }
 .content { position: relative; z-index: 2; display: flex; flex-direction: column; height: 100%; }
-.top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+.top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 36px; }
 .tag {
   background: rgba(108, 60, 225, 0.15); color: #c4b3ff;
   border: 1px solid rgba(108, 60, 225, 0.4);
@@ -44,20 +44,16 @@ body::after {
   font-weight: 500; letter-spacing: 0.15em;
 }
 .kicker {
-  font-family: 'Inter', sans-serif;
-  font-size: 26px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #c4b3ff;
-  margin-bottom: 24px;
-  font-weight: 600;
+  font-family: 'Inter', sans-serif; font-size: 26px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #c4b3ff; margin-bottom: 18px; font-weight: 600;
 }
 .h {
   font-family: 'Karantina', sans-serif;
   font-weight: 700;
-  font-size: 110px; line-height: 0.92;
+  font-size: 144px; line-height: 0.92;
   letter-spacing: -0.02em;
-  margin-bottom: 50px;
+  margin-bottom: 32px;
   color: #fff;
 }
 .h .accent {
@@ -66,48 +62,44 @@ body::after {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-
-.q-list {
-  display: flex; flex-direction: column;
-  gap: 18px;
-  margin-bottom: auto;
+.body {
+  font-size: 30px; line-height: 1.5; font-weight: 300;
+  color: #cbd5e1; margin-bottom: 36px;
 }
-.q-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 24px;
-  padding: 24px 28px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 22px;
-  border-right: 4px solid #6C3CE1;
-}
-.q-num {
-  font-family: 'Karantina', sans-serif;
-  font-size: 64px;
-  line-height: 1;
-  color: #c4b3ff;
-  font-weight: 700;
-  flex-shrink: 0;
-  width: 60px;
-}
-.q-content { flex: 1; }
-.q-title {
-  font-size: 26px;
-  font-weight: 700;
+.body strong { color: #f0f0f0; font-weight: 600; }
+.amount-pill {
+  display: inline-block;
+  background: linear-gradient(135deg, #c4b3ff, #6C3CE1);
   color: #fff;
-  margin-bottom: 6px;
-  line-height: 1.2;
+  padding: 4px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 30px;
+  font-family: 'Heebo', sans-serif;
 }
-.q-desc {
-  font-size: 20px;
-  color: #94a3b8;
-  line-height: 1.45;
-  font-weight: 300;
+.screen-wrap { flex: 1; display: flex; align-items: flex-start; justify-content: center; position: relative; }
+.screen-frame {
+  width: 100%;
+  border-radius: 20px;
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(108,60,225,0.25), rgba(59,130,246,0.15));
+  border: 1px solid rgba(108,60,225,0.45);
+  box-shadow: 0 30px 80px rgba(108,60,225,0.30), 0 12px 40px rgba(0,0,0,0.5);
+  position: relative;
+  transform: rotate(-1deg);
 }
-
+.screen-frame img { width: 100%; display: block; border-radius: 12px; }
+.screen-frame::after {
+  content: 'PROMPT 04';
+  position: absolute; top: -16px; right: 30px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 0.25em;
+  color: #c4b3ff; background: #050508;
+  padding: 4px 14px; border-radius: 6px;
+  border: 1px solid rgba(108,60,225,0.4);
+}
 .foot {
-  margin-top: 40px; padding-top: 36px;
+  margin-top: 36px; padding-top: 32px;
   border-top: 1px solid rgba(255,255,255,0.08);
   display: flex; justify-content: space-between; align-items: center;
 }
@@ -127,44 +119,15 @@ body::after {
     <div class="page-num" dir="ltr">3 / 4</div>
   </div>
 
-  <div class="kicker">5 שאלות לשאול</div>
-  <div class="h">העתק.<br><span class="accent">הדבק. שאל.</span></div>
+  <div class="kicker">חיסכון אמיתי</div>
+  <div class="h"><span class="accent">1,140 ש"ח</span><br>בחודש.</div>
+  <div class="body">
+    שאלתי את Claude איפה אני מבזבז בלי לשים לב. <strong>3 חיסכונים ספציפיים</strong> מהמספרים שלי - בלי לפגוע באיכות חיים.
+  </div>
 
-  <div class="q-list">
-    <div class="q-item">
-      <div class="q-num">01</div>
-      <div class="q-content">
-        <div class="q-title">תקרא את הדוח</div>
-        <div class="q-desc">5 הוצאות הכי גדולות + מנויים שזיהית. סקירה כללית.</div>
-      </div>
-    </div>
-    <div class="q-item">
-      <div class="q-num">02</div>
-      <div class="q-content">
-        <div class="q-title">תסווג ל-6 קטגוריות</div>
-        <div class="q-desc">מזון, תחבורה, דיור, בריאות, בידור, שונות. עם אחוזים.</div>
-      </div>
-    </div>
-    <div class="q-item">
-      <div class="q-num">03</div>
-      <div class="q-content">
-        <div class="q-title">תשווה לפי חודשים</div>
-        <div class="q-desc">איפה הפער הכי גדול - ולמה דווקא שם?</div>
-      </div>
-    </div>
-    <div class="q-item">
-      <div class="q-num">04</div>
-      <div class="q-content">
-        <div class="q-title">תציע איך לחסוך 1,000 ש"ח</div>
-        <div class="q-desc">3 דברים ספציפיים מהדוח שלי - לא טיפים גנריים.</div>
-      </div>
-    </div>
-    <div class="q-item">
-      <div class="q-num">05</div>
-      <div class="q-content">
-        <div class="q-title">תבנה תקציב לחודש הבא</div>
-        <div class="q-desc">מבוסס על דפוס הוצאות אמיתי - לא על מספרים מומצאים.</div>
-      </div>
+  <div class="screen-wrap">
+    <div class="screen-frame">
+      <img src="screenshots/screenshot-3.png" alt="Claude finding savings">
     </div>
   </div>
 
