@@ -76,8 +76,18 @@ body::after {
   border: 1px solid rgba(108,60,225,0.45);
   box-shadow: 0 24px 60px rgba(108,60,225,0.28), 0 10px 32px rgba(0,0,0,0.5);
   margin-bottom: 36px;
+  position: relative;
 }
 .screen-frame img { width: 100%; display: block; border-radius: 10px; }
+.screen-frame::after {
+  content: 'CHATGPT';
+  position: absolute; top: -16px; right: 30px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 0.25em;
+  color: #c4b3ff; background: #050508;
+  padding: 4px 14px; border-radius: 6px;
+  border: 1px solid rgba(108,60,225,0.4);
+}
 
 .steps {
   display: flex; flex-direction: column; gap: 18px;
