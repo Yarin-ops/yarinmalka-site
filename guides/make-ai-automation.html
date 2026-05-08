@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Make + AI - לבנות אוטומציה ראשונה ב-30 דקות | YARIN.MALKA</title>
+<meta name="description" content="דוגמה מלאה מהקצה לקצה - לטופס באתר, לכתוב סיכום עם Claude, לשמור ב-Notion ולשלוח מייל. בלי קוד, ב-30 דקות, חינם.">
+<meta name="author" content="Yarin Malka">
+<meta name="theme-color" content="#0a0a16">
+<link rel="canonical" href="https://yarinmalka.co.il/guides/make-ai-automation">
+<meta property="og:title" content="Make + AI - לבנות אוטומציה ראשונה ב-30 דקות">
+<meta property="og:description" content="דוגמה מלאה - מטופס באתר לסיכום AI, ל-Notion ולמייל. בלי קוד, ב-30 דקות.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://yarinmalka.co.il/guides/make-ai-automation">
+<meta property="og:image" content="https://yarinmalka.co.il/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="YARIN.MALKA">
+<meta property="og:locale" content="he_IL">
+<meta property="article:published_time" content="2026-05-08">
+<meta property="article:author" content="Yarin Malka">
+<meta property="article:section" content="אוטומציה">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Make + AI - לבנות אוטומציה ראשונה ב-30 דקות">
+<meta name="twitter:description" content="דוגמה מלאה - מטופס באתר לסיכום AI, ל-Notion ולמייל. בלי קוד.">
+<meta name="twitter:image" content="https://yarinmalka.co.il/assets/og-image.png">
+<meta name="twitter:site" content="@YarinMalka6">
+<meta name="twitter:creator" content="@YarinMalka6">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Make + AI - לבנות אוטומציה ראשונה ב-30 דקות",
+  "description": "דוגמה מלאה מהקצה לקצה - לטופס באתר, לכתוב סיכום עם Claude, לשמור ב-Notion ולשלוח מייל. בלי קוד, ב-30 דקות.",
+  "url": "https://yarinmalka.co.il/guides/make-ai-automation",
+  "image": "https://yarinmalka.co.il/assets/og-image.png",
+  "datePublished": "2026-05-08",
+  "dateModified": "2026-05-08",
+  "inLanguage": "he-IL",
+  "author": {"@type": "Person", "name": "ירין מלכה", "url": "https://yarinmalka.co.il/"},
+  "publisher": {"@type": "Person", "name": "ירין מלכה", "url": "https://yarinmalka.co.il/", "logo": {"@type": "ImageObject", "url": "https://yarinmalka.co.il/assets/og-image.png"}},
+  "mainEntityOfPage": {"@type": "WebPage", "@id": "https://yarinmalka.co.il/guides/make-ai-automation"}
+}
+</script>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<nav id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+        <div class="nav-links">
+            <a href="/#services">שירותים</a>
+            <a href="/workshops.html">סדנאות</a>
+            <a href="/guides.html">מדריכים</a>
+            <a href="/about.html">אודות</a>
+            <a href="/#portfolio">פרויקטים</a>
+            <button class="theme-toggle-nav" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+            </button>
+            <a href="https://forms.agentdesk.co.il" class="nav-cta" target="_blank">בואו נדבר</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="/#services" onclick="closeMenu()">שירותים</a>
+    <a href="/workshops.html" onclick="closeMenu()">סדנאות</a>
+    <a href="/guides.html" onclick="closeMenu()">מדריכים</a>
+    <a href="/about.html" onclick="closeMenu()">אודות</a>
+    <a href="/#portfolio" onclick="closeMenu()">פרויקטים</a>
+    <a href="https://forms.agentdesk.co.il" target="_blank" onclick="closeMenu()">בואו נדבר</a>
+</div>
+
+<div class="guide-page">
+
+  <article class="guide-main">
+
+    <div class="guide-breadcrumb">
+      <span class="academy">ACADEMY</span>
+      <span class="sep">/</span>
+      <span>אוטומציה · AI</span>
+    </div>
+
+    <h1 class="guide-title">Make + AI.<br><span class="accent">אוטומציה ב-30 דקות.</span></h1>
+
+    <p class="guide-lead">דוגמה מלאה מהקצה לקצה: לטופס באתר, לסיכום עם Claude, ל-Notion ולמייל. בלי קוד. בלי הצטיידות. ב-30 דקות.</p>
+
+    <div class="guide-meta">
+      <div class="author">
+        <div class="avatar">YM</div>
+        <span>ירין מלכה</span>
+      </div>
+      <span class="dot-sep">·</span>
+      <span>08.05.2026</span>
+      <span class="dot-sep">·</span>
+      <span>9 דקות קריאה</span>
+      <span class="dot-sep">·</span>
+      <span>מדריך 06</span>
+    </div>
+
+    <div class="guide-content">
+
+      <p>אנשים מדברים על אוטומציה כאילו זה מדע טילים. <strong>זה לא</strong>.</p>
+      <p>אוטומציה אמיתית - שכל אחד יכול לבנות - היא להגיד לכלי אחד "כשקורה X, תעביר ל-Y". אם תוסיף AI באמצע - יש לך מערכת חכמה שמטפלת בעצמה במשימות שיוצאות לך זמן.</p>
+      <p>במדריך הזה אתה הולך לבנות מערכת אמיתית, מתחילה לסוף, שעובדת לבד 24/7. הדוגמה: <strong>כשמישהו ממלא טופס באתר שלך, Claude יסכם, ו-Notion יקבל את המידע - ויישלח לך מייל סיכום</strong>. 30 דקות. חינם.</p>
+
+      <h2 id="why">1. למה Make ולא Zapier?</h2>
+      <p><strong>שתיהן עושות אותו דבר</strong> - מחברות בין שירותים. ההבדל:</p>
+      <ul>
+        <li><strong>Zapier</strong> - יותר פופולרי, ממשק קצת יותר חברותי, מחיר גבוה יותר</li>
+        <li><strong>Make.com</strong> - יותר חזק, גרפי, חינמי עד 1,000 פעולות בחודש (פי 10 מ-Zapier)</li>
+      </ul>
+      <p>למתחילים - שתיהן עובדות. למי שרוצה לגדול - <strong>Make</strong>. במדריך הזה נשתמש ב-Make.</p>
+
+      <h2 id="example">2. הדוגמה שתבנה</h2>
+      <p>תארו לעצמכם: יש לכם דף נחיתה לעסק. כשמישהו ממלא טופס פניה - אתם רוצים שהמידע יגיע למקום אחד מסודר, עם <strong>סיכום חכם</strong> של מה שהאדם כתב, כדי שתוכלו להחליט מהר אם להחזיר אליו.</p>
+      <p>זה התרשים:</p>
+      <p><strong>טופס נשלח</strong> → <strong>Claude קורא ומסכם בעברית</strong> → <strong>שורה חדשה ב-Notion עם הסיכום</strong> → <strong>מייל אליי עם הפרטים והסיכום</strong>.</p>
+      <div class="note-box"><strong>למה זה משנה:</strong> במקום לקרוא 5 דקות כל מייל פניה ולהחליט אם זה רציני - אתה מקבל מייל בן 2 שורות עם סיכום של מה שהאדם רוצה. הופך טיפול בלידים ממשימה למקבץ של החלטות בני 10 שניות.</div>
+
+      <h2 id="setup">3. הצטיידות - 5 דקות</h2>
+      <p>תפתחו 4 חשבונות (כל אחד חינם):</p>
+      <ol>
+        <li><strong><a href="https://make.com" target="_blank" rel="noopener">make.com</a></strong> - הרשמה רגילה. גרסה חינמית מספיקה.</li>
+        <li><strong><a href="https://notion.so" target="_blank" rel="noopener">notion.so</a></strong> - אם אין כבר. צרו workspace חדש.</li>
+        <li><strong><a href="https://anthropic.com" target="_blank" rel="noopener">anthropic.com</a></strong> - חשבון API ל-Claude. קבלו $5 חינם להתחיל.</li>
+        <li><strong>Gmail</strong> - יש לרובכם.</li>
+      </ol>
+      <p>בנוסף תצטרכו <strong>טופס</strong>. אם יש לכם אתר עם טופס - מצוין. אם אין - תשתמשו ב-<a href="https://tally.so" target="_blank" rel="noopener">tally.so</a> (חינם, 30 שניות הקמה).</p>
+
+      <h2 id="step1">4. שלב 1: בניית הסצנריו ב-Make</h2>
+      <p>נכנסים ל-Make → <strong>Create new scenario</strong>. רואים מסך ריק עם עיגול אחד גדול באמצע - זאת התחנה הראשונה.</p>
+      <ol>
+        <li><strong>לוחצים על העיגול</strong> → מחפשים "<strong>Webhooks</strong>" → בוחרים <strong>"Custom Webhook"</strong></li>
+        <li><strong>Add</strong> → נותנים לו שם ("Form submissions") → <strong>OK</strong></li>
+        <li>Make ייצר עכשיו URL ייחודי. <strong>תעתיקו אותו.</strong> הוא נראה ככה: <code>https://hook.eu2.make.com/abc123xyz</code></li>
+      </ol>
+      <p>זה ה-URL שהטופס שלך יישלח אליו.</p>
+
+      <h2 id="step2">5. שלב 2: חיבור הטופס</h2>
+      <p>אם אתה משתמש ב-Tally:</p>
+      <ol>
+        <li>פותחים את הטופס בטאלי → <strong>Integrations</strong> → <strong>Webhooks</strong></li>
+        <li>מדביקים את ה-URL שהעתקתם</li>
+        <li>שולחים בדיקה - ממלאים את הטופס פעם אחת</li>
+      </ol>
+      <p>אם יש לך אתר עם טופס משלך (כמו <code>/api/subscribe</code> שיש ב-yarinmalka.co.il) - תוסיף בקוד שורה שתשלח גם ל-webhook URL הזה.</p>
+      <div class="note-box"><strong>הסבר:</strong> webhook זה כמו "טריגר" - כתובת שכל פעם שמישהו שולח אליה מידע, היא מפעילה את האוטומציה שלך.</div>
+
+      <h2 id="step3">6. שלב 3: Claude מסכם</h2>
+      <p>חוזרים ל-Make. עכשיו ל-Webhook יש כבר נתונים מהבדיקה. נחבר אותו ל-Claude:</p>
+      <ol>
+        <li><strong>+</strong> ליד עיגול ה-Webhook → מחפשים "<strong>Anthropic</strong>" → בוחרים "<strong>Create a Message</strong>"</li>
+        <li>נותנים את ה-API Key מ-anthropic.com (Settings → API Keys)</li>
+        <li>בוחרים מודל: <code>claude-haiku-4-5</code> (מספיק טוב, הכי זול)</li>
+        <li>בשדה "Messages" כותבים פרומפט: <code>תכין סיכום קצר של 2 שורות בעברית של הפניה הבאה: שם: {name} | טלפון: {phone} | הודעה: {message}</code></li>
+        <li>במקום <code>{name}</code>, <code>{phone}</code>, <code>{message}</code> - תבחרו את השדות מה-Webhook (Make מציע אותם בתפריט)</li>
+        <li>Max tokens: <strong>200</strong> (סיכום קצר)</li>
+      </ol>
+
+      <h2 id="step4">7. שלב 4: שמירה ב-Notion</h2>
+      <p>קודם תכינו ב-Notion טבלה (database) חדש בשם "Leads" עם העמודות:</p>
+      <ul>
+        <li><strong>Name</strong> (Title)</li>
+        <li><strong>Phone</strong> (Phone)</li>
+        <li><strong>Email</strong> (Email)</li>
+        <li><strong>Original Message</strong> (Text)</li>
+        <li><strong>AI Summary</strong> (Text)</li>
+        <li><strong>Date</strong> (Created time - אוטומטי)</li>
+        <li><strong>Status</strong> (Select: New / Contacted / Closed)</li>
+      </ul>
+      <p>חוזרים ל-Make:</p>
+      <ol>
+        <li><strong>+</strong> אחרי Claude → "<strong>Notion</strong>" → "<strong>Create a Database Item</strong>"</li>
+        <li>מתחברים ל-Notion (אישור חד-פעמי)</li>
+        <li>בוחרים את הטבלה "Leads"</li>
+        <li>לכל עמודה - בוחרים את השדה המתאים מה-Webhook או מ-Claude (השדה Summary מ-Claude)</li>
+      </ol>
+
+      <h2 id="step5">8. שלב 5: מייל אליך</h2>
+      <ol>
+        <li><strong>+</strong> אחרי Notion → "<strong>Gmail</strong>" → "<strong>Send an Email</strong>"</li>
+        <li>To: האימייל שלך</li>
+        <li>Subject: <code>פניה חדשה: {name}</code></li>
+        <li>Body: <code>שם: {name}<br>טלפון: {phone}<br><br>סיכום AI:<br>{summary}<br><br>הודעה מקורית:<br>{message}</code></li>
+      </ol>
+
+      <h2 id="test">9. בדיקה</h2>
+      <p>לוחצים <strong>Run once</strong> ב-Make. ממלאים את הטופס פעם אחת. תוך 5 שניות:</p>
+      <ul>
+        <li>שורה חדשה ב-Notion עם הסיכום</li>
+        <li>מייל אצלך</li>
+        <li>במסך ה-Make - כל השלבים מסומנים בירוק</li>
+      </ul>
+      <p>אם הכל עובד - <strong>תפעיל את הסצנריו</strong> (טוגל למעלה משמאל מ-Off ל-On). מהרגע הזה הוא רץ אוטומטית.</p>
+      <div class="note-box"><strong>ברכות.</strong> בנית מערכת AI אמיתית. כל פעם שמישהו ימלא את הטופס שלך, היא תרוץ לבד.</div>
+
+      <h2 id="extend">10. איך להרחיב מכאן</h2>
+      <p>הבסיס הזה נותן לך הרבה יותר ממה שזה נראה. רעיונות הרחבה ב-30 דקות נוספות:</p>
+      <ul>
+        <li><strong>סיווג לידים אוטומטי</strong> - תוסיף שלב Claude נוסף שמחזיר "Hot/Warm/Cold" לפי טון ההודעה. ב-Notion יוצא Status אוטומטי.</li>
+        <li><strong>WhatsApp במקום מייל</strong> - תחליף את ה-Gmail ב-Twilio (יש מודולים מוכנים)</li>
+        <li><strong>תיוג חכם</strong> - Claude יחזיר 3 תגיות (פיתוח/פיננסים/סדנה) שיתויגו אוטומטית בנוטיון</li>
+        <li><strong>תזכורות אוטומטיות</strong> - אם אחרי 3 ימים ה-Status עוד "New", הסצנריו ישלח לך תזכורת</li>
+      </ul>
+
+      <h2 id="troubles">11. שגיאות נפוצות</h2>
+      <p><strong>"Webhook not receiving data"</strong> - תבדקו ש-Tally/הטופס שולח באמת. רוב הזמן זה הגדרה לא נכונה של ה-URL.</p>
+      <p><strong>"Anthropic API error 401"</strong> - ה-API Key שגוי או שלא טענת קרדיט בחשבון. תכניסו $5 ראשוניים ב-anthropic.com → Billing.</p>
+      <p><strong>"Notion permissions"</strong> - תוודאו שהטבלה ב-Notion שיתפת עם integration של Make (פותחים את הטבלה → Share → Add Make integration).</p>
+      <p><strong>"Sent twice"</strong> - לפעמים הטופס שולח 2 פעמים. תוסיפו ב-Make מסנן (Filter) שמתעלם משליחות חוזרות תוך 60 שניות מאותו טלפון.</p>
+
+      <h2 id="next">מה הלאה</h2>
+      <p>זאת אוטומציה אחת. עכשיו שיש לך את התשתית - <strong>כל משימה חוזרת בעסק היא פוטנציאל לאוטומציה</strong>:</p>
+      <ul>
+        <li>סיכום פגישות זום אוטומטי</li>
+        <li>תזכורות חכמות מתוך היומן</li>
+        <li>פוסטים בסושיאל מאתר התוכן שלך</li>
+        <li>תרגום אוטומטי של תוכן בין שפות</li>
+      </ul>
+      <p>רוצה לבנות יחד? <a href="/workshops.html">סדנת AI למתקדמים</a> מתמקדת בדיוק בזה - בניית פתרונות אוטומציה לעסק שלך.</p>
+      <p>או שווה גם <a href="/guides/3-ai-families">המדריך על 3 משפחות AI</a> כדי להבין מתי בכלל AI מועיל באוטומציה.</p>
+
+      <div class="guide-end-cta">
+        <div class="title">רוצה את <em style="font-style:normal;background:linear-gradient(135deg,var(--accent-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">המדריך הבא?</em></div>
+        <div class="sub">מדריך עמוק אחד בשבוע. בעברית, פרקטי, בלי רעש.</div>
+        <form id="guideEndForm" novalidate>
+          <input type="email" name="email" placeholder="האימייל שלך" required>
+          <button type="submit" id="guideEndBtn">הירשם</button>
+        </form>
+        <div id="guideEndMsg" style="display:none;font-size:13px;padding:10px 14px;border-radius:8px;margin-top:10px;text-align:center;font-family:Heebo"></div>
+        <div class="small-note">ביטול בלחיצה אחת.</div>
+      </div>
+
+      <script>
+      document.getElementById('guideEndForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const btn = document.getElementById('guideEndBtn');
+        const msg = document.getElementById('guideEndMsg');
+        const email = form.email.value.trim();
+        if (!email) return;
+        btn.disabled = true; btn.textContent = 'שולח...'; msg.style.display = 'none';
+        try {
+          const res = await fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+          const json = await res.json();
+          if (json.ok) {
+            msg.textContent = '✓ נרשמת בהצלחה!';
+            msg.style.background = 'rgba(16,185,129,0.12)'; msg.style.color = '#6ee7b7'; msg.style.border = '1px solid rgba(16,185,129,0.3)';
+            form.reset(); btn.textContent = 'נרשמת ✓';
+          } else { throw new Error(json.error || 'failed'); }
+        } catch (err) {
+          msg.textContent = 'משהו השתבש. נסה שוב.';
+          msg.style.background = 'rgba(239,68,68,0.12)'; msg.style.color = '#fca5a5'; msg.style.border = '1px solid rgba(239,68,68,0.3)';
+          btn.disabled = false; btn.textContent = 'הירשם';
+        }
+        msg.style.display = 'block';
+      });
+      </script>
+
+    </div>
+  </article>
+
+  <aside class="guide-toc">
+    <h4>בעמוד זה</h4>
+    <ul>
+      <li><a href="#why">1. למה Make</a></li>
+      <li><a href="#example">2. הדוגמה</a></li>
+      <li><a href="#setup">3. הצטיידות</a></li>
+      <li><a href="#step1">4. בניית הסצנריו</a></li>
+      <li><a href="#step2">5. חיבור הטופס</a></li>
+      <li><a href="#step3">6. Claude מסכם</a></li>
+      <li><a href="#step4">7. Notion</a></li>
+      <li><a href="#step5">8. מייל</a></li>
+      <li><a href="#test">9. בדיקה</a></li>
+      <li><a href="#extend">10. הרחבות</a></li>
+      <li><a href="#troubles">11. שגיאות נפוצות</a></li>
+      <li><a href="#next">מה הלאה</a></li>
+    </ul>
+  </aside>
+
+</div>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+                <p>פיתוח אתרים, ייעוץ פיננסי וסדנאות מקצועיות. פתרונות דיגיטליים לעסקים בישראל.</p>
+                <div class="footer-social-strip">
+                    <a href="https://www.linkedin.com/in/yarin-malka-baa541228" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0H5a5 5 0 00-5 5v14a5 5 0 005 5h14a5 5 0 005-5V5a5 5 0 00-5-5zM8 19H5V8h3v11zM6.5 6.7a1.7 1.7 0 110-3.4 1.7 1.7 0 010 3.4zM20 19h-3v-5.6c0-3.4-4-3.1-4 0V19h-3V8h3v1.8c1.4-2.6 7-2.8 7 2.5V19z"/></svg></a>
+                    <a href="https://x.com/YarinMalka6" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                    <a href="https://www.instagram.com/yarin_malka7/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                    <a href="https://www.facebook.com/yarin.malka.47197" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 10-11.56 9.88V14.9H7.9V12h2.54V9.8c0-2.51 1.49-3.89 3.77-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.9h-2.33v6.98A10 10 0 0022 12z"/></svg></a>
+                    <a href="mailto:yarinmalka7@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>ניווט</h4>
+                <a href="/">בית</a>
+                <a href="/#services">שירותים</a>
+                <a href="/workshops.html">סדנאות</a>
+                <a href="/guides.html">מדריכים</a>
+                <a href="/about.html">אודות</a>
+                <a href="/#portfolio">פרויקטים</a>
+                <a href="/signup.html">רשימת תפוצה</a>
+            </div>
+            <div class="footer-col">
+                <h4>יצירת קשר</h4>
+                <a href="tel:0536805136">053-680-5136</a>
+                <a href="mailto:yarinmalka7@gmail.com">yarinmalka7@gmail.com</a>
+                <a href="https://forms.agentdesk.co.il" target="_blank">forms.agentdesk.co.il</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 YARIN.MALKA. כל הזכויות שמורות.</span>
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/972536805136" target="_blank" class="wa-float" aria-label="WhatsApp">
+    <svg width="26" height="26" fill="#fff" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+const progressBar=document.getElementById('scrollProgress');
+window.addEventListener('scroll',()=>{
+  document.getElementById('mainNav').classList.toggle('nav-bg',window.scrollY>50);
+  if(progressBar){const h=document.documentElement.scrollHeight-window.innerHeight;progressBar.style.width=(window.scrollY/h*100)+'%';}
+});
+const hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobileMenu');
+hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');mobileMenu.classList.toggle('open')});
+function closeMenu(){hamburger.classList.remove('active');mobileMenu.classList.remove('open')}
+const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible')}})},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark';var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('theme',n);}
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "9105c6491cdc412ba8510ee4615553c5"}'></script>
+</body>
+</html>
