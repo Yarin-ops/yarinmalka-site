@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>השוואת דמי ניהול | YARIN.MALKA Pro</title>
+<meta name="description" content="חישוב הפסד מצטבר בגלל דמי ניהול גבוהים. השוואה בין מסלול נוכחי למסלול חלופי.">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/pro/tools/tools.css">
+</head>
+<body>
+
+<div class="preview-banner">PREVIEW · NOINDEX · בנייה פרטית</div>
+
+<nav id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+        <div class="nav-links">
+            <a href="/pro/">Pro</a>
+            <a href="/pro/tools/">כלים</a>
+            <a href="/pro/pricing.html">תמחור</a>
+            <a href="/" style="color: var(--text3); font-size: 13px;">← אתר ראשי</a>
+        </div>
+    </div>
+</nav>
+
+<div class="tool-page">
+  <div class="tool-inner">
+
+    <div class="tool-header">
+      <div class="tool-breadcrumb">
+        <a href="/pro/">Pro</a><span class="sep">/</span><a href="/pro/tools/">כלים</a><span class="sep">/</span>דמי ניהול
+      </div>
+      <h1 class="tool-title">השוואת <span class="accent">דמי ניהול.</span></h1>
+      <p class="tool-subtitle">חישוב ההפסד המצטבר בגלל דמי ניהול גבוהים. כלי שיוכיח ללקוח בדיוק כמה כסף בורח לחברת הקרן בכל שנה. עובד עבור גמל, השתלמות, פנסיה.</p>
+    </div>
+
+    <div class="tool-card">
+      <h3 style="font-family: 'Karantina'; font-size: 32px; color: var(--text); margin-bottom: 20px;">מסלול נוכחי</h3>
+      <div class="tool-grid">
+        <div class="input-group">
+          <label for="balance">צבירה נוכחית</label>
+          <div class="with-suffix">
+            <input type="number" id="balance" value="500000" min="0" step="1000">
+            <span class="suffix">₪</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="monthlyDeposit">הפקדה חודשית</label>
+          <div class="with-suffix">
+            <input type="number" id="monthlyDeposit" value="3500" min="0" step="100">
+            <span class="suffix">₪</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="years">תקופה (שנים)</label>
+          <input type="number" id="years" value="20" min="1" max="50">
+          <div class="hint">משנה את ההפרש משמעותית</div>
+        </div>
+
+        <div class="input-group">
+          <label for="grossReturn">תשואה ברוטו צפויה (לפני דמי ניהול)</label>
+          <div class="with-suffix">
+            <input type="number" id="grossReturn" value="6" min="0" max="15" step="0.1">
+            <span class="suffix">%</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="currentDepositFee">דמי ניהול מהפקדה (נוכחי)</label>
+          <div class="with-suffix">
+            <input type="number" id="currentDepositFee" value="6" min="0" max="10" step="0.1">
+            <span class="suffix">%</span>
+          </div>
+          <div class="hint">סטנדרט שוק: 1-3%. ישן: עד 6%</div>
+        </div>
+
+        <div class="input-group">
+          <label for="currentBalanceFee">דמי ניהול מהצבירה (נוכחי)</label>
+          <div class="with-suffix">
+            <input type="number" id="currentBalanceFee" value="0.8" min="0" max="3" step="0.05">
+            <span class="suffix">%</span>
+          </div>
+          <div class="hint">תקרה רגולטורית: 0.5% (גמל), 0.5% (פנסיה)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card accent">
+      <h3 style="font-family: 'Karantina'; font-size: 32px; color: var(--text); margin-bottom: 20px;">מסלול חלופי</h3>
+      <div class="tool-grid">
+        <div class="input-group">
+          <label for="newDepositFee">דמי ניהול מהפקדה (חלופי)</label>
+          <div class="with-suffix">
+            <input type="number" id="newDepositFee" value="1.5" min="0" max="10" step="0.1">
+            <span class="suffix">%</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="newBalanceFee">דמי ניהול מהצבירה (חלופי)</label>
+          <div class="with-suffix">
+            <input type="number" id="newBalanceFee" value="0.3" min="0" max="3" step="0.05">
+            <span class="suffix">%</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="calculate()">חשב הפסד מצטבר</button>
+    </div>
+
+    <div id="results" style="display: none;">
+      <div class="result-block">
+        <div class="result-label">הפסד מצטבר במסלול הנוכחי</div>
+        <div class="result-value"><span class="currency">₪</span><span id="totalLoss">-</span></div>
+        <div class="result-detail" id="lossDetail">–</div>
+      </div>
+
+      <div class="tool-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0;">
+        <div style="background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.25); border-radius: 12px; padding: 24px; text-align: center;">
+          <div style="font-family: 'Inter'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #fca5a5; margin-bottom: 8px;">צבירה במסלול הנוכחי</div>
+          <div style="font-family: 'Karantina'; font-size: 40px; color: var(--text); font-weight: 700;" id="currentTotal">–</div>
+        </div>
+        <div style="background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.25); border-radius: 12px; padding: 24px; text-align: center;">
+          <div style="font-family: 'Inter'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #6ee7b7; margin-bottom: 8px;">צבירה במסלול החלופי</div>
+          <div style="font-family: 'Karantina'; font-size: 40px; color: var(--text); font-weight: 700;" id="newTotal">–</div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <h3 style="font-family: 'Karantina'; font-size: 28px; color: var(--text); margin-bottom: 16px;">פירוט שנתי</h3>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+            <thead>
+              <tr style="background: rgba(108,60,225,0.08);">
+                <th style="padding: 10px; text-align: right; color: var(--text); font-family: 'Heebo'; font-weight: 700;">שנה</th>
+                <th style="padding: 10px; text-align: center; color: var(--text); font-family: 'Heebo'; font-weight: 700;">נוכחי</th>
+                <th style="padding: 10px; text-align: center; color: var(--text); font-family: 'Heebo'; font-weight: 700;">חלופי</th>
+                <th style="padding: 10px; text-align: center; color: var(--text); font-family: 'Heebo'; font-weight: 700;">הפרש</th>
+              </tr>
+            </thead>
+            <tbody id="yearlyTable">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="insightBox" class="insight-box"></div>
+
+      <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
+        <button class="btn-secondary" onclick="copyToClipboard()">העתק לסיכום פגישה</button>
+        <button class="btn-secondary" onclick="window.print()">הדפס / שמור PDF</button>
+      </div>
+    </div>
+
+    <div class="disclaimer-small">
+      <strong>הערה:</strong> המחשבון מציג הפרש <strong>תיאורטי</strong> בהנחת תשואה זהה. בפועל מסלולי תשואה שונים יכולים להניב תשואות ברוטו שונות, וההפרש האמיתי עשוי להיות שונה. אינו מהווה ייעוץ פנסיוני - המלצה ספציפית לפי תקנון הקרן הייעודית והעדפות הלקוח.
+    </div>
+
+  </div>
+</div>
+
+<script>
+function fmt(n) {
+  return new Intl.NumberFormat('he-IL', { maximumFractionDigits: 0 }).format(n);
+}
+function fmtCurrency(n) { return '₪' + fmt(n); }
+
+function simulate(balance, monthlyDeposit, years, grossReturn, depositFee, balanceFee) {
+  // Net return after balance fee
+  const netReturn = (grossReturn - balanceFee) / 100;
+  const monthlyReturn = netReturn / 12;
+  // Net deposit after deposit fee
+  const netDeposit = monthlyDeposit * (1 - depositFee / 100);
+
+  const yearly = [];
+  let current = balance;
+  for (let year = 1; year <= years; year++) {
+    for (let m = 0; m < 12; m++) {
+      current = current * (1 + monthlyReturn) + netDeposit;
+    }
+    yearly.push(current);
+  }
+  return { final: current, yearly };
+}
+
+function calculate() {
+  const inputs = {
+    balance: parseFloat(document.getElementById('balance').value) || 0,
+    monthlyDeposit: parseFloat(document.getElementById('monthlyDeposit').value) || 0,
+    years: parseInt(document.getElementById('years').value) || 20,
+    grossReturn: parseFloat(document.getElementById('grossReturn').value) || 0,
+    currentDepositFee: parseFloat(document.getElementById('currentDepositFee').value) || 0,
+    currentBalanceFee: parseFloat(document.getElementById('currentBalanceFee').value) || 0,
+    newDepositFee: parseFloat(document.getElementById('newDepositFee').value) || 0,
+    newBalanceFee: parseFloat(document.getElementById('newBalanceFee').value) || 0
+  };
+
+  const current = simulate(inputs.balance, inputs.monthlyDeposit, inputs.years, inputs.grossReturn, inputs.currentDepositFee, inputs.currentBalanceFee);
+  const alt = simulate(inputs.balance, inputs.monthlyDeposit, inputs.years, inputs.grossReturn, inputs.newDepositFee, inputs.newBalanceFee);
+  const totalLoss = alt.final - current.final;
+
+  document.getElementById('totalLoss').textContent = fmt(totalLoss);
+  document.getElementById('currentTotal').textContent = fmtCurrency(current.final);
+  document.getElementById('newTotal').textContent = fmtCurrency(alt.final);
+
+  const annualLoss = totalLoss / inputs.years;
+  document.getElementById('lossDetail').textContent =
+    `על פני ${inputs.years} שנים. ממוצע ${fmtCurrency(annualLoss)} בכל שנה. ההפרש הזה הולך לחברת הקרן הנוכחית.`;
+
+  // Yearly table - show every 5 years + final
+  const tbody = document.getElementById('yearlyTable');
+  const yearsToShow = [];
+  for (let y = 5; y <= inputs.years; y += 5) yearsToShow.push(y);
+  if (yearsToShow[yearsToShow.length - 1] !== inputs.years) yearsToShow.push(inputs.years);
+  if (!yearsToShow.includes(1)) yearsToShow.unshift(1);
+
+  tbody.innerHTML = yearsToShow.map(y => {
+    const idx = y - 1;
+    const cur = current.yearly[idx];
+    const alt_ = alt.yearly[idx];
+    const diff = alt_ - cur;
+    return `<tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+      <td style="padding: 10px; color: var(--text2);">${y}</td>
+      <td style="padding: 10px; text-align: center; color: var(--text); font-family: ui-monospace, monospace;">${fmtCurrency(cur)}</td>
+      <td style="padding: 10px; text-align: center; color: var(--text); font-family: ui-monospace, monospace;">${fmtCurrency(alt_)}</td>
+      <td style="padding: 10px; text-align: center; color: ${diff > 0 ? '#6ee7b7' : 'var(--text2)'}; font-family: ui-monospace, monospace; font-weight: 600;">+${fmtCurrency(diff)}</td>
+    </tr>`;
+  }).join('');
+
+  // Insight
+  let insight = '';
+  const percentLoss = (totalLoss / current.final) * 100;
+  if (percentLoss > 30) {
+    insight = `<strong>הפסד דרמטי.</strong> דמי הניהול הנוכחיים גוזלים <strong>${percentLoss.toFixed(1)}%</strong> מהצבירה הסופית. זה הפרש משמעותי שמצדיק שיחה רצינית עם הלקוח על מעבר.`;
+  } else if (percentLoss > 15) {
+    insight = `<strong>הפסד משמעותי.</strong> ${percentLoss.toFixed(1)}% מהצבירה הסופית מתפוגג בדמי ניהול גבוהים. בוודאי שווה לבחון מעבר.`;
+  } else if (percentLoss > 5) {
+    insight = `<strong>הפסד מתון.</strong> ${percentLoss.toFixed(1)}% הפרש - שווה לבחון, אבל לא דחוף. תלוי בתשואה ובמדיניות החברה.`;
+  } else {
+    insight = `<strong>הפרש זניח.</strong> ${percentLoss.toFixed(1)}% בלבד - לא מצדיק מעבר טיפוסי. הקרן הנוכחית כנראה תחרותית.`;
+  }
+  document.getElementById('insightBox').innerHTML = insight;
+
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyToClipboard() {
+  const totalLoss = document.getElementById('totalLoss').textContent;
+  const current = document.getElementById('currentTotal').textContent;
+  const alt = document.getElementById('newTotal').textContent;
+  const insight = document.getElementById('insightBox').textContent;
+  const text = `סיכום השוואת דמי ניהול:
+
+צבירה במסלול הנוכחי: ${current}
+צבירה במסלול החלופי: ${alt}
+הפרש מצטבר: ₪${totalLoss}
+
+${insight}
+
+— הופק במחשבון דמי ניהול של YARIN.MALKA Pro
+`;
+  navigator.clipboard.writeText(text).then(() => alert('הסיכום הועתק.'));
+}
+
+calculate();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>מחשבון שיעור חיסכון | YARIN.MALKA Pro</title>
+<meta name="description" content="חישוב שיעור חיסכון של לקוח, יעד מומלץ, פערים, ופוטנציאל אחרי 10/20/30 שנה.">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/pro/tools/tools.css">
+</head>
+<body>
+
+<div class="preview-banner">PREVIEW · NOINDEX · בנייה פרטית</div>
+
+<nav id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+        <div class="nav-links">
+            <a href="/pro/">Pro</a>
+            <a href="/pro/tools/">כלים</a>
+            <a href="/pro/pricing.html">תמחור</a>
+            <a href="/" style="color: var(--text3); font-size: 13px;">← אתר ראשי</a>
+        </div>
+    </div>
+</nav>
+
+<div class="tool-page">
+  <div class="tool-inner">
+
+    <div class="tool-header">
+      <div class="tool-breadcrumb">
+        <a href="/pro/">Pro</a><span class="sep">/</span><a href="/pro/tools/">כלים</a><span class="sep">/</span>שיעור חיסכון
+      </div>
+      <h1 class="tool-title">מחשבון <span class="accent">שיעור חיסכון.</span></h1>
+      <p class="tool-subtitle">הזן הכנסות והוצאות חודשיות של לקוח. תקבל שיעור חיסכון נוכחי, יעד מומלץ, ופוטנציאל אחרי 10/20/30 שנה. הכלי לשימוש מתכנן בלבד.</p>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-grid">
+        <div class="input-group">
+          <label for="income">הכנסה חודשית נטו</label>
+          <div class="with-suffix">
+            <input type="number" id="income" value="28400" min="0" step="100">
+            <span class="suffix">₪</span>
+          </div>
+          <div class="hint">משכורת + הכנסות נוספות, אחרי ניכויים</div>
+        </div>
+
+        <div class="input-group">
+          <label for="expenses">הוצאות חודשיות</label>
+          <div class="with-suffix">
+            <input type="number" id="expenses" value="26180" min="0" step="100">
+            <span class="suffix">₪</span>
+          </div>
+          <div class="hint">סך כל ההוצאות (קבועות + משתנות)</div>
+        </div>
+
+        <div class="input-group">
+          <label for="age">גיל הלקוח</label>
+          <input type="number" id="age" value="35" min="18" max="100">
+          <div class="hint">משפיע על אופק החיסכון לפנסיה</div>
+        </div>
+
+        <div class="input-group">
+          <label for="targetRetirementAge">גיל פרישה מתוכנן</label>
+          <input type="number" id="targetRetirementAge" value="67" min="50" max="80">
+          <div class="hint">בישראל גיל פרישה רשמי 67 לגברים, 65 לנשים</div>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="calculate()">חשב</button>
+    </div>
+
+    <div id="results" style="display: none;">
+      <div class="result-block">
+        <div class="result-label">שיעור חיסכון נוכחי</div>
+        <div class="result-value"><span id="rateValue">-</span><span style="font-size: 56px;">%</span></div>
+        <div class="result-detail" id="rateDetail">–</div>
+      </div>
+
+      <div class="tool-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0;">
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; text-align: center;">
+          <div style="font-family: 'Inter'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px;">חיסכון חודשי נוכחי</div>
+          <div style="font-family: 'Karantina'; font-size: 36px; color: var(--text); font-weight: 700;" id="monthlyValue">–</div>
+        </div>
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; text-align: center;">
+          <div style="font-family: 'Inter'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px;">חיסכון שנתי</div>
+          <div style="font-family: 'Karantina'; font-size: 36px; color: var(--text); font-weight: 700;" id="yearlyValue">–</div>
+        </div>
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; text-align: center;">
+          <div style="font-family: 'Inter'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px;">יעד מומלץ (15%)</div>
+          <div style="font-family: 'Karantina'; font-size: 36px; color: var(--accent-light); font-weight: 700;" id="targetValue">–</div>
+        </div>
+      </div>
+
+      <div class="tool-card accent">
+        <h3 style="font-family: 'Karantina'; font-size: 28px; color: var(--text); margin-bottom: 16px;">פוטנציאל לאורך זמן (תשואה ריאלית 5%)</h3>
+        <div class="tool-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+          <div style="text-align: center; padding: 16px;">
+            <div style="font-family: 'Inter'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px;">אחרי 10 שנים</div>
+            <div style="font-family: 'Karantina'; font-size: 32px; color: var(--text); font-weight: 700;" id="future10">–</div>
+            <div style="font-size: 12px; color: var(--text3); margin-top: 4px;" id="future10Hint">–</div>
+          </div>
+          <div style="text-align: center; padding: 16px;">
+            <div style="font-family: 'Inter'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px;">אחרי 20 שנים</div>
+            <div style="font-family: 'Karantina'; font-size: 32px; color: var(--text); font-weight: 700;" id="future20">–</div>
+            <div style="font-size: 12px; color: var(--text3); margin-top: 4px;" id="future20Hint">–</div>
+          </div>
+          <div style="text-align: center; padding: 16px;">
+            <div style="font-family: 'Inter'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px;">עד גיל פרישה</div>
+            <div style="font-family: 'Karantina'; font-size: 32px; color: var(--accent-light); font-weight: 700;" id="futureRetire">–</div>
+            <div style="font-size: 12px; color: var(--text3); margin-top: 4px;" id="futureRetireHint">–</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="insightBox" class="insight-box"></div>
+
+      <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
+        <button class="btn-secondary" onclick="copyToClipboard()">העתק לסיכום פגישה</button>
+        <button class="btn-secondary" onclick="window.print()">הדפס / שמור PDF</button>
+      </div>
+    </div>
+
+    <div class="disclaimer-small">
+      <strong>הערה רגולטורית:</strong> המחשבון מספק <strong>חישוב טכני בלבד</strong> ואינו מהווה ייעוץ פיננסי או ייעוץ פנסיוני. ההנחות (תשואה ריאלית 5%, אינפלציה 2%) הן הנחות סטטיסטיות ולא הבטחה. לקבלת המלצה ספציפית - פגישה עם מתכנן פיננסי או יועץ פנסיוני מורשה.
+    </div>
+
+  </div>
+</div>
+
+<script>
+function fmt(n) {
+  return new Intl.NumberFormat('he-IL', { maximumFractionDigits: 0 }).format(n);
+}
+
+function fmtCurrency(n) {
+  return '₪' + fmt(n);
+}
+
+function futureValue(monthlySavings, annualRate, years) {
+  // Future value of monthly contributions
+  const monthlyRate = annualRate / 12;
+  const months = years * 12;
+  if (monthlyRate === 0) return monthlySavings * months;
+  return monthlySavings * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+}
+
+function calculate() {
+  const income = parseFloat(document.getElementById('income').value) || 0;
+  const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+  const age = parseInt(document.getElementById('age').value) || 35;
+  const retirementAge = parseInt(document.getElementById('targetRetirementAge').value) || 67;
+
+  const monthlySavings = income - expenses;
+  const yearlySavings = monthlySavings * 12;
+  const rate = income > 0 ? (monthlySavings / income) * 100 : 0;
+  const targetMonthly = income * 0.15;
+
+  document.getElementById('rateValue').textContent = rate.toFixed(1);
+  document.getElementById('monthlyValue').textContent = fmtCurrency(monthlySavings);
+  document.getElementById('yearlyValue').textContent = fmtCurrency(yearlySavings);
+  document.getElementById('targetValue').textContent = fmtCurrency(targetMonthly);
+
+  // Detail message
+  let detailMsg = '';
+  if (rate < 0) detailMsg = 'הוצאה גבוהה מההכנסה - גירעון חודשי. לבחון מבנה הוצאות בדחיפות.';
+  else if (rate < 5) detailMsg = 'מתחת לרמת חיסכון בריאה. גם פגיעה קטנה בהכנסה תיצור משבר.';
+  else if (rate < 10) detailMsg = 'נמוך מהממוצע המומלץ (15%). יש מקום לשיפור משמעותי.';
+  else if (rate < 15) detailMsg = 'סביר אבל לא אופטימלי. מטרה: 15%+';
+  else if (rate < 20) detailMsg = 'במסלול נכון. יעד 15% הושג.';
+  else if (rate < 30) detailMsg = 'מצוין. שיעור חיסכון גבוה משמעותית מהממוצע.';
+  else detailMsg = 'יוצא דופן. רוב האוכלוסייה לא קרובה לזה.';
+  document.getElementById('rateDetail').textContent = detailMsg;
+
+  // Future projections (5% real return)
+  const realRate = 0.05;
+  const inflationRate = 0.02;
+  const v10 = futureValue(monthlySavings, realRate, 10);
+  const v20 = futureValue(monthlySavings, realRate, 20);
+  const yearsToRetire = Math.max(0, retirementAge - age);
+  const vRetire = futureValue(monthlySavings, realRate, yearsToRetire);
+
+  // Future values at target rate
+  const tv10 = futureValue(targetMonthly, realRate, 10);
+  const tv20 = futureValue(targetMonthly, realRate, 20);
+  const tvRetire = futureValue(targetMonthly, realRate, yearsToRetire);
+
+  document.getElementById('future10').textContent = fmtCurrency(v10);
+  document.getElementById('future20').textContent = fmtCurrency(v20);
+  document.getElementById('futureRetire').textContent = fmtCurrency(vRetire);
+
+  document.getElementById('future10Hint').textContent = `יעד: ${fmtCurrency(tv10)}`;
+  document.getElementById('future20Hint').textContent = `יעד: ${fmtCurrency(tv20)}`;
+  document.getElementById('futureRetireHint').textContent = `${yearsToRetire} שנים · יעד: ${fmtCurrency(tvRetire)}`;
+
+  // Insight
+  const gap = tvRetire - vRetire;
+  let insight = '';
+  if (gap > 0) {
+    insight = `<strong>הפער עד גיל פרישה:</strong> ${fmtCurrency(gap)}. אם הלקוח יגדיל את החיסכון מ-${fmt(monthlySavings)} ₪ ל-${fmt(targetMonthly)} ₪ בחודש (תוספת של ${fmt(targetMonthly - monthlySavings)} ₪), ההפרש עשוי לאפשר רמת חיים גבוהה משמעותית בפנסיה.`;
+  } else {
+    insight = `<strong>הלקוח כבר מעל היעד.</strong> שיעור החיסכון הנוכחי (${rate.toFixed(1)}%) מספיק כדי להגיע ליעדים סבירים. לבחון אופטימיזציית תיק לתשואה גבוהה יותר.`;
+  }
+  document.getElementById('insightBox').innerHTML = insight;
+
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyToClipboard() {
+  const income = parseFloat(document.getElementById('income').value) || 0;
+  const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+  const monthlySavings = income - expenses;
+  const rate = income > 0 ? (monthlySavings / income) * 100 : 0;
+  const text = `סיכום ניתוח שיעור חיסכון:
+
+הכנסה חודשית: ${fmtCurrency(income)}
+הוצאות חודשיות: ${fmtCurrency(expenses)}
+חיסכון חודשי: ${fmtCurrency(monthlySavings)}
+שיעור חיסכון: ${rate.toFixed(1)}%
+יעד מומלץ: 15% = ${fmtCurrency(income * 0.15)}
+
+${document.getElementById('insightBox').textContent.replace(/^\s*/, '')}
+
+— הופק במחשבון שיעור חיסכון של YARIN.MALKA Pro
+`;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('הסיכום הועתק ללוח. אפשר להדביק בסיכום פגישת לקוח.');
+  });
+}
+
+// Initial calculation
+calculate();
+</script>
+
+</body>
+</html>

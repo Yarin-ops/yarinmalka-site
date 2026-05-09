@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>מחשבון הכנסה בפנסיה | YARIN.MALKA Pro</title>
+<meta name="description" content="חישוב הכנסה צפויה לפנסיה לפי צבירה נוכחית, הפקדות חודשיות, וגיל פרישה.">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/pro/tools/tools.css">
+</head>
+<body>
+
+<div class="preview-banner">PREVIEW · NOINDEX · בנייה פרטית</div>
+
+<nav id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+        <div class="nav-links">
+            <a href="/pro/">Pro</a>
+            <a href="/pro/tools/">כלים</a>
+            <a href="/pro/pricing.html">תמחור</a>
+            <a href="/" style="color: var(--text3); font-size: 13px;">← אתר ראשי</a>
+        </div>
+    </div>
+</nav>
+
+<div class="tool-page">
+  <div class="tool-inner">
+
+    <div class="tool-header">
+      <div class="tool-breadcrumb">
+        <a href="/pro/">Pro</a><span class="sep">/</span><a href="/pro/tools/">כלים</a><span class="sep">/</span>הכנסה בפנסיה
+      </div>
+      <h1 class="tool-title">הכנסה <span class="accent">בפנסיה.</span></h1>
+      <p class="tool-subtitle">חישוב הכנסה חודשית צפויה בפנסיה לפי צבירה נוכחית, הפקדות, ותקנון הפנסיה הישראלי. מבוסס על מקדם המרה רגיל של 200 (4.8% מהצבירה לשנה).</p>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-grid">
+        <div class="input-group">
+          <label for="currentSavings">צבירה נוכחית בקרן פנסיה</label>
+          <div class="with-suffix">
+            <input type="number" id="currentSavings" value="350000" min="0" step="1000">
+            <span class="suffix">₪</span>
+          </div>
+          <div class="hint">סך כל הצבירה (יסוד + תגמולים + פיצויים)</div>
+        </div>
+
+        <div class="input-group">
+          <label for="salary">משכורת חודשית ברוטו</label>
+          <div class="with-suffix">
+            <input type="number" id="salary" value="22000" min="0" step="100">
+            <span class="suffix">₪</span>
+          </div>
+          <div class="hint">הבסיס לחישוב הפקדות</div>
+        </div>
+
+        <div class="input-group">
+          <label for="age">גיל נוכחי</label>
+          <input type="number" id="age" value="35" min="18" max="100">
+        </div>
+
+        <div class="input-group">
+          <label for="retirementAge">גיל פרישה מתוכנן</label>
+          <input type="number" id="retirementAge" value="67" min="50" max="80">
+          <div class="hint">בישראל: 67 גברים, 65 נשים</div>
+        </div>
+
+        <div class="input-group">
+          <label for="employeeRate">שיעור הפקדה עובד</label>
+          <div class="with-suffix">
+            <input type="number" id="employeeRate" value="6" min="0" max="20" step="0.5">
+            <span class="suffix">%</span>
+          </div>
+          <div class="hint">סטנדרט: 6% (תגמולים)</div>
+        </div>
+
+        <div class="input-group">
+          <label for="employerRate">שיעור הפקדה מעסיק</label>
+          <div class="with-suffix">
+            <input type="number" id="employerRate" value="6.5" min="0" max="20" step="0.5">
+            <span class="suffix">%</span>
+          </div>
+          <div class="hint">סטנדרט: 6.5% תגמולים + 8.33% פיצויים</div>
+        </div>
+
+        <div class="input-group">
+          <label for="severanceRate">שיעור הפקדה פיצויים</label>
+          <div class="with-suffix">
+            <input type="number" id="severanceRate" value="8.33" min="0" max="15" step="0.01">
+            <span class="suffix">%</span>
+          </div>
+          <div class="hint">חוקי: 8.33%</div>
+        </div>
+
+        <div class="input-group">
+          <label for="returnRate">תשואה ריאלית שנתית מצפים</label>
+          <div class="with-suffix">
+            <input type="number" id="returnRate" value="4" min="0" max="10" step="0.5">
+            <span class="suffix">%</span>
+          </div>
+          <div class="hint">היסטורית: 4-5% ריאלית. שמרני: 3%</div>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="calculate()">חשב</button>
+    </div>
+
+    <div id="results" style="display: none;">
+      <div class="result-block">
+        <div class="result-label">קצבה חודשית צפויה (לכל החיים)</div>
+        <div class="result-value"><span class="currency">₪</span><span id="pensionValue">-</span></div>
+        <div class="result-detail" id="pensionDetail">–</div>
+      </div>
+
+      <div class="tool-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0;">
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; text-align: center;">
+          <div style="font-family: 'Inter'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px;">סך צבירה בפרישה</div>
+          <div style="font-family: 'Karantina'; font-size: 36px; color: var(--text); font-weight: 700;" id="totalAtRetirement">–</div>
+        </div>
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; text-align: center;">
+          <div style="font-family: 'Inter'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px;">הפקדה חודשית</div>
+          <div style="font-family: 'Karantina'; font-size: 36px; color: var(--text); font-weight: 700;" id="monthlyDeposit">–</div>
+        </div>
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; text-align: center;">
+          <div style="font-family: 'Inter'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px;">% משכר נטו צפוי</div>
+          <div style="font-family: 'Karantina'; font-size: 36px; color: var(--accent-light); font-weight: 700;" id="replacementRate">–</div>
+        </div>
+      </div>
+
+      <div class="tool-card accent">
+        <h3 style="font-family: 'Karantina'; font-size: 28px; color: var(--text); margin-bottom: 16px;">תרחישים אלטרנטיביים</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+          <thead>
+            <tr style="background: rgba(108,60,225,0.08);">
+              <th style="padding: 12px; text-align: right; color: var(--text); font-family: 'Heebo'; font-weight: 700;">תרחיש</th>
+              <th style="padding: 12px; text-align: center; color: var(--text); font-family: 'Heebo'; font-weight: 700;">צבירה בפרישה</th>
+              <th style="padding: 12px; text-align: center; color: var(--text); font-family: 'Heebo'; font-weight: 700;">קצבה חודשית</th>
+            </tr>
+          </thead>
+          <tbody id="scenariosTable">
+          </tbody>
+        </table>
+      </div>
+
+      <div id="insightBox" class="insight-box"></div>
+
+      <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
+        <button class="btn-secondary" onclick="copyToClipboard()">העתק לסיכום פגישה</button>
+        <button class="btn-secondary" onclick="window.print()">הדפס / שמור PDF</button>
+      </div>
+    </div>
+
+    <div class="disclaimer-small">
+      <strong>הערה:</strong> המחשבון מספק <strong>הערכה טכנית בלבד</strong> ואינו מהווה ייעוץ פנסיוני. ההנחות (תשואה ריאלית, מקדם המרה 200, אינפלציה) הן הנחות סטטיסטיות ולא הבטחה. הקצבה הסופית תלויה בתקנון הקרן הספציפית, גיל המבוטח, ותוחלת חיים. למידע מדויק - חישוב מסלקה פנסיונית או יועץ פנסיוני מורשה.
+    </div>
+
+  </div>
+</div>
+
+<script>
+function fmt(n) {
+  return new Intl.NumberFormat('he-IL', { maximumFractionDigits: 0 }).format(n);
+}
+
+function fmtCurrency(n) {
+  return '₪' + fmt(n);
+}
+
+function calculatePension(currentSavings, salary, age, retirementAge, employeeRate, employerRate, severanceRate, returnRate) {
+  const yearsToRetire = Math.max(0, retirementAge - age);
+  const monthlyDeposit = salary * (employeeRate + employerRate + severanceRate) / 100;
+  const annualReturn = returnRate / 100;
+  const monthlyReturn = annualReturn / 12;
+  const months = yearsToRetire * 12;
+
+  // Future value of current savings + monthly deposits
+  const fvCurrent = currentSavings * Math.pow(1 + annualReturn, yearsToRetire);
+  const fvDeposits = monthlyReturn === 0
+    ? monthlyDeposit * months
+    : monthlyDeposit * ((Math.pow(1 + monthlyReturn, months) - 1) / monthlyReturn);
+
+  const totalAtRetirement = fvCurrent + fvDeposits;
+  // Conversion factor 200 (Israeli pension standard)
+  const monthlyPension = totalAtRetirement / 200;
+
+  return {
+    totalAtRetirement,
+    monthlyPension,
+    monthlyDeposit,
+    yearsToRetire
+  };
+}
+
+function calculate() {
+  const inputs = {
+    currentSavings: parseFloat(document.getElementById('currentSavings').value) || 0,
+    salary: parseFloat(document.getElementById('salary').value) || 0,
+    age: parseInt(document.getElementById('age').value) || 35,
+    retirementAge: parseInt(document.getElementById('retirementAge').value) || 67,
+    employeeRate: parseFloat(document.getElementById('employeeRate').value) || 0,
+    employerRate: parseFloat(document.getElementById('employerRate').value) || 0,
+    severanceRate: parseFloat(document.getElementById('severanceRate').value) || 0,
+    returnRate: parseFloat(document.getElementById('returnRate').value) || 0
+  };
+
+  const result = calculatePension(
+    inputs.currentSavings, inputs.salary, inputs.age, inputs.retirementAge,
+    inputs.employeeRate, inputs.employerRate, inputs.severanceRate, inputs.returnRate
+  );
+
+  // Net salary estimate (rough): 75% of gross
+  const estimatedNetSalary = inputs.salary * 0.75;
+  const replacementRate = (result.monthlyPension / estimatedNetSalary) * 100;
+
+  document.getElementById('pensionValue').textContent = fmt(result.monthlyPension);
+  document.getElementById('totalAtRetirement').textContent = fmtCurrency(result.totalAtRetirement);
+  document.getElementById('monthlyDeposit').textContent = fmtCurrency(result.monthlyDeposit);
+  document.getElementById('replacementRate').textContent = replacementRate.toFixed(0) + '%';
+
+  // Detail
+  let detail = `${result.yearsToRetire} שנים עד פרישה. הפקדה חודשית: ${fmtCurrency(result.monthlyDeposit)}. תשואה ריאלית הנחה: ${inputs.returnRate}%.`;
+  document.getElementById('pensionDetail').textContent = detail;
+
+  // Scenarios
+  const scenarios = [
+    { name: 'נוכחי', employeeRate: inputs.employeeRate, returnRate: inputs.returnRate },
+    { name: 'הגדלת הפקדה ל-7%', employeeRate: 7, returnRate: inputs.returnRate },
+    { name: 'מסלול תשואה גבוה (5%)', employeeRate: inputs.employeeRate, returnRate: 5 },
+    { name: 'דחיית פרישה ב-3 שנים', employeeRate: inputs.employeeRate, returnRate: inputs.returnRate, retirementAge: inputs.retirementAge + 3 },
+    { name: 'תרחיש שמרני (3% תשואה)', employeeRate: inputs.employeeRate, returnRate: 3 }
+  ];
+
+  const tbody = document.getElementById('scenariosTable');
+  tbody.innerHTML = scenarios.map(s => {
+    const r = calculatePension(
+      inputs.currentSavings, inputs.salary, inputs.age,
+      s.retirementAge || inputs.retirementAge,
+      s.employeeRate, inputs.employerRate, inputs.severanceRate,
+      s.returnRate
+    );
+    const isBase = s.name === 'נוכחי';
+    return `<tr style="border-bottom: 1px solid rgba(255,255,255,0.05); ${isBase ? 'background: rgba(108,60,225,0.05);' : ''}">
+      <td style="padding: 12px; color: ${isBase ? 'var(--accent-light)' : 'var(--text2)'}; font-weight: ${isBase ? '600' : '400'};">${s.name}</td>
+      <td style="padding: 12px; text-align: center; color: var(--text); font-family: ui-monospace, monospace;">${fmtCurrency(r.totalAtRetirement)}</td>
+      <td style="padding: 12px; text-align: center; color: var(--text); font-family: ui-monospace, monospace; font-weight: 600;">${fmtCurrency(r.monthlyPension)}</td>
+    </tr>`;
+  }).join('');
+
+  // Insight
+  let insight = '';
+  if (replacementRate < 40) {
+    insight = `<strong>אזהרה:</strong> הקצבה הצפויה ${replacementRate.toFixed(0)}% מהשכר נטו - <strong>נמוך משמעותית</strong> מהאופטימום (60-70%). יידרש חיסכון נוסף מחוץ לפנסיה כדי לשמור על איכות החיים.`;
+  } else if (replacementRate < 60) {
+    insight = `<strong>במסלול סביר.</strong> הקצבה ${replacementRate.toFixed(0)}% מהשכר. כדי להעלות לרמה האופטימלית (70%): הגדלת הפקדה או חיסכון נוסף בקרן השתלמות / קופ"ג.`;
+  } else if (replacementRate < 80) {
+    insight = `<strong>מצוין.</strong> הקצבה ${replacementRate.toFixed(0)}% מהשכר - מעל היעד הסטנדרטי. אם המטרה לשמור על אורח חיים נוכחי - אין צורך בהגדלות.`;
+  } else {
+    insight = `<strong>מצוין מאוד.</strong> הקצבה הצפויה (${replacementRate.toFixed(0)}%) גבוהה משמעותית מהשכר נטו הצפוי בפרישה. שווה לבחון אופטימיזציית מס.`;
+  }
+  document.getElementById('insightBox').innerHTML = insight;
+
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyToClipboard() {
+  const total = document.getElementById('totalAtRetirement').textContent;
+  const pension = document.getElementById('pensionValue').textContent;
+  const replacement = document.getElementById('replacementRate').textContent;
+  const text = `סיכום הערכת קצבה לפנסיה:
+
+צבירה צפויה בפרישה: ${total}
+קצבה חודשית צפויה: ₪${pension}
+שיעור החלפה (% משכר): ${replacement}
+
+${document.getElementById('insightBox').textContent}
+
+— הופק במחשבון פנסיה של YARIN.MALKA Pro
+`;
+  navigator.clipboard.writeText(text).then(() => alert('הסיכום הועתק.'));
+}
+
+calculate();
+</script>
+
+</body>
+</html>
