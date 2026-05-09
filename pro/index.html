@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>YARIN.MALKA Pro | ערכת AI למתכנן הפיננסי</title>
+<meta name="description" content="ערכה דיגיטלית של פרומפטים, סוכנים, תבניות וסקריפטים - בנויים מתוך פרקטיקה אמיתית. למתכננים פיננסיים, סוכני ביטוח ורואי חשבון.">
+<meta name="theme-color" content="#0a0a16">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<style>
+/* === PRO-specific overrides - more restrained than main brand === */
+.pro-page {
+  background: var(--bg);
+  min-height: 100vh;
+}
+.pro-hero {
+  padding: 140px 32px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.pro-hero::before {
+  content: '';
+  position: absolute;
+  top: -10%; left: 70%;
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(108,60,225,0.15), transparent 60%);
+  pointer-events: none;
+}
+.pro-hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.pro-tag {
+  display: inline-block;
+  background: rgba(108,60,225,0.12);
+  color: var(--accent-light);
+  border: 1px solid rgba(108,60,225,0.35);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.pro-h1 {
+  font-family: 'Karantina', sans-serif;
+  font-weight: 700;
+  font-size: 96px;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+.pro-h1 .accent {
+  background: linear-gradient(135deg, var(--accent-light), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.pro-lead {
+  font-size: 22px;
+  line-height: 1.55;
+  color: var(--text2);
+  max-width: 720px;
+  margin-bottom: 36px;
+}
+.pro-cta-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.pro-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(108,60,225,0.6);
+  transition: all 0.2s;
+  box-shadow: 0 8px 32px rgba(108,60,225,0.3);
+}
+.pro-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(108,60,225,0.4);
+}
+.pro-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 24px;
+  background: transparent;
+  color: var(--text);
+  text-decoration: none;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: all 0.2s;
+}
+.pro-cta-secondary:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.25);
+}
+
+.pro-section {
+  padding: 80px 32px;
+  position: relative;
+}
+.pro-section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.pro-section-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin-bottom: 12px;
+}
+.pro-section-title {
+  font-family: 'Karantina', sans-serif;
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 0.95;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+.pro-section-title .accent {
+  background: linear-gradient(135deg, var(--accent-light), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.pro-section-lead {
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--text2);
+  max-width: 720px;
+  margin-bottom: 48px;
+}
+
+/* Problem cards */
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.problem-card {
+  padding: 32px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  position: relative;
+}
+.problem-card .num {
+  font-family: 'Karantina', sans-serif;
+  font-size: 56px;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.problem-card h3 {
+  font-family: 'Heebo', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.problem-card p {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+/* Modules */
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.module-card {
+  padding: 36px;
+  background: linear-gradient(135deg, rgba(108,60,225,0.06), rgba(59,130,246,0.04));
+  border: 1px solid rgba(108,60,225,0.25);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.module-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(108,60,225,0.15), transparent 70%);
+  pointer-events: none;
+}
+.module-card .module-num {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--accent-light);
+  margin-bottom: 16px;
+}
+.module-card h3 {
+  font-family: 'Karantina', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+  line-height: 1.05;
+}
+.module-card p {
+  font-size: 16px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.module-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.module-features li {
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--text2);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.module-features li::before {
+  content: '';
+  flex-shrink: 0;
+  margin-top: 8px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* Steps */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.step-card {
+  text-align: center;
+}
+.step-circle {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Karantina', sans-serif;
+  font-size: 48px;
+  color: #fff;
+  font-weight: 700;
+  margin: 0 auto 20px;
+  box-shadow: 0 8px 24px rgba(108,60,225,0.35);
+}
+.step-card h3 {
+  font-family: 'Heebo', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.step-card p {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+/* Pricing */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+.price-card {
+  padding: 40px 32px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.price-card.featured {
+  background: linear-gradient(180deg, rgba(108,60,225,0.10), rgba(108,60,225,0.04));
+  border: 2px solid var(--accent);
+  position: relative;
+  transform: scale(1.02);
+  box-shadow: 0 24px 64px rgba(108,60,225,0.25);
+}
+.price-card.featured::before {
+  content: 'הכי פופולרי';
+  position: absolute;
+  top: -14px; right: 50%;
+  transform: translateX(50%);
+  background: var(--accent);
+  color: #fff;
+  padding: 4px 16px;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.price-tier {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin-bottom: 12px;
+}
+.price-name {
+  font-family: 'Karantina', sans-serif;
+  font-size: 56px;
+  line-height: 1;
+  color: var(--text);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.price-amount {
+  font-family: 'Heebo', sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.price-amount .currency {
+  color: var(--text3);
+  font-weight: 400;
+}
+.price-period {
+  font-size: 13px;
+  color: var(--text3);
+  margin-bottom: 24px;
+}
+.price-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px;
+  flex: 1;
+}
+.price-features li {
+  padding: 10px 0;
+  font-size: 14px;
+  color: var(--text2);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.price-features li:last-child { border: none; }
+.price-features li::before {
+  content: '✓';
+  flex-shrink: 0;
+  color: var(--accent-light);
+  font-weight: 700;
+}
+
+/* FAQ */
+.faq-list {
+  max-width: 820px;
+}
+.faq-item {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 22px 0;
+}
+.faq-q {
+  font-family: 'Heebo', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+}
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q::after {
+  content: '+';
+  color: var(--accent);
+  font-size: 24px;
+  transition: transform 0.2s;
+}
+.faq-item[open] .faq-q::after { transform: rotate(45deg); }
+.faq-a {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.7;
+  padding-top: 12px;
+}
+
+/* Disclaimer */
+.disclaimer-box {
+  padding: 24px 28px;
+  background: rgba(245,158,11,0.06);
+  border: 1px solid rgba(245,158,11,0.25);
+  border-right: 4px solid #f59e0b;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #fde68a;
+  line-height: 1.7;
+  max-width: 820px;
+}
+.disclaimer-box strong { color: #fef3c7; }
+
+/* Preview banner */
+.preview-banner {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+  color: #1f0e00;
+  text-align: center;
+  padding: 8px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  z-index: 9999;
+}
+.preview-banner + nav { top: 32px !important; }
+
+/* Final CTA */
+.final-cta {
+  text-align: center;
+  padding: 100px 32px 120px;
+}
+.final-cta-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.final-cta h2 {
+  font-family: 'Karantina', sans-serif;
+  font-size: 96px;
+  line-height: 0.95;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+.final-cta p {
+  font-size: 19px;
+  color: var(--text2);
+  margin-bottom: 32px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .pro-hero { padding: 100px 20px 60px; }
+  .pro-h1 { font-size: 56px; }
+  .pro-lead { font-size: 17px; }
+  .pro-section { padding: 60px 20px; }
+  .pro-section-title { font-size: 40px; }
+  .problem-grid, .modules-grid, .steps-grid, .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+  .price-card.featured { transform: scale(1); }
+  .final-cta h2 { font-size: 56px; }
+}
+</style>
+</head>
+<body>
+
+<div class="preview-banner">PREVIEW · NOINDEX · בנייה פרטית - לא לשתף</div>
+
+<nav id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+        <div class="nav-links">
+            <a href="/pro/">Pro</a>
+            <a href="/pro/pricing.html">תמחור</a>
+            <a href="/pro/sample.html">דוגמה חינם</a>
+            <a href="/" style="color: var(--text3); font-size: 13px;">← חזרה לאתר</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+
+<div class="pro-page">
+
+  <!-- HERO -->
+  <section class="pro-hero">
+    <div class="pro-hero-inner">
+      <div class="pro-tag">YARIN.MALKA · PRO</div>
+      <h1 class="pro-h1">ערכת AI<br><span class="accent">למתכנן הפיננסי.</span></h1>
+      <p class="pro-lead">
+        20 פרומפטים מובנים, 3 סוכני Claude, 12 תבניות Notion, 15 סקריפטים. נבנו מתוך פרקטיקה אמיתית עם לקוחות. למתכננים פיננסיים, סוכני ביטוח ורואי חשבון מורשים.
+      </p>
+      <div class="pro-cta-row">
+        <a href="#pricing" class="pro-cta">ראה תמחור ←</a>
+        <a href="/pro/sample.html" class="pro-cta-secondary">קבל פרומפט לדוגמה</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEAיה -->
+  <section class="pro-section">
+    <div class="pro-section-inner">
+      <div class="pro-section-tag">הבעיה</div>
+      <h2 class="pro-section-title">העבודה <span class="accent">משתנה.</span></h2>
+      <p class="pro-section-lead">AI שוטף את התעשייה הפיננסית. רוב המתכננים מנסים ללמוד לבד מטלגרם וטיקטוק. התוצאה: זמן מבוזבז, תוצאות בינוניות, תחושה שאתה נשאר מאחור.</p>
+
+      <div class="problem-grid">
+        <div class="problem-card">
+          <div class="num">01</div>
+          <h3>פרומפטים גנריים</h3>
+          <p>"תקרא את הדוח" - זה לא מספיק. הפלט גרוע, הזמן בזבוז, אתה חוזר לסטרג שלך.</p>
+        </div>
+        <div class="problem-card">
+          <div class="num">02</div>
+          <h3>חוסר ידע על AI</h3>
+          <p>קורסים כלליים על "AI לעסקים" לא רלוונטיים לפרקטיקה הפיננסית. אתה מבזבז שעות.</p>
+        </div>
+        <div class="problem-card">
+          <div class="num">03</div>
+          <h3>שאלות רגולטוריות</h3>
+          <p>מותר להעלות דוח לקוח לענן? מה DPA? מה ההגנות מבחינת חוק תיקון 13? אף אחד לא מסביר.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- הפתרון -->
+  <section class="pro-section" style="background: rgba(108,60,225,0.03);">
+    <div class="pro-section-inner">
+      <div class="pro-section-tag">הפתרון</div>
+      <h2 class="pro-section-title">ערכה אחת. <span class="accent">פרקטיקה מלאה.</span></h2>
+      <p class="pro-section-lead">הערכה היא מסמך החי שמתכנן יכול להוריד היום ולהשתמש בו מחר עם הלקוח הבא. כל פרומפט נבדק על מקרה אמיתי. כל תבנית מבוססת על שגרת עבודה אמיתית.</p>
+
+      <div class="modules-grid">
+        <div class="module-card">
+          <div class="module-num">MODULE 01</div>
+          <h3>ניתוח מסמכים</h3>
+          <p>20 פרומפטים מובנים לניתוח דוחות בנקאיים, פוליסות, תיקי השקעות, פנסיה.</p>
+          <ul class="module-features">
+            <li>פרומפט לכל סוג מסמך פיננסי בישראל</li>
+            <li>סוכן Claude Project ייעודי (מוכן להתקנה)</li>
+            <li>תבניות פלט עקביות לכל פגישה</li>
+            <li>טיפול בטופסי 161, 867, 101, מסלקה</li>
+          </ul>
+        </div>
+
+        <div class="module-card">
+          <div class="module-num">MODULE 02</div>
+          <h3>פגישת היכרות</h3>
+          <p>סקריפט שלם לפגישה ראשונה עם לקוח. שאלות, סדר, סיכום אוטומטי.</p>
+          <ul class="module-features">
+            <li>שאלון פרה-מיטינג (Notion + PDF)</li>
+            <li>סקריפט פגישה 60 דקות</li>
+            <li>סוכן AI לסיכום מתמלול</li>
+            <li>5 תבניות מייל ברוך הבא</li>
+          </ul>
+        </div>
+
+        <div class="module-card">
+          <div class="module-num">MODULE 03</div>
+          <h3>תקשורת לקוחות</h3>
+          <p>12 תבניות מייל + 8 סקריפטי וואטסאפ + 5 פרומפטים לתסריטי שיחה.</p>
+          <ul class="module-features">
+            <li>תגובה להתנגדויות לקוח</li>
+            <li>הסבר מורכב במשפט אחד</li>
+            <li>סקירה רבעונית כתבנית</li>
+            <li>הודעות מצב רגישות</li>
+          </ul>
+        </div>
+
+        <div class="module-card">
+          <div class="module-num">MODULE 04</div>
+          <h3>תפעול פרקטיקה</h3>
+          <p>CRM-lite ב-Notion + מעקב מוצרים + רישום שעות + מסד ידע אישי.</p>
+          <ul class="module-features">
+            <li>מעקב לקוחות ולידים</li>
+            <li>השוואת מוצרים פיננסיים</li>
+            <li>מעקב רווחיות לקוח</li>
+            <li>בנייה הדרגתית של ידע</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- איך עובדים -->
+  <section class="pro-section">
+    <div class="pro-section-inner">
+      <div class="pro-section-tag">איך זה עובד</div>
+      <h2 class="pro-section-title">3 צעדים. <span class="accent">30 דקות.</span></h2>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-circle">1</div>
+          <h3>קונים</h3>
+          <p>תשלום מאובטח דרך Lemonsqueezy. חשבונית מס יוצאת מיידית. גישה תוך דקה.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-circle">2</div>
+          <h3>מתקינים</h3>
+          <p>פותחים Notion + Claude. מעתיקים את התבניות. יוצרים את הסוכן. סך הכל - 30 דקות.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-circle">3</div>
+          <h3>עובדים</h3>
+          <p>בפגישת הלקוח הבאה אתה כבר מריץ את הפרומפט הראשון. תוצאה אמיתית מהיום הראשון.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TARGET -->
+  <section class="pro-section" style="background: rgba(108,60,225,0.03);">
+    <div class="pro-section-inner" style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px;">
+      <div>
+        <div class="pro-section-tag">למי זה</div>
+        <h2 class="pro-section-title" style="font-size: 48px;">למחזיקי <span class="accent">רישיון תקף.</span></h2>
+        <ul style="list-style: none; padding: 0; margin-top: 24px;">
+          <li style="padding: 10px 0; color: var(--text2); display: flex; gap: 10px;"><span style="color: #10b981;">✓</span> מתכננים פיננסיים מורשים</li>
+          <li style="padding: 10px 0; color: var(--text2); display: flex; gap: 10px;"><span style="color: #10b981;">✓</span> סוכני ביטוח עם רישיון תקף</li>
+          <li style="padding: 10px 0; color: var(--text2); display: flex; gap: 10px;"><span style="color: #10b981;">✓</span> רואי חשבון בעלי משרד</li>
+          <li style="padding: 10px 0; color: var(--text2); display: flex; gap: 10px;"><span style="color: #10b981;">✓</span> סטודנטים בקורס מקצועיות א'/ב'</li>
+        </ul>
+      </div>
+      <div>
+        <div class="pro-section-tag">למי זה לא</div>
+        <h2 class="pro-section-title" style="font-size: 48px;">למתעניינים <span class="accent">סקרניים.</span></h2>
+        <ul style="list-style: none; padding: 0; margin-top: 24px;">
+          <li style="padding: 10px 0; color: var(--text2); display: flex; gap: 10px;"><span style="color: #ef4444;">✗</span> אנשים שלא בתעשייה</li>
+          <li style="padding: 10px 0; color: var(--text2); display: flex; gap: 10px;"><span style="color: #ef4444;">✗</span> מי שמחפש "AI לחיים"</li>
+          <li style="padding: 10px 0; color: var(--text2); display: flex; gap: 10px;"><span style="color: #ef4444;">✗</span> מי שלא מוכן להשקיע 30 דקות בהתקנה</li>
+          <li style="padding: 10px 0; color: var(--text2); display: flex; gap: 10px;"><span style="color: #ef4444;">✗</span> מי שמחפש פתרון "קסם"</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCLAIMER -->
+  <section class="pro-section" style="padding-top: 0;">
+    <div class="pro-section-inner">
+      <div class="disclaimer-box">
+        <strong>הערה רגולטורית:</strong> ערכה זו מספקת <strong>כלים טכנולוגיים בלבד</strong> ואינה מהווה ייעוץ פיננסי או ייעוץ פנסיוני. השימוש בכלים מוגבל למחזיקי רישיון תקף מרשות שוק ההון, רשות ניירות ערך או רשות המסים, בהתאם לסוג הפעילות. הערכה כוללת נספח DPA לעבודה עם ענן זרים בכפוף לתיקון 13 לחוק הגנת הפרטיות.
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pro-section" id="pricing">
+    <div class="pro-section-inner">
+      <div class="pro-section-tag">תמחור</div>
+      <h2 class="pro-section-title">בחר את <span class="accent">הגרסה שלך.</span></h2>
+      <p class="pro-section-lead">תשלום חד-פעמי. ללא מנוי. גישה לכל החיים. עדכוני שנה ראשונה כלולים בכל הגרסאות.</p>
+
+      <div class="pricing-grid">
+        <!-- Starter -->
+        <div class="price-card">
+          <div class="price-tier">Starter</div>
+          <div class="price-name">התחלה</div>
+          <div class="price-amount"><span class="currency">₪</span>397</div>
+          <div class="price-period">חד פעמי · גישה לכל החיים</div>
+          <ul class="price-features">
+            <li>12 פרומפטים מובנים</li>
+            <li>1 סוכן Claude Project</li>
+            <li>5 תבניות מייל</li>
+            <li>5 תבניות Notion בסיסיות</li>
+            <li>ניוזלטר חודשי</li>
+            <li>תמיכה בדוא"ל</li>
+          </ul>
+          <a href="#" class="pro-cta" style="justify-content: center;">קנה Starter</a>
+        </div>
+
+        <!-- Pro - Featured -->
+        <div class="price-card featured">
+          <div class="price-tier">Pro</div>
+          <div class="price-name">מקצועי</div>
+          <div class="price-amount"><span class="currency">₪</span>797</div>
+          <div class="price-period">חד פעמי · גישה לכל החיים</div>
+          <ul class="price-features">
+            <li>20 פרומפטים מובנים (כל המודולים)</li>
+            <li>2 סוכני Claude Project</li>
+            <li>12 תבניות Notion + 5 Airtable</li>
+            <li>15 סקריפטים (מייל, וואטסאפ, פגישות)</li>
+            <li>סקירה רבעונית כתבנית</li>
+            <li>גישה מוקדמת לתוכן חדש</li>
+            <li>תמיכה ב-24 שעות</li>
+          </ul>
+          <a href="#" class="pro-cta" style="justify-content: center;">קנה Pro</a>
+        </div>
+
+        <!-- Pro Plus -->
+        <div class="price-card">
+          <div class="price-tier">Pro Plus</div>
+          <div class="price-name">פלוס</div>
+          <div class="price-amount"><span class="currency">₪</span>1,490</div>
+          <div class="price-period">חד פעמי · גישה לכל החיים</div>
+          <ul class="price-features">
+            <li>הכל ב-Pro</li>
+            <li>3 סוכני Claude Project (פרימיום)</li>
+            <li><strong style="color: var(--text);">שיחת ליווי 60 דקות עם ירין</strong></li>
+            <li>עדכוני שנה ראשונה כלולים</li>
+            <li>תיוג Founding Member</li>
+            <li>גישה מוקדמת לקהילה (כשתיפתח)</li>
+            <li>תמיכה ב-12 שעות</li>
+          </ul>
+          <a href="#" class="pro-cta" style="justify-content: center;">קנה Pro Plus</a>
+        </div>
+      </div>
+
+      <p style="text-align: center; margin-top: 32px; color: var(--text3); font-size: 14px;">
+        מע"מ כלול · החזר תוך 14 יום ללא שאלות · תשלום מאובטח דרך Lemonsqueezy
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="pro-section" style="background: rgba(108,60,225,0.03);">
+    <div class="pro-section-inner">
+      <div class="pro-section-tag">שאלות נפוצות</div>
+      <h2 class="pro-section-title">FAQ.</h2>
+
+      <div class="faq-list" style="margin-top: 32px;">
+        <details class="faq-item">
+          <summary class="faq-q">האם אני צריך להיות מומחה ב-AI כדי להשתמש בערכה?</summary>
+          <div class="faq-a">לא. הערכה בנויה למתכננים פיננסיים, לא למפתחים. כל פרומפט מגיע עם הוראות שלב-שלב. ההתקנה לוקחת 30 דקות.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-q">האם אני צריך מנוי ל-Claude / ChatGPT?</summary>
+          <div class="faq-a">כן. הערכה כוללת תבניות שעובדות עם Claude (Pro $20/חודש) ו-ChatGPT (Plus $20/חודש). מומלץ Claude Pro לפחות. הערכה לא כוללת את המנוי עצמו.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-q">האם זה ייעוץ פיננסי?</summary>
+          <div class="faq-a">לא. הערכה היא <strong>כלי טכנולוגי בלבד</strong>. היא לא מספקת המלצות, לא ממליצה על מוצרים, ולא מחליפה ייעוץ אישי. השימוש מוגבל למחזיקי רישיון תקף.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-q">איך אני מקבל את העדכונים?</summary>
+          <div class="faq-a">כל קונה מקבל גישה לאזור חברים ב-Notion עם הערכה המלאה. כל עדכון - מיד מתפרסם שם. שנה ראשונה כלולה בכל הגרסאות.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-q">מה קורה אם אני לא מרוצה?</summary>
+          <div class="faq-a">החזר תוך 14 יום, ללא שאלות. כותבים מייל ל-support@yarinmalka.co.il, ירין מאשר, הכסף חוזר תוך 5 ימי עסקים.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-q">מה ההבדל בין Pro ל-Pro Plus?</summary>
+          <div class="faq-a">Pro Plus כוללת את <strong>שיחת ליווי 60 דקות עם ירין אישית</strong>, סוכן AI שלישי, ועדכוני שנה ראשונה. אם אתה רוצה ליווי בהתקנה - Pro Plus. אם אתה מסתדר לבד - Pro מספיק.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-q">האם זה כשר לשימוש בהקשר הרגולטורי הישראלי?</summary>
+          <div class="faq-a">הערכה תוכננה במיוחד לעמוד בהתאמה לחוקים הישראליים: חוק הסדרת ייעוץ פנסיוני (כל פרומפט מחזיר אנליזה ולא המלצה), תיקון 13 לחוק הגנת הפרטיות (נספח DPA כלול), וחוק הגנת הצרכן (החזר 14 יום). למרות זאת, מומלץ להתייעץ עם המפקח שלך לפני שימוש בקובצי לקוח.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-q">האם זה כולל אינטגרציה ל-CRM שלי?</summary>
+          <div class="faq-a">לא ישירות. הערכה היא תבניות + פרומפטים + סוכנים, לא תוכנה. אבל היא מתוכננת לעבוד לצד כל CRM קיים (סלסבי, Riise, מערכות פנימיות) - מעבר נתונים ידני בלחיצה.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <div class="final-cta-inner">
+      <h2>מוכן<br><span style="background: linear-gradient(135deg, var(--accent-light), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">להתחיל?</span></h2>
+      <p>הערכה תוצא להשקה רחבה בנובמבר 2026. הצטרף לרשימת ההמתנה לקבל הודעה ראשון - וגישה למחיר השקה (15% הנחה).</p>
+      <a href="/pro/sample.html" class="pro-cta">הרשם לרשימת ההמתנה ←</a>
+    </div>
+  </section>
+
+</div>
+
+<footer style="border-top: 1px solid rgba(255,255,255,0.08); padding: 40px 32px; text-align: center; background: rgba(0,0,0,0.3);">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+    <a href="/" style="font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: 0.2em; color: var(--text); text-decoration: none;">YARIN<span style="color: var(--accent);">.</span>MALKA</a>
+    <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+      <a href="/" style="color: var(--text3); font-size: 13px; text-decoration: none;">חזרה לאתר הראשי</a>
+      <a href="mailto:support@yarinmalka.co.il" style="color: var(--text3); font-size: 13px; text-decoration: none;">support@yarinmalka.co.il</a>
+      <a href="/pro/" style="color: var(--text3); font-size: 13px; text-decoration: none;">תקנון</a>
+      <a href="/pro/" style="color: var(--text3); font-size: 13px; text-decoration: none;">פרטיות</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const hamburger=document.getElementById('hamburger');
+if(hamburger){hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active')});}
+window.addEventListener('scroll',()=>{
+  document.getElementById('mainNav').classList.toggle('nav-bg',window.scrollY>50);
+});
+</script>
+
+</body>
+</html>

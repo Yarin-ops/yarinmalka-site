@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>קבל פרומפט לדוגמה | YARIN.MALKA Pro</title>
+<meta name="description" content="הורד פרומפט מובנה לניתוח דוח בנקאי. דוגמה חינם מהערכה - בלי כסף, בלי התחייבות.">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<style>
+.pro-page { background: var(--bg); min-height: 100vh; }
+.sample-hero {
+  padding: 140px 32px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.sample-hero::before {
+  content: '';
+  position: absolute;
+  top: 10%; left: 50%;
+  transform: translateX(-50%);
+  width: 800px; height: 600px;
+  background: radial-gradient(ellipse, rgba(108,60,225,0.12), transparent 60%);
+  pointer-events: none;
+}
+.sample-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.sample-tag {
+  display: inline-block;
+  background: rgba(108,60,225,0.12);
+  color: var(--accent-light);
+  border: 1px solid rgba(108,60,225,0.35);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.sample-h1 {
+  font-family: 'Karantina', sans-serif;
+  font-weight: 700;
+  font-size: 80px;
+  line-height: 0.92;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+.sample-h1 .accent {
+  background: linear-gradient(135deg, var(--accent-light), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.sample-lead {
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--text2);
+  margin-bottom: 40px;
+}
+.sample-form {
+  max-width: 520px;
+  margin: 0 auto 48px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 32px;
+  position: relative;
+  z-index: 2;
+}
+.sample-form input[type="email"] {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: 'Heebo', sans-serif;
+  font-size: 16px;
+  margin-bottom: 12px;
+  text-align: right;
+  direction: rtl;
+}
+.sample-form input[type="email"]:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.sample-form button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.sample-form button:hover { transform: translateY(-1px); }
+.sample-form .privacy-note {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--text3);
+  text-align: center;
+}
+
+.what-you-get {
+  max-width: 720px;
+  margin: 0 auto 80px;
+  text-align: right;
+  position: relative;
+  z-index: 2;
+}
+.what-you-get h3 {
+  font-family: 'Heebo', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.what-you-get ul {
+  list-style: none;
+  padding: 0;
+}
+.what-you-get li {
+  padding: 10px 0;
+  color: var(--text2);
+  font-size: 15px;
+  display: flex;
+  gap: 10px;
+}
+.what-you-get li::before {
+  content: '✓';
+  color: var(--accent-light);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+#successMsg {
+  display: none;
+  background: rgba(16,185,129,0.10);
+  border: 1px solid rgba(16,185,129,0.3);
+  color: #6ee7b7;
+  padding: 16px;
+  border-radius: 10px;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.preview-banner {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+  color: #1f0e00;
+  text-align: center;
+  padding: 8px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  z-index: 9999;
+}
+.preview-banner + nav { top: 32px !important; }
+
+@media (max-width: 768px) {
+  .sample-hero { padding: 100px 20px 40px; }
+  .sample-h1 { font-size: 52px; }
+  .sample-lead { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="preview-banner">PREVIEW · NOINDEX · בנייה פרטית - לא לשתף</div>
+
+<nav id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+        <div class="nav-links">
+            <a href="/pro/">Pro</a>
+            <a href="/pro/pricing.html">תמחור</a>
+            <a href="/pro/sample.html">דוגמה חינם</a>
+            <a href="/" style="color: var(--text3); font-size: 13px;">← חזרה לאתר</a>
+        </div>
+    </div>
+</nav>
+
+<div class="pro-page">
+  <section class="sample-hero">
+    <div class="sample-inner">
+      <div class="sample-tag">דוגמה חינם · ללא התחייבות</div>
+      <h1 class="sample-h1">קבל פרומפט<br><span class="accent">מובנה. בחינם.</span></h1>
+      <p class="sample-lead">אחד מתוך 20 הפרומפטים בערכה. לניתוח דוח בנקאי של לקוח. עם דוגמת פלט אמיתית, הוראות שלב-שלב, וטעויות נפוצות. תקבל בדואר תוך דקה.</p>
+
+      <form class="sample-form" id="sampleForm">
+        <input type="email" name="email" placeholder="המייל שלך (מקצועי או אישי)" required>
+        <button type="submit" id="submitBtn">שלח לי את הפרומפט</button>
+        <div class="privacy-note">
+          ללא ספאם. ביטול בלחיצה אחת. לא תגנב/ה למערכת לא רלוונטית.
+        </div>
+        <div id="successMsg"></div>
+      </form>
+
+      <div class="what-you-get">
+        <h3>מה תקבל בדוא"ל:</h3>
+        <ul>
+          <li>הפרומפט המלא בעברית - פרומפט מובנה לניתוח דוח בנקאי, מוכן להעתקה</li>
+          <li>דוגמת פלט אמיתית מהפרקטיקה (אנונימי) - לקוח אמיתי, ניתוח אמיתי</li>
+          <li>הוראות שלב-שלב - איך משתמשים, מה לא לעשות, איך לסנן פרטים מזהים</li>
+          <li>מקרי שימוש מומלצים - מתי כדאי להריץ את זה (פגישת היכרות, סקירה רבעונית)</li>
+          <li>3 טעויות נפוצות - שראיתי ב-50+ פעמים שהרצתי את זה</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer style="border-top: 1px solid rgba(255,255,255,0.08); padding: 40px 32px; text-align: center;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+    <a href="/" style="font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: 0.2em; color: var(--text); text-decoration: none;">YARIN<span style="color: var(--accent);">.</span>MALKA</a>
+    <div style="display: flex; gap: 24px;">
+      <a href="/" style="color: var(--text3); font-size: 13px; text-decoration: none;">אתר ראשי</a>
+      <a href="mailto:support@yarinmalka.co.il" style="color: var(--text3); font-size: 13px; text-decoration: none;">support@yarinmalka.co.il</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('sampleForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('submitBtn');
+  const msg = document.getElementById('successMsg');
+  const email = form.email.value.trim();
+  if (!email) return;
+  btn.disabled = true; btn.textContent = 'שולח...';
+  try {
+    const res = await fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, source: 'pro-sample' }) });
+    const json = await res.json();
+    if (json.ok) {
+      msg.textContent = '✓ נרשמת. הפרומפט יגיע למייל שלך תוך דקה.';
+      msg.style.display = 'block';
+      form.reset(); btn.textContent = 'בוצע ✓';
+    } else { throw new Error(json.error || 'failed'); }
+  } catch (err) {
+    msg.textContent = 'משהו השתבש. נסה שוב או שלח לי מייל ידנית: support@yarinmalka.co.il';
+    msg.style.background = 'rgba(239,68,68,0.10)';
+    msg.style.color = '#fca5a5';
+    msg.style.display = 'block';
+    btn.disabled = false; btn.textContent = 'נסה שוב';
+  }
+});
+</script>
+
+</body>
+</html>
