@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Document Analyzer | YARIN.MALKA Pro</title>
+<meta name="description" content="העלה דוח בנקאי, פוליסה, או דוח מסלקה - קבל ניתוח מובנה תוך שניות. PDF נקרא בדפדפן, לא עולה לשרת.">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&family=Karantina:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/pro/tools/tools.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+.preview-banner {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+  color: #1f0e00; text-align: center; padding: 8px 16px;
+  font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700;
+  letter-spacing: 0.1em; z-index: 9999;
+}
+.preview-banner + nav { top: 32px !important; }
+
+.dropzone {
+  background: rgba(255,255,255,0.02);
+  border: 2px dashed rgba(108,60,225,0.35);
+  border-radius: 16px;
+  padding: 48px 28px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 20px;
+}
+.dropzone:hover {
+  border-color: var(--accent);
+  background: rgba(108,60,225,0.05);
+}
+.dropzone.drag-over {
+  border-color: var(--accent-light);
+  background: rgba(108,60,225,0.10);
+}
+.dropzone svg {
+  width: 56px; height: 56px;
+  color: var(--accent-light);
+  margin-bottom: 14px;
+  opacity: 0.7;
+}
+.dropzone .main {
+  font-family: 'Heebo', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.dropzone .sub {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+.doc-types {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.doc-type-pill {
+  padding: 12px 8px;
+  background: rgba(108,60,225,0.05);
+  border: 1px solid rgba(108,60,225,0.2);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text2);
+  cursor: default;
+  font-family: 'Heebo', sans-serif;
+}
+.doc-type-pill .name { font-weight: 700; color: var(--text); margin-bottom: 4px; font-size: 13px; }
+.doc-type-pill .desc { color: var(--text3); }
+
+.processing {
+  text-align: center;
+  padding: 60px 20px;
+  display: none;
+}
+.processing.show { display: block; }
+.processing .spinner {
+  width: 40px; height: 40px;
+  border: 3px solid rgba(108,60,225,0.2);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.processing-status {
+  color: var(--text2);
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+.results-section { display: none; }
+.results-section.show { display: block; }
+
+.summary-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+.stat-card .label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 6px;
+}
+.stat-card .value {
+  font-family: 'Karantina', sans-serif;
+  font-size: 28px;
+  color: var(--text);
+  font-weight: 700;
+  line-height: 1;
+}
+.stat-card .value.accent { color: var(--accent-light); }
+
+.detected-section {
+  background: linear-gradient(135deg, rgba(108,60,225,0.06), rgba(59,130,246,0.04));
+  border: 1px solid rgba(108,60,225,0.25);
+  border-radius: 14px;
+  padding: 28px;
+  margin-bottom: 20px;
+}
+.detected-section h3 {
+  font-family: 'Karantina', sans-serif;
+  font-size: 32px;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.detected-list {
+  list-style: none;
+  padding: 0;
+}
+.detected-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.5;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 16px;
+  align-items: flex-start;
+}
+.detected-list li:last-child { border: none; }
+.detected-list li .key {
+  color: var(--accent-light);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.detected-list li .val { color: var(--text); }
+
+.text-section {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 0;
+  margin-bottom: 20px;
+}
+.text-section header {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.text-section header h4 {
+  font-family: 'Heebo', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.text-section header .meta {
+  font-size: 12px;
+  color: var(--text3);
+  font-family: 'Inter', sans-serif;
+}
+.text-section .text-content {
+  padding: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+  font-family: ui-monospace, 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text2);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.action-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.claude-cta {
+  background: linear-gradient(135deg, rgba(201,100,66,0.10), rgba(201,100,66,0.04));
+  border: 1px solid rgba(201,100,66,0.4);
+  border-radius: 14px;
+  padding: 24px;
+  margin-top: 20px;
+}
+.claude-cta h4 {
+  font-family: 'Karantina', sans-serif;
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.claude-cta p {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.claude-cta .prompt-preview {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 8px;
+  padding: 14px;
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 12px;
+  max-height: 120px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 768px) {
+  .doc-types { grid-template-columns: repeat(2, 1fr); }
+  .summary-stats { grid-template-columns: repeat(2, 1fr); }
+  .detected-list li { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="preview-banner">PREVIEW · NOINDEX · בנייה פרטית</div>
+
+<nav id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+        <div class="nav-links">
+            <a href="/pro/">Pro</a>
+            <a href="/pro/tools/">כלים</a>
+            <a href="/pro/pricing.html">תמחור</a>
+            <a href="/" style="color: var(--text3); font-size: 13px;">← אתר ראשי</a>
+        </div>
+    </div>
+</nav>
+
+<div class="tool-page">
+  <div class="tool-inner">
+
+    <div class="tool-header">
+      <div class="tool-breadcrumb">
+        <a href="/pro/">Pro</a><span class="sep">/</span><a href="/pro/tools/">כלים</a><span class="sep">/</span>Document Analyzer
+      </div>
+      <h1 class="tool-title">Document <span class="accent">Analyzer.</span></h1>
+      <p class="tool-subtitle">העלה PDF פיננסי - דוח בנקאי, פוליסה, מסלקה, הר הביטוח. הטקסט נקרא <strong style="color:var(--accent-light);">בדפדפן שלך בלבד</strong>, ומופק ניתוח מובנה.</p>
+    </div>
+
+    <div class="security-banner" style="background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.25); border-right: 4px solid #10b981; border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; font-size: 13px; color: #6ee7b7; display: flex; align-items: center; gap: 12px; line-height: 1.6;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <div><strong>הקובץ לא עוזב את הדפדפן.</strong> הניתוח קורה מקומית ב-PDF.js. שום דבר לא נשלח לשרת.</div>
+    </div>
+
+    <div class="doc-types">
+      <div class="doc-type-pill"><div class="name">דוח בנקאי</div><div class="desc">PDF / CSV</div></div>
+      <div class="doc-type-pill"><div class="name">פוליסת ביטוח</div><div class="desc">חיים / מנהלים / בריאות</div></div>
+      <div class="doc-type-pill"><div class="name">מסלקה פנסיונית</div><div class="desc">דוח רבעוני</div></div>
+      <div class="doc-type-pill"><div class="name">הר הביטוח</div><div class="desc">סיכום פוליסות</div></div>
+    </div>
+
+    <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <div class="main">גרור קובץ PDF לכאן</div>
+      <div class="sub">או לחץ לבחירה · עד 50MB</div>
+      <input type="file" id="fileInput" accept=".pdf" style="display:none;" onchange="handleFile(event.target.files[0])">
+    </div>
+
+    <div class="processing" id="processing">
+      <div class="spinner"></div>
+      <div class="processing-status" id="processingStatus">קורא את הקובץ...</div>
+    </div>
+
+    <div class="results-section" id="results">
+
+      <div class="summary-stats">
+        <div class="stat-card">
+          <div class="label">סוג מזוהה</div>
+          <div class="value accent" id="statType">–</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">עמודים</div>
+          <div class="value" id="statPages">–</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">מילים</div>
+          <div class="value" id="statWords">–</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">סכומים זוהו</div>
+          <div class="value accent" id="statAmounts">–</div>
+        </div>
+      </div>
+
+      <div class="detected-section">
+        <h3>פרטים שזיהיתי</h3>
+        <ul class="detected-list" id="detectedList"></ul>
+      </div>
+
+      <div class="text-section">
+        <header>
+          <h4>הטקסט שחילצתי מה-PDF</h4>
+          <div class="meta" id="textMeta">–</div>
+        </header>
+        <div class="text-content" id="extractedText"></div>
+      </div>
+
+      <div class="claude-cta">
+        <h4>קבל ניתוח עמוק עם Claude</h4>
+        <p>הטקסט הזה + פרומפט ייעודי לסוג המסמך = ניתוח מקצועי תוך 30 שניות. לחץ על הכפתור, Claude יפתח עם הפרומפט מוכן.</p>
+        <div class="prompt-preview" id="promptPreview">–</div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="btn-primary" onclick="copyPromptToClaude()">📋 העתק ל-Claude</button>
+          <a href="https://claude.ai" target="_blank" class="btn-secondary">פתח Claude.ai →</a>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn-secondary" onclick="downloadText()">הורד טקסט (TXT)</button>
+        <button class="btn-secondary" onclick="resetTool()">העלה קובץ חדש</button>
+      </div>
+
+    </div>
+
+    <div class="disclaimer-small">
+      <strong>הערה:</strong> חילוץ הטקסט מתבצע באמצעות PDF.js (ספרייה פתוחה של Mozilla). זיהוי הסוג והפרטים מבוסס על heuristics. בגרסת Pro AI - הניתוח מבוצע אוטומטית על ידי Claude API לדיוק גבוה. <strong>אסור</strong> להעלות מסמכים עם פרטים מזהים שאינם של הלקוח (ת"ז של בני משפחה, מספרי חשבון מלאים).
+    </div>
+
+  </div>
+</div>
+
+<script>
+// PDF.js worker
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+// Drag and drop
+const dropzone = document.getElementById('dropzone');
+['dragenter', 'dragover'].forEach(evt => dropzone.addEventListener(evt, e => {
+  e.preventDefault(); e.stopPropagation();
+  dropzone.classList.add('drag-over');
+}));
+['dragleave', 'drop'].forEach(evt => dropzone.addEventListener(evt, e => {
+  e.preventDefault(); e.stopPropagation();
+  dropzone.classList.remove('drag-over');
+}));
+dropzone.addEventListener('drop', e => {
+  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
+
+let extractedText = '';
+let detectedType = '';
+
+async function handleFile(file) {
+  if (!file) return;
+  if (file.size > 50 * 1024 * 1024) {
+    alert('הקובץ גדול מ-50MB. אנא צמצם.');
+    return;
+  }
+  if (!file.type.includes('pdf') && !file.name.endsWith('.pdf')) {
+    alert('כרגע נתמך רק PDF. תמיכה ב-CSV ו-Excel תוטמע בגרסת Pro.');
+    return;
+  }
+
+  // Hide dropzone, show processing
+  document.getElementById('dropzone').style.display = 'none';
+  document.getElementById('processing').classList.add('show');
+  document.getElementById('results').classList.remove('show');
+
+  try {
+    setStatus('קורא את הקובץ...');
+    const arrayBuffer = await file.arrayBuffer();
+
+    setStatus('מנתח מבנה PDF...');
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+    setStatus(`מחלץ טקסט מ-${pdf.numPages} עמודים...`);
+    let fullText = '';
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items.map(item => item.str).join(' ');
+      fullText += pageText + '\n\n';
+    }
+
+    setStatus('מנתח את התוכן...');
+    extractedText = fullText.trim();
+
+    // Detect type
+    detectedType = detectDocType(extractedText, file.name);
+
+    // Build analysis
+    const analysis = analyzeDocument(extractedText, detectedType);
+
+    // Render
+    setTimeout(() => {
+      renderResults(file, pdf.numPages, extractedText, detectedType, analysis);
+      document.getElementById('processing').classList.remove('show');
+      document.getElementById('results').classList.add('show');
+    }, 300);
+
+  } catch (err) {
+    console.error(err);
+    alert('שגיאה בקריאת הקובץ: ' + err.message + '\n\nאם זה PDF מוגן/מוצפן, ייתכן שלא יהיה ניתן לקרוא אותו.');
+    resetTool();
+  }
+}
+
+function setStatus(msg) {
+  document.getElementById('processingStatus').textContent = msg;
+}
+
+function detectDocType(text, filename) {
+  const t = text.toLowerCase();
+  const f = filename.toLowerCase();
+
+  // Strong filename signals
+  if (f.includes('מסלקה') || f.includes('clearing')) return 'מסלקה פנסיונית';
+  if (f.includes('הר') && f.includes('ביטוח')) return 'הר הביטוח';
+  if (f.includes('פנסיה') || f.includes('pension')) return 'דוח קרן פנסיה';
+  if (f.includes('השתלמות')) return 'דוח קרן השתלמות';
+
+  // Text content signals
+  if (/מסלקה\s+פנסיונית/.test(text)) return 'מסלקה פנסיונית';
+  if (/הר\s+הביטוח/.test(text)) return 'הר הביטוח';
+  if (/(?:יתרה\s+נוכחית|יתרה\s+סופית).*(?:בש["׳]ח|₪)/.test(text)) {
+    if (/קרן\s+פנסיה/.test(text)) return 'דוח קרן פנסיה';
+    if (/קופ["׳]ת?\s+גמל/.test(text) || /גמל\s+להשקעה/.test(text)) return 'דוח קופת גמל';
+    if (/השתלמות/.test(text)) return 'דוח קרן השתלמות';
+  }
+  if (/פוליסת?\s+ביטוח\s+(?:חיים|מנהלים)/.test(text)) return 'פוליסת ביטוח חיים/מנהלים';
+  if (/אובדן\s+כושר\s+עבודה|אכ["׳]ע/.test(text)) return 'פוליסת אובדן כושר עבודה';
+  if (/(?:ביטוח\s+בריאות|פוליסת\s+בריאות)/.test(text)) return 'פוליסת ביטוח בריאות';
+  if (/(?:לאומי|הפועלים|דיסקונט|מזרחי|הבינלאומי|איגוד)/i.test(text) && /יתרה|תנועות|חיוב|זיכוי/.test(text)) {
+    return 'דוח בנקאי';
+  }
+  if (/קרן\s+נאמנות|תיק\s+השקעות/.test(text)) return 'תיק השקעות';
+
+  return 'מסמך פיננסי כללי';
+}
+
+function analyzeDocument(text, type) {
+  const result = {};
+
+  // Money amounts (Hebrew NIS patterns)
+  const moneyMatches = text.match(/[\d,]+\.?\d*\s*(?:₪|ש["׳]ח|שקלים|אלף|מיליון)/g) || [];
+  result.amounts = moneyMatches.slice(0, 20);
+
+  // Dates (Hebrew DD/MM/YYYY or YYYY)
+  const dateMatches = text.match(/\b\d{1,2}[/.\-]\d{1,2}[/.\-]\d{2,4}\b/g) || [];
+  result.dates = [...new Set(dateMatches)].slice(0, 10);
+
+  // Insurance company names
+  const companies = ['מגדל', 'כלל', 'הראל', 'הפניקס', 'מנורה', 'ילין לפידות', 'אלטשולר שחם', 'אקסלנס', 'מיטב דש', 'פסגות'];
+  result.companies = companies.filter(c => text.includes(c));
+
+  // Banks
+  const banks = ['לאומי', 'הפועלים', 'דיסקונט', 'מזרחי', 'הבינלאומי', 'איגוד', 'מסד', 'יהב'];
+  result.banks = banks.filter(b => text.includes(b));
+
+  // Policy numbers (long numeric sequences)
+  const policyMatches = text.match(/(?:פוליסה|מספר\s+פוליסה|חשבון|מספר)[\s:#]*?(\d{6,12})/g) || [];
+  result.policyNumbers = policyMatches.length;
+
+  // Percentages
+  const percentMatches = text.match(/[\d.]+\s*%/g) || [];
+  result.percentages = [...new Set(percentMatches)].slice(0, 10);
+
+  // Months/years span
+  const yearMatches = text.match(/20\d{2}/g) || [];
+  if (yearMatches.length) {
+    const years = [...new Set(yearMatches)].sort();
+    result.yearSpan = years.length > 1 ? `${years[0]} - ${years[years.length-1]}` : years[0];
+  }
+
+  // For bank statements - try to find account balance, deposits, withdrawals patterns
+  if (type === 'דוח בנקאי') {
+    const balanceMatch = text.match(/(?:יתרה|יתרת\s+חשבון).{0,30}?([\d,]+\.?\d*)/);
+    if (balanceMatch) result.balance = balanceMatch[1];
+  }
+
+  // For pension - try to find total accumulation
+  if (type.includes('פנסיה') || type.includes('גמל') || type.includes('השתלמות')) {
+    const totalMatch = text.match(/(?:סך\s+(?:הכל|הכול)|יתרה\s+(?:נוכחית|כוללת)|צבירה).{0,50}?([\d,]+\.?\d*)/);
+    if (totalMatch) result.totalAccumulation = totalMatch[1];
+
+    const feesMatch = text.match(/(?:דמי\s+ניהול).{0,30}?([\d.]+)\s*%/);
+    if (feesMatch) result.managementFees = feesMatch[1] + '%';
+  }
+
+  return result;
+}
+
+function renderResults(file, pageCount, text, type, analysis) {
+  // Stats
+  document.getElementById('statType').textContent = type;
+  document.getElementById('statPages').textContent = pageCount;
+  document.getElementById('statWords').textContent = text.split(/\s+/).filter(w => w.length > 1).length;
+  document.getElementById('statAmounts').textContent = (analysis.amounts || []).length;
+
+  // Detected list
+  const list = document.getElementById('detectedList');
+  const items = [];
+
+  items.push({ key: 'שם הקובץ', val: file.name + ' (' + formatSize(file.size) + ')' });
+  items.push({ key: 'סוג מזוהה', val: type });
+
+  if (analysis.companies && analysis.companies.length) {
+    items.push({ key: 'חברות', val: analysis.companies.join(', ') });
+  }
+  if (analysis.banks && analysis.banks.length) {
+    items.push({ key: 'בנקים', val: analysis.banks.join(', ') });
+  }
+  if (analysis.balance) {
+    items.push({ key: 'יתרה', val: '₪' + analysis.balance });
+  }
+  if (analysis.totalAccumulation) {
+    items.push({ key: 'צבירה', val: '₪' + analysis.totalAccumulation });
+  }
+  if (analysis.managementFees) {
+    items.push({ key: 'דמי ניהול', val: analysis.managementFees });
+  }
+  if (analysis.policyNumbers) {
+    items.push({ key: 'מספרי פוליסה/חשבון', val: analysis.policyNumbers + ' זוהו' });
+  }
+  if (analysis.yearSpan) {
+    items.push({ key: 'תקופה', val: analysis.yearSpan });
+  }
+  if (analysis.amounts && analysis.amounts.length) {
+    items.push({ key: 'סכומים בולטים', val: analysis.amounts.slice(0, 6).join(' · ') });
+  }
+  if (analysis.percentages && analysis.percentages.length) {
+    items.push({ key: 'אחוזים', val: analysis.percentages.slice(0, 6).join(' · ') });
+  }
+
+  list.innerHTML = items.map(i => `<li><span class="key">${i.key}</span><span class="val">${i.val}</span></li>`).join('');
+
+  // Text preview
+  document.getElementById('extractedText').textContent = text.slice(0, 5000) + (text.length > 5000 ? '\n\n...(נחתך - הטקסט המלא יישלח ל-Claude)' : '');
+  document.getElementById('textMeta').textContent = `${text.length.toLocaleString()} תווים · ${pageCount} עמודים`;
+
+  // Build Claude prompt
+  const prompt = buildClaudePrompt(type, text);
+  document.getElementById('promptPreview').textContent = prompt.slice(0, 400) + '...';
+  window._claudePrompt = prompt;
+}
+
+function buildClaudePrompt(type, text) {
+  const promptIntros = {
+    'דוח בנקאי': 'אני מתכנן פיננסי. מצורף דוח בנקאי של לקוח. תקרא אותו ותחזיר לי מסמך עבודה לפגישה: 1) תמונת מצב (הכנסות/הוצאות/חיסכון), 2) 5 הוצאות גדולות, 3) מנויים שזיהית, 4) אנומליות לבדיקה, 5) שאלות לפגישה. בעברית מקצועית.',
+    'מסלקה פנסיונית': 'אני מתכנן פיננסי. מצורף דוח מסלקה של לקוח. תחלץ ותסכם: 1) רשימת קרנות וצבירות, 2) דמי ניהול לכל קרן, 3) השוואה לתקרות הרגולטוריות, 4) קרנות שהלקוח שכח (ללא תרומות לאחרונה), 5) המלצות לבחינה (לא לפעולה). בעברית מקצועית.',
+    'הר הביטוח': 'אני סוכן ביטוח / מתכנן פיננסי. מצורף דוח הר הביטוח של לקוח. תחלץ: 1) רשימת פוליסות פעילות (סוג, חברה, סכום, פרמיה), 2) פערי כיסוי שזיהיתי, 3) כפילויות אפשריות, 4) פוליסות ישנות שכדאי לבחון. בעברית מקצועית.',
+    'פוליסת ביטוח חיים/מנהלים': 'אני סוכן ביטוח / מתכנן. מצורפת פוליסת ביטוח חיים/מנהלים של לקוח. תקרא אותה ותחזיר: 1) פרטי פוליסה (חברה, תאריך, מבוטח), 2) כיסויים פעילים עם סכומים ופרמיות, 3) דמי ניהול ועלויות, 4) תנאי משחק (תקופת המתנה, הגדרות, החרגות), 5) שאלות לבירור לפני המלצה.',
+    'דוח קרן פנסיה': 'אני מתכנן פיננסי. מצורף דוח קרן פנסיה. תחלץ: 1) פרטי קרן, 2) צבירה ומסלול, 3) דמי ניהול, 4) כיסויים ביטוחיים בקרן, 5) שיקולים והצעות לבחינה.',
+    'דוח קרן השתלמות': 'אני מתכנן פיננסי. מצורף דוח קרן השתלמות. תחלץ: 1) פרטים, 2) צבירה ונזילות, 3) מסלול והרכב, 4) דמי ניהול, 5) תשואות, 6) שיקולים.',
+    'דוח קופת גמל': 'אני מתכנן פיננסי. מצורף דוח קופת גמל. תחלץ: 1) סוג הקופה, 2) צבירה, 3) מסלול, 4) דמי ניהול, 5) תשואות, 6) שיקולים.',
+    'תיק השקעות': 'אני מתכנן פיננסי. מצורף דוח תיק השקעות. תחלץ: 1) הרכב התיק, 2) פיזור גיאוגרפי ומגזרי, 3) דמי ניהול, 4) אזהרות (overlap, home bias), 5) הצעות לבחינה.',
+    'פוליסת אובדן כושר עבודה': 'אני מתכנן פיננסי. מצורפת פוליסת אכ"ע. תחלץ: 1) פרטים בסיסיים, 2) הגדרת אובדן כושר עבודה, 3) החרגות, 4) שיקולים (סכום מספיק? הגדרה טובה?), 5) שאלות.',
+    'פוליסת ביטוח בריאות': 'אני מתכנן פיננסי. מצורפת פוליסת ביטוח בריאות. תחלץ: 1) פרטים, 2) כיסויים עיקריים, 3) חבילות נלוות, 4) כפילויות אפשריות עם שב"ן, 5) חורים אפשריים.'
+  };
+
+  const intro = promptIntros[type] || 'אני מתכנן פיננסי. מצורף מסמך פיננסי של לקוח. תקרא אותו ותחזיר לי ניתוח מובנה במבנה: 1) פרטים בסיסיים, 2) נתונים מספריים מרכזיים, 3) אזורים שצריך לבחון, 4) שאלות לבירור.';
+
+  return `${intro}
+
+הנחיות:
+- בעברית מקצועית, ללא שגיאות
+- ללא ייעוץ פיננסי ספציפי - רק ניתוח ומיפוי
+- אם משהו לא ברור או חסר - ציין במפורש
+- בלי לחזור על מספרים שאני רואה לבד
+
+--- תוכן המסמך ---
+
+${extractedText}`;
+}
+
+function copyPromptToClaude() {
+  if (!window._claudePrompt) return;
+  navigator.clipboard.writeText(window._claudePrompt).then(() => {
+    alert('הפרומפט המלא הועתק. עכשיו פתח Claude.ai והדבק.');
+  });
+}
+
+function downloadText() {
+  const blob = new Blob([extractedText], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'extracted-text.txt'; a.click();
+}
+
+function resetTool() {
+  document.getElementById('dropzone').style.display = 'block';
+  document.getElementById('processing').classList.remove('show');
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('fileInput').value = '';
+  extractedText = '';
+}
+
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + 'B';
+  if (bytes < 1024 * 1024) return Math.round(bytes / 1024) + 'KB';
+  return (bytes / 1024 / 1024).toFixed(1) + 'MB';
+}
+</script>
+
+</body>
+</html>
