@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Notion CRM למתכנן פיננסי | YARIN.MALKA Pro</title>
+<meta name="description" content="תבנית Notion מלאה לניהול פרקטיקה פיננסית. לקוחות, פגישות, סקירות, מסמכים. ₪397, מסירה במייל.">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/pro/tools/tools.css">
+<style>
+.preview-banner {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+  color: #1f0e00; text-align: center; padding: 8px 16px;
+  font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700;
+  letter-spacing: 0.1em; z-index: 9999;
+}
+.preview-banner + nav { top: 32px !important; }
+
+.product-page-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 40px;
+  margin-top: 32px;
+}
+.product-hero-cover {
+  height: 360px;
+  background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+  border-radius: 18px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.product-hero-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,0.2), transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(255,255,255,0.1), transparent 50%);
+}
+.product-hero-cover .icon-big {
+  font-size: 180px;
+  color: rgba(255,255,255,0.95);
+  font-family: 'Karantina', sans-serif;
+  font-weight: 700;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  line-height: 0.85;
+}
+
+.purchase-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 32px;
+  position: sticky;
+  top: 100px;
+}
+[data-theme="light"] .purchase-card {
+  background: #ffffff;
+  border-color: rgba(31,41,55,0.1);
+  box-shadow: 0 4px 16px rgba(31,41,55,0.04);
+}
+.purchase-price {
+  font-family: 'Karantina', sans-serif;
+  font-size: 80px;
+  color: var(--text);
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.purchase-price .currency { font-size: 36px; color: var(--text3); font-weight: 400; vertical-align: super; }
+.purchase-meta {
+  font-size: 13px;
+  color: var(--text3);
+  margin-bottom: 24px;
+  font-family: 'Inter', sans-serif;
+}
+.purchase-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 12px;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  border: 1px solid rgba(108,60,225,0.6);
+  margin-bottom: 16px;
+}
+.purchase-btn:hover { transform: translateY(-1px); }
+.purchase-includes {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+[data-theme="light"] .purchase-includes { border-top-color: rgba(31,41,55,0.06); }
+.purchase-includes h4 {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+.purchase-includes ul {
+  list-style: none;
+  padding: 0;
+}
+.purchase-includes li {
+  padding: 8px 0;
+  font-size: 13px;
+  color: var(--text2);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.purchase-includes li::before {
+  content: '✓';
+  flex-shrink: 0;
+  color: var(--accent-light);
+  font-weight: 700;
+}
+
+.delivery-flow {
+  background: rgba(16,185,129,0.05);
+  border: 1px solid rgba(16,185,129,0.25);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  font-size: 12px;
+  color: #6ee7b7;
+}
+[data-theme="light"] .delivery-flow {
+  background: rgba(16,185,129,0.04);
+  color: #047857;
+}
+.delivery-flow strong { display: block; font-size: 13px; margin-bottom: 6px; }
+
+.preview-section {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+[data-theme="light"] .preview-section {
+  background: #ffffff;
+  border-color: rgba(31,41,55,0.08);
+  box-shadow: 0 1px 3px rgba(31,41,55,0.04);
+}
+.preview-section h2 {
+  font-family: 'Karantina', sans-serif;
+  font-size: 36px;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.preview-section p {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+.module-list {
+  display: grid;
+  gap: 14px;
+}
+.module-row {
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+[data-theme="light"] .module-row {
+  background: rgba(31,41,55,0.02);
+  border-color: rgba(31,41,55,0.06);
+}
+.module-row .num {
+  font-family: 'Karantina', sans-serif;
+  font-size: 32px;
+  color: var(--accent-light);
+  font-weight: 700;
+  line-height: 1;
+}
+.module-row .info h4 {
+  font-family: 'Heebo', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.module-row .info p {
+  font-size: 13px;
+  color: var(--text2);
+  margin: 0;
+  line-height: 1.5;
+}
+.module-row .count {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: var(--text3);
+  background: rgba(108,60,225,0.10);
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.screenshot-mock {
+  background: linear-gradient(180deg, rgba(108,60,225,0.04), transparent);
+  border: 1px solid rgba(108,60,225,0.15);
+  border-radius: 14px;
+  padding: 40px 28px;
+  text-align: center;
+  margin: 20px 0;
+  font-size: 13px;
+  color: var(--text3);
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+.faq-mini details {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 18px 0;
+}
+[data-theme="light"] .faq-mini details {
+  border-bottom-color: rgba(31,41,55,0.08);
+}
+.faq-mini summary {
+  font-family: 'Heebo', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.faq-mini summary::-webkit-details-marker { display: none; }
+.faq-mini summary::after { content: '+'; color: var(--accent); font-size: 22px; }
+.faq-mini details[open] summary::after { content: '−'; }
+.faq-mini .answer {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+  padding-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .product-page-grid { grid-template-columns: 1fr; }
+  .purchase-card { position: static; }
+  .module-row { grid-template-columns: auto 1fr; }
+  .module-row .count { grid-column: 2; justify-self: start; }
+  .product-hero-cover { height: 240px; }
+  .product-hero-cover .icon-big { font-size: 120px; }
+}
+</style>
+</head>
+<body>
+
+<div class="preview-banner">PREVIEW · NOINDEX · בנייה פרטית</div>
+
+<nav id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+        <div class="nav-links">
+            <a href="/pro/">Pro</a>
+            <a href="/pro/products/">מוצרים</a>
+            <a href="/pro/tools/">כלים</a>
+            <a href="/pro/pricing.html">תמחור</a>
+            <a href="/" style="color: var(--text3); font-size: 13px;">← אתר ראשי</a>
+        </div>
+    </div>
+</nav>
+
+<div class="tool-page">
+  <div class="tool-inner">
+
+    <div class="tool-header">
+      <div class="tool-breadcrumb">
+        <a href="/pro/">Pro</a><span class="sep">/</span><a href="/pro/products/">מוצרים</a><span class="sep">/</span>Notion CRM
+      </div>
+      <h1 class="tool-title">Notion CRM <span class="accent">למתכנן פיננסי.</span></h1>
+      <p class="tool-subtitle">תבנית Notion מלאה לניהול פרקטיקה. לקוחות, פגישות, מסמכים, סקירות. <strong style="color:var(--accent-light);">תשלום, מייל, duplicate - בדקה.</strong></p>
+    </div>
+
+    <div class="product-page-grid">
+
+      <!-- Main content -->
+      <div>
+        <div class="product-hero-cover">
+          <div class="icon-big">N</div>
+        </div>
+
+        <div class="preview-section">
+          <h2>מה זה</h2>
+          <p>אחרי שניהלתי 6 חודשים פרקטיקה ב-Notion עם תיק לקוח שכולל 30+ נכסים פיננסיים, הבנתי שצריך מבנה מסודר. בניתי את זה לעצמי, כיוונתי לפרקטיקה הישראלית, ועכשיו אתה מקבל את כל זה מוכן.</p>
+          <p>זה <strong>לא CRM כללי</strong>. זה Notion-workspace שמותאם לעבודה הפיננסית: שאלות גילוי בעברית, תיק מסמכים פיננסי, תזכורות לסקירות רבעוניות, מבנה לפגישות. <strong>מתחילים לעבוד בו 30 דקות אחרי שמקבלים אותו במייל.</strong></p>
+        </div>
+
+        <div class="preview-section">
+          <h2>4 המודולים בתוך התבנית</h2>
+          <div class="module-list">
+            <div class="module-row">
+              <div class="num">01</div>
+              <div class="info">
+                <h4>בסיס נתוני לקוחות</h4>
+                <p>טבלה אחת מרכזית עם כל הלקוחות. סטטוס, מגע אחרון, ערך פוטנציאלי, מטלות פתוחות. תצוגות מסוננות (פעילים / חמים / קרים).</p>
+              </div>
+              <span class="count">1 DB · 4 תצוגות</span>
+            </div>
+
+            <div class="module-row">
+              <div class="num">02</div>
+              <div class="info">
+                <h4>פגישות + סקריפטים</h4>
+                <p>תבנית פגישת היכרות עם 8 שלבים מובנים, תבנית סקירה רבעונית, מאגר 100 שאלות גילוי לפי קטגוריות. הכל ניתן ל-duplicate ולהתאמה.</p>
+              </div>
+              <span class="count">3 תבניות · 100 שאלות</span>
+            </div>
+
+            <div class="module-row">
+              <div class="num">03</div>
+              <div class="info">
+                <h4>תיק מסמכים פיננסי</h4>
+                <p>מבנה מסודר לכל לקוח: דוחות בנקאיים, פוליסות, פנסיה, השקעות, מסלקה. עם תיוג, מועדי בדיקה, ושיוך אוטומטי לפגישות.</p>
+              </div>
+              <span class="count">8 קטגוריות</span>
+            </div>
+
+            <div class="module-row">
+              <div class="num">04</div>
+              <div class="info">
+                <h4>מעקב פעולות + סקירות</h4>
+                <p>Kanban של פעולות פתוחות לפי לקוח. תזכורות אוטומטיות לסקירה רבעונית. מאגר תוצאות סקירות לעבודה היסטורית.</p>
+              </div>
+              <span class="count">Kanban + טבלה</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <h2>הצצה מהפנים</h2>
+          <div class="screenshot-mock">[ צילום מסך של הדשבורד הראשי - יצורף לפני השקה ]</div>
+          <div class="screenshot-mock">[ צילום מסך של תיק לקוח אישי - יצורף לפני השקה ]</div>
+          <div class="screenshot-mock">[ צילום מסך של תבנית פגישת היכרות - יצורף לפני השקה ]</div>
+        </div>
+
+        <div class="preview-section">
+          <h2>למי זה</h2>
+          <p>✓ מתכננים פיננסיים שעובדים עם 5-50 לקוחות<br>
+          ✓ סוכני ביטוח שרוצים מבנה לתיק לקוח דיגיטלי<br>
+          ✓ רואי חשבון שעובדים עם תיק פיננסי כולל<br>
+          ✓ סטודנטים בקורס מקצועיות א'/ב' שבונים פרקטיקה</p>
+
+          <p style="margin-top: 20px;">✗ לא בשבילך אם: אתה מנהל 200+ לקוחות (תצטרך CRM מקצועי), או שאתה לא מכיר Notion בכלל (יש עקומת למידה של 1-2 שעות).</p>
+        </div>
+
+        <div class="preview-section faq-mini">
+          <h2>שאלות נפוצות</h2>
+
+          <details>
+            <summary>איך אני מקבל את התבנית?</summary>
+            <div class="answer">דקה אחרי התשלום, מייל אוטומטי מ-Lemonsqueezy יגיע אליך עם <strong>קישור Notion duplicate</strong>. לוחצים, נכנסים ל-Notion, התבנית מועתקת ל-workspace שלך. זה הכל.</div>
+          </details>
+
+          <details>
+            <summary>אני צריך מנוי בתשלום ל-Notion?</summary>
+            <div class="answer">לא חובה. התבנית עובדת על Notion חינמי. אבל ב-Notion חינמי יש מגבלה של 1,000 בלוקים - מספיק ל-5-15 לקוחות. אם אתה מתכוון לעבודה כבדה, מומלץ Notion Personal Pro ($10/חודש).</div>
+          </details>
+
+          <details>
+            <summary>מה קורה כשהתבנית מתעדכנת?</summary>
+            <div class="answer">יש לי תהליך: בכל שינוי משמעותי שאני עושה ב-Notion שלי, אני שולח לך מייל עם duplicate-link מעודכן + רשימת השינויים. אתה יכול לבחור: לעדכן (תוך שמירת הנתונים שלך) או לוותר.</div>
+          </details>
+
+          <details>
+            <summary>החזר?</summary>
+            <div class="answer">14 יום החזר מלא ללא שאלות. שולחים מייל ל-support@yarinmalka.co.il, אני מאשר, הכסף חוזר תוך 5 ימי עסקים.</div>
+          </details>
+
+          <details>
+            <summary>זה כולל ייעוץ?</summary>
+            <div class="answer">לא. זאת תבנית - כלי. השימוש בה לעבודה עם לקוחות הוא באחריותך. רכישה זו לא מהווה ייעוץ פיננסי או רגולטורי.</div>
+          </details>
+        </div>
+
+      </div>
+
+      <!-- Purchase sidebar -->
+      <div>
+        <div class="purchase-card">
+          <div style="font-family:'Inter';font-size:11px;letter-spacing:0.18em;color:var(--accent-light);text-transform:uppercase;margin-bottom:8px;font-weight:600;">Notion CRM</div>
+          <div class="purchase-price"><span class="currency">₪</span>397</div>
+          <div class="purchase-meta">חד פעמי · גישה לכל החיים · 14 יום החזר</div>
+
+          <a href="#" class="purchase-btn">קנה ב-Lemonsqueezy ←</a>
+
+          <div class="delivery-flow">
+            <strong>מסירה אוטומטית:</strong>
+            תשלום → מייל מ-Lemonsqueezy → קישור Notion Duplicate → התחלת עבודה. <strong>תוך דקה.</strong>
+          </div>
+
+          <div class="purchase-includes">
+            <h4>מה כלול</h4>
+            <ul>
+              <li>תבנית Notion מלאה (5 דשבורדים)</li>
+              <li>4 מודולים מובנים</li>
+              <li>100 שאלות גילוי לפי קטגוריות</li>
+              <li>3 תבניות פגישה מוכנות</li>
+              <li>הוראות התקנה + סרטון 15 דקות</li>
+              <li>עדכוני שנה ראשונה כלולים</li>
+              <li>תמיכה במייל</li>
+            </ul>
+          </div>
+
+          <div class="purchase-includes">
+            <h4>מסירה</h4>
+            <ul>
+              <li>אוטומטית במייל</li>
+              <li>חשבונית מס מצורפת</li>
+              <li>גישה מיידית</li>
+              <li>גישה לכל החיים</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="disclaimer-small">
+      <strong>הערה רגולטורית:</strong> תבנית זו מספקת <strong>כלי טכנולוגי בלבד</strong> ואינה מהווה ייעוץ פיננסי או ייעוץ פנסיוני. השימוש מוגבל למחזיקי רישיון תקף מרשות שוק ההון, רשות ניירות ערך או רשות המסים. תשלום מאובטח דרך Lemonsqueezy. חשבונית מס נוצרת אוטומטית.
+    </div>
+
+  </div>
+</div>
+
+<script src="/pro/theme.js"></script>
+</body>
+</html>

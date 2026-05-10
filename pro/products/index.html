@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>מוצרים מוכנים | YARIN.MALKA Pro</title>
+<meta name="description" content="מוצרים דיגיטליים מוכנים: תבניות Notion, מחשבוני אקסל, חבילות פרומפטים, קורסים. תשלום, מייל, מקבלים. בלי התחייבות חודשית.">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/pro/tools/tools.css">
+<style>
+.preview-banner {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+  color: #1f0e00; text-align: center; padding: 8px 16px;
+  font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700;
+  letter-spacing: 0.1em; z-index: 9999;
+}
+.preview-banner + nav { top: 32px !important; }
+
+.flow-strip {
+  background: rgba(108,60,225,0.04);
+  border: 1px solid rgba(108,60,225,0.2);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 32px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  align-items: center;
+}
+[data-theme="light"] .flow-strip {
+  background: rgba(108,60,225,0.04);
+  border-color: rgba(108,60,225,0.18);
+}
+.flow-step {
+  text-align: center;
+  position: relative;
+}
+.flow-step::after {
+  content: '←';
+  position: absolute;
+  left: -8px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent);
+  font-size: 18px;
+}
+.flow-step:last-child::after { display: none; }
+.flow-step .icon {
+  width: 40px; height: 40px;
+  background: rgba(108,60,225,0.10);
+  border: 1px solid rgba(108,60,225,0.25);
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.flow-step .icon svg { width: 20px; height: 20px; color: var(--accent-light); }
+.flow-step .label {
+  font-family: 'Heebo', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.flow-step .sub {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: 'Inter', sans-serif;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.product-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s;
+}
+[data-theme="light"] .product-card {
+  background: #ffffff;
+  border-color: rgba(31,41,55,0.08);
+  box-shadow: 0 1px 3px rgba(31,41,55,0.04);
+}
+.product-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(108,60,225,0.4);
+}
+[data-theme="light"] .product-card:hover {
+  box-shadow: 0 8px 24px rgba(108,60,225,0.10);
+}
+.product-cover {
+  height: 180px;
+  background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.product-cover.green { background: linear-gradient(135deg, #047857, #10b981); }
+.product-cover.blue { background: linear-gradient(135deg, #1e40af, #3b82f6); }
+.product-cover.orange { background: linear-gradient(135deg, #b45309, #f59e0b); }
+.product-cover.pink { background: linear-gradient(135deg, #9d174d, #ec4899); }
+.product-cover.dark { background: linear-gradient(135deg, #1f2937, #374151); }
+.product-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), transparent 50%);
+}
+.product-cover .icon {
+  font-size: 64px;
+  color: rgba(255,255,255,0.95);
+  position: relative;
+  z-index: 2;
+  font-family: 'Karantina', sans-serif;
+  font-weight: 700;
+  text-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+.product-cover .format-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  backdrop-filter: blur(8px);
+  z-index: 2;
+}
+.product-body {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.product-body h3 {
+  font-family: 'Heebo', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.product-body .desc {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.product-body .features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+}
+.product-body .features li {
+  padding: 6px 0;
+  font-size: 13px;
+  color: var(--text2);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.product-body .features li::before {
+  content: '✓';
+  flex-shrink: 0;
+  color: var(--accent-light);
+  font-weight: 700;
+}
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  gap: 12px;
+}
+[data-theme="light"] .product-footer {
+  border-top-color: rgba(31,41,55,0.06);
+}
+.product-price {
+  font-family: 'Karantina', sans-serif;
+  font-size: 36px;
+  color: var(--text);
+  line-height: 1;
+  font-weight: 700;
+}
+.product-price .currency {
+  color: var(--text3);
+  font-size: 18px;
+  font-weight: 400;
+  vertical-align: super;
+}
+.product-price .original {
+  font-size: 14px;
+  color: var(--text3);
+  text-decoration: line-through;
+  font-weight: 400;
+  margin-right: 6px;
+}
+.product-buy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  text-decoration: none;
+  border-radius: 10px;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid rgba(108,60,225,0.6);
+  white-space: nowrap;
+}
+.product-buy:hover { transform: translateY(-1px); }
+
+.delivery-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16,185,129,0.10);
+  color: #6ee7b7;
+  border: 1px solid rgba(16,185,129,0.25);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  align-self: flex-start;
+}
+.delivery-tag svg { width: 12px; height: 12px; }
+[data-theme="light"] .delivery-tag {
+  background: rgba(16,185,129,0.06);
+  color: #047857;
+  border-color: rgba(16,185,129,0.25);
+}
+
+.bundle-card {
+  grid-column: span 2;
+  background: linear-gradient(135deg, rgba(108,60,225,0.10), rgba(16,185,129,0.06));
+  border: 2px solid rgba(108,60,225,0.4);
+  border-radius: 18px;
+  padding: 36px;
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  align-items: center;
+}
+[data-theme="light"] .bundle-card {
+  background: linear-gradient(135deg, rgba(108,60,225,0.04), rgba(16,185,129,0.03));
+}
+.bundle-card h3 {
+  font-family: 'Karantina', sans-serif;
+  font-size: 44px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.bundle-card p {
+  font-size: 16px;
+  color: var(--text2);
+  margin-bottom: 16px;
+  line-height: 1.6;
+  max-width: 600px;
+}
+.bundle-stats {
+  display: flex;
+  gap: 24px;
+  font-size: 13px;
+  color: var(--text2);
+}
+.bundle-stats strong { color: var(--text); font-weight: 600; }
+.bundle-action {
+  text-align: center;
+}
+.bundle-action .price {
+  font-family: 'Karantina', sans-serif;
+  font-size: 80px;
+  color: var(--text);
+  font-weight: 700;
+  line-height: 0.9;
+  margin-bottom: 4px;
+}
+.bundle-action .save {
+  color: #6ee7b7;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  font-family: 'Inter', sans-serif;
+}
+.bundle-action .original-price {
+  color: var(--text3);
+  font-size: 14px;
+  text-decoration: line-through;
+  margin-bottom: 4px;
+}
+
+.section-title {
+  font-family: 'Karantina', sans-serif;
+  font-size: 40px;
+  color: var(--text);
+  margin: 60px 0 20px;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .products-grid { grid-template-columns: 1fr; }
+  .flow-strip { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .bundle-card { grid-template-columns: 1fr; gap: 20px; }
+  .bundle-action { text-align: right; }
+  .bundle-action .price { font-size: 56px; }
+}
+</style>
+</head>
+<body>
+
+<div class="preview-banner">PREVIEW · NOINDEX · בנייה פרטית</div>
+
+<nav id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+        <div class="nav-links">
+            <a href="/pro/">Pro</a>
+            <a href="/pro/products/" style="color: var(--accent-light);">מוצרים</a>
+            <a href="/pro/tools/">כלים</a>
+            <a href="/pro/pricing.html">תמחור</a>
+            <a href="/" style="color: var(--text3); font-size: 13px;">← אתר ראשי</a>
+        </div>
+    </div>
+</nav>
+
+<div class="tool-page">
+  <div class="tool-inner">
+
+    <div class="tool-header">
+      <div class="tool-breadcrumb">
+        <a href="/pro/">Pro</a><span class="sep">/</span>מוצרים מוכנים
+      </div>
+      <h1 class="tool-title">מוצרים <span class="accent">מוכנים.</span></h1>
+      <p class="tool-subtitle">לקוח משלם, מקבל קישור גישה במייל תוך דקה. בלי מנוי, בלי החזרת קוד, בלי התחייבות חודשית. <strong style="color:var(--accent-light);">תבניות, פרומפטים, מחשבונים, קורסים.</strong></p>
+    </div>
+
+    <!-- Flow strip -->
+    <div class="flow-strip">
+      <div class="flow-step">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <div class="label">בוחרים מוצר</div>
+        <div class="sub">דקה</div>
+      </div>
+      <div class="flow-step">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+        <div class="label">תשלום מאובטח</div>
+        <div class="sub">Lemonsqueezy</div>
+      </div>
+      <div class="flow-step">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div class="label">מייל אוטומטי</div>
+        <div class="sub">תוך דקה</div>
+      </div>
+      <div class="flow-step">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+        <div class="label">הורדה / גישה</div>
+        <div class="sub">מיידי, לכל החיים</div>
+      </div>
+    </div>
+
+    <h2 class="section-title">תבניות וכלים</h2>
+    <div class="products-grid">
+
+      <!-- 1. Notion CRM -->
+      <a href="/pro/products/notion-crm.html" class="product-card" style="text-decoration:none;">
+        <div class="product-cover">
+          <div class="format-badge">NOTION</div>
+          <div class="icon">N</div>
+        </div>
+        <div class="product-body">
+          <span class="delivery-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/></svg>
+            מסירה: לינק duplicate במייל
+          </span>
+          <h3>מערכת ניהול לקוחות (Notion CRM)</h3>
+          <p class="desc">תבנית Notion מלאה לניהול פרקטיקה פיננסית. לקוחות, פגישות, מסמכים, מעקב פעולות, סקירות רבעוניות.</p>
+          <ul class="features">
+            <li>3 דשבורדים מובנים (לקוחות, פגישות, מסמכים)</li>
+            <li>תבנית פגישת היכרות + סקירה רבעונית</li>
+            <li>מאגר שאלות גילוי + סקריפטים</li>
+            <li>תיק לקוח דיגיטלי מובנה</li>
+            <li>עדכוני שנה ראשונה כלולים</li>
+          </ul>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">₪</span>397</div>
+            <span class="product-buy">קנה ←</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 2. Excel calculators -->
+      <a href="/pro/products/excel-toolkit.html" class="product-card" style="text-decoration:none;">
+        <div class="product-cover green">
+          <div class="format-badge">EXCEL · GSHEETS</div>
+          <div class="icon">XL</div>
+        </div>
+        <div class="product-body">
+          <span class="delivery-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg>
+            מסירה: קישור הורדה במייל
+          </span>
+          <h3>חבילת מחשבונים פיננסיים</h3>
+          <p class="desc">7 מחשבוני אקסל / Google Sheets מוכנים עם נוסחאות מובנות. שיעור חיסכון, פנסיה, דמי ניהול, תקציב, השוואת ביטוחים.</p>
+          <ul class="features">
+            <li>מחשבון פנסיה עם 5 תרחישים</li>
+            <li>השוואת דמי ניהול מצטברים</li>
+            <li>תקצוב לקוח עם 6 קטגוריות</li>
+            <li>השוואת פוליסות ביטוח חיים</li>
+            <li>גרפים אוטומטיים</li>
+          </ul>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">₪</span>247</div>
+            <span class="product-buy">קנה ←</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 3. Prompt library PDF -->
+      <a href="/pro/products/prompts-pack.html" class="product-card" style="text-decoration:none;">
+        <div class="product-cover orange">
+          <div class="format-badge">PDF · 80 עמ'</div>
+          <div class="icon">P</div>
+        </div>
+        <div class="product-body">
+          <span class="delivery-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>
+            מסירה: PDF במייל
+          </span>
+          <h3>חבילת 50 פרומפטים מקצועית</h3>
+          <p class="desc">כל הפרומפטים שאני משתמש בהם בפרקטיקה, מסודרים לפי תרחיש שימוש. ניתוח מסמכים, פגישות, תקשורת לקוחות.</p>
+          <ul class="features">
+            <li>50 פרומפטים מובנים בעברית</li>
+            <li>מסודר לפי 4 מודולים</li>
+            <li>דוגמת פלט אמיתית לכל פרומפט</li>
+            <li>טעויות נפוצות לכל פרומפט</li>
+            <li>מסמך משלים: איך לבנות פרומפט משלך</li>
+          </ul>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">₪</span>197</div>
+            <span class="product-buy">קנה ←</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 4. Claude Project Pack -->
+      <a href="/pro/products/claude-projects.html" class="product-card" style="text-decoration:none;">
+        <div class="product-cover dark">
+          <div class="format-badge">CLAUDE</div>
+          <div class="icon">C</div>
+        </div>
+        <div class="product-body">
+          <span class="delivery-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg>
+            מסירה: קישורי import + מסמך הוראות
+          </span>
+          <h3>3 סוכני Claude מוכנים</h3>
+          <p class="desc">הגדרות Claude Project מלאות עם system prompts ותיק ידע. מתקינים ב-2 דקות, עובד מהשיחה הראשונה.</p>
+          <ul class="features">
+            <li>סוכן 1: מנתח מסמכים פיננסיים</li>
+            <li>סוכן 2: מסכם פגישת לקוח</li>
+            <li>סוכן 3: יועץ רגולטורי לישראל</li>
+            <li>תיק ידע מובנה לכל סוכן</li>
+            <li>וידאו התקנה 15 דקות</li>
+          </ul>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">₪</span>347</div>
+            <span class="product-buy">קנה ←</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 5. Email + WhatsApp scripts -->
+      <a href="/pro/products/communication-pack.html" class="product-card" style="text-decoration:none;">
+        <div class="product-cover blue">
+          <div class="format-badge">PDF · DOCX</div>
+          <div class="icon">@</div>
+        </div>
+        <div class="product-body">
+          <span class="delivery-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>
+            מסירה: PDF + DOCX במייל
+          </span>
+          <h3>חבילת תקשורת לקוחות</h3>
+          <p class="desc">12 תבניות מייל, 8 סקריפטי וואטסאפ, 5 סקריפטי שיחת טלפון. מוכנים להעתקה. עברית מקצועית.</p>
+          <ul class="features">
+            <li>12 מיילים: היכרות, סקירה, חידוש, פרידה</li>
+            <li>8 וואטסאפ: תזכורות, דחיפות, תודות</li>
+            <li>5 שיחות: התנגדות, הסבר, רגישות</li>
+            <li>הנחיות טון לכל סוג לקוח</li>
+            <li>עדכונים תקופתיים שנה אחת</li>
+          </ul>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">₪</span>147</div>
+            <span class="product-buy">קנה ←</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 6. Compliance pack -->
+      <a href="/pro/products/compliance.html" class="product-card" style="text-decoration:none;">
+        <div class="product-cover pink">
+          <div class="format-badge">DOCX · רגולטורי</div>
+          <div class="icon">⚖</div>
+        </div>
+        <div class="product-body">
+          <span class="delivery-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>
+            מסירה: ZIP במייל
+          </span>
+          <h3>חבילת מסמכים רגולטוריים</h3>
+          <p class="desc">DPA, הסכם שכר טרחה, מסמכי גילוי נאות, תקנון שימוש בכלי AI. נכתב בהתאמה לחוק הישראלי.</p>
+          <ul class="features">
+            <li>DPA לעבודה עם Claude / ChatGPT</li>
+            <li>הסכם שכר טרחה מתכנן</li>
+            <li>גילוי נאות פנסיוני (תבנית)</li>
+            <li>תקנון שימוש בכלי AI ללקוחות</li>
+            <li>checklist רגולטורי לפגישת היכרות</li>
+          </ul>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">₪</span>197</div>
+            <span class="product-buy">קנה ←</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <h2 class="section-title">קורסים</h2>
+    <div class="products-grid">
+
+      <!-- Course: AI for Financial Pros -->
+      <a href="/pro/products/course-ai-finance.html" class="product-card" style="text-decoration:none; grid-column: span 2;">
+        <div class="product-cover" style="height: 220px; background: linear-gradient(135deg, #6C3CE1, #1e40af);">
+          <div class="format-badge">VIDEO · 8 פרקים · 4 שעות</div>
+          <div class="icon" style="font-size: 96px;">▶</div>
+        </div>
+        <div class="product-body">
+          <span class="delivery-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            מסירה: גישה פרטית במייל · גישה לכל החיים
+          </span>
+          <h3 style="font-size: 28px;">קורס: AI לפרקטיקה הפיננסית</h3>
+          <p class="desc" style="font-size: 15px;">קורס וידאו של 4 שעות בעברית. מפרק בדיוק איך להטמיע AI בעבודה היומיומית של מתכנן פיננסי, מ-0 ועד פרקטיקה AI-native מלאה. כולל את כל התבניות שמדוברים בקורס.</p>
+          <ul class="features">
+            <li>פרק 1: יסודות AI למתכנן (30 דק')</li>
+            <li>פרק 2: ניתוח מסמכים אוטומטי (45 דק')</li>
+            <li>פרק 3: סקריפטים לפגישות (30 דק')</li>
+            <li>פרק 4: תקשורת לקוחות חכמה (30 דק')</li>
+            <li>פרק 5: רגולציה ופרטיות (25 דק')</li>
+            <li>פרק 6: הקמת מערכת CRM ב-Notion (40 דק')</li>
+            <li>פרק 7: 5 case studies מהפרקטיקה (35 דק')</li>
+            <li>פרק 8: מה הלאה - דרך לפרקטיקה AI-native (15 דק')</li>
+          </ul>
+          <div class="product-footer">
+            <div class="product-price"><span class="original">₪1,490</span><span class="currency">₪</span>997</div>
+            <span class="product-buy">הירשם לקורס ←</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Bundle -->
+    <h2 class="section-title">חבילה כוללת</h2>
+    <div class="products-grid">
+      <div class="bundle-card">
+        <div>
+          <h3>Bundle Pro Plus</h3>
+          <p>כל המוצרים יחד - 6 התבניות + הקורס המלא + עדכוני שנה ראשונה + שיחת ליווי 60 דקות איתי. החבילה הכי מלאה שיש.</p>
+          <div class="bundle-stats">
+            <div><strong>7</strong> מוצרים</div>
+            <div><strong>4 שעות</strong> וידאו</div>
+            <div><strong>50+</strong> פרומפטים</div>
+            <div><strong>3</strong> סוכני Claude</div>
+            <div><strong>24</strong> תבניות</div>
+          </div>
+        </div>
+        <div class="bundle-action">
+          <div class="original-price">₪2,532 ערך כולל</div>
+          <div class="price"><span style="font-size:32px;color:var(--text3);">₪</span>1,490</div>
+          <div class="save">חיסכון של ₪1,042</div>
+          <a href="#" class="product-buy" style="padding: 12px 28px; font-size: 15px;">קנה Bundle ←</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="disclaimer-small">
+      <strong>מסירה:</strong> כל מוצר נמסר אוטומטית במייל מ-Lemonsqueezy תוך דקה מסיום התשלום. תבניות Notion - לינק duplicate. קבצים - קישור הורדה. וידאו - גישה פרטית. <strong>החזר 14 יום ללא שאלות.</strong> ערכה זו מספקת כלים טכנולוגיים בלבד ואינה מהווה ייעוץ פיננסי. השימוש מוגבל למחזיקי רישיון תקף.
+    </div>
+
+  </div>
+</div>
+
+<script src="/pro/theme.js"></script>
+</body>
+</html>
