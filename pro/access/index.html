@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>גישת חברים | YARIN.MALKA Pro</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/pro/tools/tools.css">
+<style>
+.preview-banner { position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(90deg, #f59e0b, #d97706); color: #1f0e00; text-align: center; padding: 8px 16px; font-family: 'Inter'; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; z-index: 9999; }
+.preview-banner + nav { top: 32px !important; }
+
+.access-card {
+  max-width: 480px;
+  margin: 60px auto 0;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 40px;
+}
+[data-theme="light"] .access-card {
+  background: #fff;
+  border-color: rgba(31,41,55,0.08);
+  box-shadow: 0 4px 16px rgba(31,41,55,0.04);
+}
+.access-card h2 { font-family: 'Karantina'; font-size: 48px; color: var(--text); margin-bottom: 8px; line-height: 1; }
+.access-card .sub { color: var(--text2); font-size: 15px; margin-bottom: 32px; line-height: 1.6; }
+.input-row { margin-bottom: 16px; }
+.input-row label { display: block; font-size: 13px; color: var(--text2); margin-bottom: 6px; font-weight: 500; }
+.input-row input {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: 'Heebo';
+  font-size: 15px;
+  text-align: right;
+  direction: rtl;
+}
+[data-theme="light"] .input-row input {
+  background: #fff;
+  border-color: rgba(31,41,55,0.15);
+}
+.input-row input:focus { outline: none; border-color: var(--accent); }
+.access-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Heebo';
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 16px;
+}
+.access-btn:hover { transform: translateY(-1px); }
+.help-box {
+  background: rgba(108,60,225,0.05);
+  border: 1px solid rgba(108,60,225,0.2);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+.help-box a { color: var(--accent-light); }
+.shell-notice {
+  background: rgba(245,158,11,0.06);
+  border: 1px solid rgba(245,158,11,0.25);
+  border-right: 4px solid #f59e0b;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: #fde68a;
+  line-height: 1.6;
+}
+[data-theme="light"] .shell-notice {
+  background: rgba(245,158,11,0.04);
+  color: #92400E;
+}
+.shell-notice strong { color: #fef3c7; }
+[data-theme="light"] .shell-notice strong { color: #451A03; }
+</style>
+</head>
+<body>
+
+<div class="preview-banner">PREVIEW · NOINDEX · בנייה פרטית</div>
+
+<nav id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+        <div class="nav-links">
+            <a href="/pro/">Pro</a>
+            <a href="/pro/products/">מוצרים</a>
+            <a href="/pro/tools/">כלים</a>
+            <a href="/pro/pricing.html">תמחור</a>
+            <a href="/" style="color: var(--text3); font-size: 13px;">← אתר ראשי</a>
+        </div>
+    </div>
+</nav>
+
+<div class="tool-page">
+  <div class="tool-inner">
+
+    <div class="access-card">
+      <h2>גישה לחברים</h2>
+      <p class="sub">הזן את המייל ואת מפתח הגישה שקיבלת לאחר הרכישה.</p>
+
+      <div class="shell-notice">
+        <strong>מצב:</strong> אזור החברים בבנייה. דפי המוצרים נראים, אבל מערכת ה-license keys + מסירה אוטומטית טרם מחוברת ל-Lemonsqueezy. ייכנס לפעולה אחרי השקה.
+      </div>
+
+      <form id="accessForm" onsubmit="event.preventDefault(); attemptAccess();">
+        <div class="input-row">
+          <label>מייל</label>
+          <input type="email" id="email" placeholder="email@example.com" required>
+        </div>
+        <div class="input-row">
+          <label>מפתח גישה</label>
+          <input type="text" id="key" placeholder="XXXX-XXXX-XXXX-XXXX" required>
+        </div>
+        <button type="submit" class="access-btn">היכנס ל-Workspace</button>
+      </form>
+
+      <div class="help-box">
+        <strong style="color: var(--text);">לא קיבלת מפתח?</strong><br>
+        בדוק במייל אחרי הרכישה (הוא נשלח אוטומטית מ-Lemonsqueezy תוך דקה).<br>
+        אם לא הגיע - תשלח מייל ל-<a href="mailto:support@yarinmalka.co.il">support@yarinmalka.co.il</a> עם פרטי הרכישה.
+      </div>
+
+      <div style="margin-top: 24px; text-align: center; font-size: 13px; color: var(--text3);">
+        עוד לא קונה? <a href="/pro/products/" style="color: var(--accent-light);">כל המוצרים →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function attemptAccess() {
+  alert('אזור החברים יופעל אחרי השקה רשמית של המוצרים.\n\nאם רכשת ולא קיבלת גישה - שלח מייל ל-support@yarinmalka.co.il');
+}
+</script>
+
+<script src="/pro/theme.js"></script>
+</body>
+</html>
