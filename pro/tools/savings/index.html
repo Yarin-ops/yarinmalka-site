@@ -120,6 +120,17 @@
         </div>
       </div>
 
+      <div class="tool-card">
+        <h3 style="font-family: 'Karantina'; font-size: 28px; color: var(--text); margin-bottom: 16px;">צמיחה לאורך זמן</h3>
+        <div id="chartContainer" style="position: relative; height: 320px;">
+          <svg id="savingsChart" viewBox="0 0 800 320" style="width: 100%; height: 100%;"></svg>
+        </div>
+        <div style="display: flex; gap: 24px; justify-content: center; margin-top: 12px; font-size: 13px; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 12px; height: 12px; background: #6C3CE1; border-radius: 2px;"></span><span style="color: var(--text2);">קצב חיסכון נוכחי</span></div>
+          <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 12px; height: 12px; background: #10b981; border-radius: 2px;"></span><span style="color: var(--text2);">קצב חיסכון מומלץ (15%)</span></div>
+        </div>
+      </div>
+
       <div id="insightBox" class="insight-box"></div>
 
       <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
@@ -210,6 +221,9 @@ function calculate() {
   }
   document.getElementById('insightBox').innerHTML = insight;
 
+  // Draw chart
+  drawChart(monthlySavings, targetMonthly, realRate, yearsToRetire);
+
   document.getElementById('results').style.display = 'block';
   document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -234,6 +248,75 @@ ${document.getElementById('insightBox').textContent.replace(/^\s*/, '')}
   navigator.clipboard.writeText(text).then(() => {
     alert('הסיכום הועתק ללוח. אפשר להדביק בסיכום פגישת לקוח.');
   });
+}
+
+// === Chart drawing ===
+function drawChart(monthlyCurrent, monthlyTarget, annualRate, maxYears) {
+  const svg = document.getElementById('savingsChart');
+  if (!svg) return;
+  const W = 800, H = 320, padX = 60, padY = 30, padBottom = 50;
+  const chartW = W - padX * 2, chartH = H - padY - padBottom;
+
+  const years = Math.max(maxYears, 30);
+  const points = [];
+  let maxValue = 0;
+  for (let y = 0; y <= years; y++) {
+    const cur = futureValue(monthlyCurrent, annualRate, y);
+    const tgt = futureValue(monthlyTarget, annualRate, y);
+    points.push({ year: y, cur, tgt });
+    maxValue = Math.max(maxValue, tgt);
+  }
+  if (maxValue === 0) maxValue = 1;
+
+  const xScale = (y) => padX + (y / years) * chartW;
+  const yScale = (v) => padY + chartH - (v / maxValue) * chartH;
+
+  // Build paths
+  const curPath = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${xScale(p.year).toFixed(1)} ${yScale(p.cur).toFixed(1)}`).join(' ');
+  const tgtPath = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${xScale(p.year).toFixed(1)} ${yScale(p.tgt).toFixed(1)}`).join(' ');
+  const curArea = curPath + ` L ${xScale(years).toFixed(1)} ${(padY + chartH).toFixed(1)} L ${xScale(0).toFixed(1)} ${(padY + chartH).toFixed(1)} Z`;
+  const tgtArea = tgtPath + ` L ${xScale(years).toFixed(1)} ${(padY + chartH).toFixed(1)} L ${xScale(0).toFixed(1)} ${(padY + chartH).toFixed(1)} Z`;
+
+  // Y axis labels (4 ticks)
+  let yLabels = '';
+  for (let i = 0; i <= 4; i++) {
+    const v = (maxValue * i) / 4;
+    const y = yScale(v);
+    yLabels += `<line x1="${padX}" y1="${y}" x2="${W - padX}" y2="${y}" stroke="rgba(255,255,255,0.05)" stroke-dasharray="2,4"/>`;
+    yLabels += `<text x="${padX - 8}" y="${y + 4}" fill="#7a7a88" font-size="11" text-anchor="end" font-family="ui-monospace,monospace">${formatChartValue(v)}</text>`;
+  }
+  // X axis labels (every 5 years)
+  let xLabels = '';
+  for (let yr = 0; yr <= years; yr += 5) {
+    const x = xScale(yr);
+    xLabels += `<text x="${x}" y="${H - padBottom + 20}" fill="#7a7a88" font-size="11" text-anchor="middle" font-family="Heebo">${yr}</text>`;
+  }
+  xLabels += `<text x="${W / 2}" y="${H - 8}" fill="#7a7a88" font-size="12" text-anchor="middle" font-family="Heebo">שנים מהיום</text>`;
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="gradCur" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#6C3CE1" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#6C3CE1" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="gradTgt" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#10b981" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    ${yLabels}
+    ${xLabels}
+    <path d="${tgtArea}" fill="url(#gradTgt)"/>
+    <path d="${curArea}" fill="url(#gradCur)"/>
+    <path d="${tgtPath}" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6,4"/>
+    <path d="${curPath}" fill="none" stroke="#6C3CE1" stroke-width="3" stroke-linecap="round"/>
+  `;
+}
+
+function formatChartValue(v) {
+  if (v >= 1000000) return '₪' + (v / 1000000).toFixed(1) + 'M';
+  if (v >= 1000) return '₪' + Math.round(v / 1000) + 'K';
+  return '₪' + Math.round(v);
 }
 
 // Initial calculation

@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Meeting Pilot · טייס פגישה | YARIN.MALKA Pro</title>
+<meta name="description" content="הכנה לפגישת לקוח, הקלטה ותמלול בזמן אמת, סיכום אוטומטי - end-to-end. כל המידע נשאר בדפדפן שלך.">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&family=Karantina:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/pro/tools/tools.css">
+<style>
+.phase-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 6px;
+}
+.phase-tab {
+  flex: 1;
+  padding: 14px 20px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  color: var(--text2);
+  font-family: 'Heebo', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+}
+.phase-tab .num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  color: var(--text3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+}
+.phase-tab.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(108,60,225,0.3);
+}
+.phase-tab.active .num {
+  background: rgba(255,255,255,0.25);
+  color: #fff;
+}
+.phase-tab.completed .num {
+  background: #10b981;
+  color: #fff;
+}
+.phase-tab.completed .num::before { content: '✓'; }
+.phase-tab.completed .num span { display: none; }
+
+.phase-content { display: none; }
+.phase-content.active { display: block; }
+
+.security-banner {
+  background: rgba(16,185,129,0.06);
+  border: 1px solid rgba(16,185,129,0.25);
+  border-right: 4px solid #10b981;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: #6ee7b7;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  line-height: 1.6;
+}
+.security-banner svg { flex-shrink: 0; }
+
+textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 14px 16px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: 'Heebo', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  resize: vertical;
+  text-align: right;
+  direction: rtl;
+}
+textarea:focus { outline: none; border-color: var(--accent); }
+textarea.transcript-area {
+  font-family: ui-monospace, 'JetBrains Mono', monospace;
+  font-size: 13px;
+  background: rgba(0,0,0,0.5);
+  min-height: 280px;
+}
+
+/* Recording UI */
+.recorder {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.recorder.recording {
+  border-color: #ef4444;
+  background: rgba(239,68,68,0.05);
+}
+.record-btn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  border: 4px solid rgba(239,68,68,0.3);
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.record-btn:hover { transform: scale(1.05); }
+.record-btn.recording {
+  background: linear-gradient(135deg, #1f2937, #0f172a);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
+  50% { box-shadow: 0 0 0 16px rgba(239,68,68,0); }
+}
+
+.record-status {
+  margin-top: 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.record-status.live { color: #ef4444; }
+.record-time {
+  font-family: ui-monospace, monospace;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 12px 0;
+  font-feature-settings: "tnum";
+}
+
+.live-transcript {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  min-height: 200px;
+  max-height: 360px;
+  overflow-y: auto;
+  font-family: 'Heebo', sans-serif;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text2);
+}
+.live-transcript .interim {
+  color: var(--text3);
+  font-style: italic;
+}
+.live-transcript .final { color: var(--text); }
+.live-transcript:empty::before {
+  content: 'התמלול יופיע כאן בזמן אמת...';
+  color: var(--text3);
+  font-style: italic;
+}
+
+.briefing-box {
+  background: linear-gradient(135deg, rgba(108,60,225,0.06), rgba(59,130,246,0.04));
+  border: 1px solid rgba(108,60,225,0.25);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.briefing-box h4 {
+  font-family: 'Karantina', sans-serif;
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+.briefing-box ul, .briefing-box ol {
+  padding-right: 22px;
+  color: var(--text2);
+  line-height: 1.7;
+  font-size: 14px;
+}
+.briefing-box li { margin-bottom: 8px; }
+.briefing-box strong { color: var(--text); font-weight: 600; }
+
+.summary-section {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+.summary-section h4 {
+  font-family: 'Heebo', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.summary-section .badge {
+  background: rgba(108,60,225,0.15);
+  color: var(--accent-light);
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  font-family: 'Inter', sans-serif;
+}
+
+.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.checklist li {
+  padding: 10px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.checklist li::before {
+  content: '';
+  flex-shrink: 0;
+  margin-top: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.notes-pad {
+  position: sticky;
+  bottom: 20px;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 16px;
+}
+.notes-pad h5 {
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin-bottom: 8px;
+}
+.notes-pad textarea {
+  min-height: 80px;
+  margin: 0;
+}
+
+.action-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.warn-box {
+  background: rgba(245,158,11,0.06);
+  border: 1px solid rgba(245,158,11,0.25);
+  border-right: 4px solid #f59e0b;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: #fde68a;
+  line-height: 1.6;
+}
+.warn-box strong { color: #fef3c7; }
+
+.client-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+  .phase-tabs { flex-direction: column; }
+  .client-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="preview-banner">PREVIEW · NOINDEX · בנייה פרטית</div>
+
+<nav id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+        <div class="nav-links">
+            <a href="/pro/">Pro</a>
+            <a href="/pro/tools/">כלים</a>
+            <a href="/pro/pricing.html">תמחור</a>
+            <a href="/" style="color: var(--text3); font-size: 13px;">← אתר ראשי</a>
+        </div>
+    </div>
+</nav>
+
+<div class="tool-page">
+  <div class="tool-inner">
+
+    <div class="tool-header">
+      <div class="tool-breadcrumb">
+        <a href="/pro/">Pro</a><span class="sep">/</span><a href="/pro/tools/">כלים</a><span class="sep">/</span>Meeting Pilot
+      </div>
+      <h1 class="tool-title">Meeting <span class="accent">Pilot.</span></h1>
+      <p class="tool-subtitle">פתרון end-to-end לפגישת לקוח. הכנה מבוססת מסמכים → הקלטה ותמלול בזמן אמת → סיכום אוטומטי + מייל ללקוח. <strong style="color:var(--accent-light);">כל המידע נשאר בדפדפן שלך - לא עולה לשרת.</strong></p>
+    </div>
+
+    <div class="security-banner">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <div><strong>אבטחה:</strong> כל הנתונים (מסמכים, הקלטה, תמלול) נשמרים <strong>רק בדפדפן שלך</strong> ב-localStorage. אינם עולים לשרת. ניתן למחוק בלחיצה אחת. תואם תיקון 13 לחוק הגנת הפרטיות.</div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="phase-tabs">
+      <button class="phase-tab active" data-phase="prep">
+        <span class="num"><span>1</span></span>
+        <span>הכנה לפגישה</span>
+      </button>
+      <button class="phase-tab" data-phase="live">
+        <span class="num"><span>2</span></span>
+        <span>פגישה חיה</span>
+      </button>
+      <button class="phase-tab" data-phase="summary">
+        <span class="num"><span>3</span></span>
+        <span>סיכום ופלטים</span>
+      </button>
+    </div>
+
+    <!-- PHASE 1 - PREP -->
+    <div class="phase-content active" data-phase-content="prep">
+
+      <div class="tool-card">
+        <h3 style="font-family:'Karantina';font-size:32px;color:var(--text);margin-bottom:16px;">פרטי הלקוח</h3>
+
+        <div class="client-grid">
+          <div class="input-group">
+            <label>שם הלקוח</label>
+            <input type="text" id="clientName" placeholder="שם מלא">
+          </div>
+          <div class="input-group">
+            <label>גיל</label>
+            <input type="number" id="clientAge" placeholder="35">
+          </div>
+          <div class="input-group">
+            <label>מצב משפחתי</label>
+            <select id="clientFamily">
+              <option value="">בחר</option>
+              <option>רווק/ה</option>
+              <option>בזוגיות</option>
+              <option>נשוי/אה</option>
+              <option>נשוי/אה + ילדים</option>
+              <option>גרוש/ה</option>
+              <option>אלמן/ה</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>מקצוע</label>
+            <input type="text" id="clientJob" placeholder="הנדסת תוכנה / רפואה / וכו'">
+          </div>
+          <div class="input-group">
+            <label>סוג הפגישה</label>
+            <select id="meetingType">
+              <option>פגישת היכרות</option>
+              <option>הצגת ממצאים</option>
+              <option>סקירה רבעונית</option>
+              <option>פגישת מעקב</option>
+              <option>פגישת החלטה</option>
+              <option>פגישה אחרת</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>משך משוער</label>
+            <select id="meetingDuration">
+              <option value="30">30 דקות</option>
+              <option value="45">45 דקות</option>
+              <option value="60" selected>60 דקות</option>
+              <option value="90">90 דקות</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>היסטוריה / רקע (אופציונלי)</label>
+          <textarea id="clientHistory" placeholder="הערות מפגישות קודמות, מטרות שעלו, חששות..."></textarea>
+          <div class="hint">ככל שיש יותר רקע - ההכנה לפגישה תהיה מדויקת יותר.</div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <h3 style="font-family:'Karantina';font-size:32px;color:var(--text);margin-bottom:16px;">מסמכים שיש</h3>
+        <div class="warn-box">
+          <strong>הדבק טקסט בלבד</strong> - לא מספרי חשבון, לא מספרי ת"ז, לא שמות אנשים שלישיים. הכלי לא רואה PDFs בגרסה זו (יוטמע בגרסת Pro המלאה).
+        </div>
+
+        <div class="input-group">
+          <label>סיכום דוחות בנקאיים</label>
+          <textarea id="docBank" placeholder="לדוגמה:
+- הכנסה ממוצעת: 28,400 ₪/חודש
+- הוצאות ממוצעות: 26,180 ₪/חודש
+- שיעור חיסכון: 7.8%
+- מנויים שזיהיתי: Spotify, Netflix, Game Pass (לא בשימוש)
+- אנומליה: חיוב 1,200 ₪ ב-22.04 לא מסווג"></textarea>
+        </div>
+
+        <div class="input-group">
+          <label>סיכום פוליסות / פנסיה / השקעות</label>
+          <textarea id="docPolicies" placeholder="לדוגמה:
+- ביטוח חיים: מגדל, מ-2014, 1,000,000 ₪ ריסק, 142 ₪/חודש
+- אכ&quot;ע: 12,000 ₪/חודש (נמוך, צריך לבחון)
+- קרן פנסיה: כלל, צבירה 350K, מסלול תשואה גבוה
+- השתלמות: הראל, צבירה 180K, נזיל"></textarea>
+        </div>
+
+        <div class="input-group">
+          <label>פערים / חששות שזיהיתי בקריאה הראשונית</label>
+          <textarea id="docGaps" placeholder="לדוגמה:
+- אין כיסוי סיעוד
+- ביטוח חיים מתעריף ישן (2014)
+- שיעור חיסכון נמוך משמעותית מהיעד
+- חוסר ברור לגבי משכנתא"></textarea>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn-primary" onclick="generatePrep()">צור תדריך לפגישה</button>
+        <button class="btn-secondary" onclick="clearPrepData()">נקה הכל</button>
+        <button class="btn-secondary" onclick="goToPhase('live')">דלג להקלטה ←</button>
+      </div>
+
+      <div id="prepOutput" style="display:none; margin-top:24px;">
+        <div class="briefing-box">
+          <h4>תדריך לפגישה - <span id="prepClientName"></span></h4>
+          <div id="prepContent"></div>
+        </div>
+        <div class="action-bar">
+          <button class="btn-secondary" onclick="copyPrep()">העתק תדריך</button>
+          <button class="btn-primary" onclick="goToPhase('live')">המשך לפגישה ←</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 - LIVE -->
+    <div class="phase-content" data-phase-content="live">
+
+      <div class="warn-box">
+        <strong>הסכמת הלקוח חיונית.</strong> חוקית ואתית - הקלטה דורשת הסכמה מפורשת. הצהר בתחילת הפגישה: "אני מתעד את הפגישה לצרכים פנימיים שלי. אני אמחק את ההקלטה אחרי הסיכום. האם זה בסדר מצדך?"
+      </div>
+
+      <div id="prepReminder" style="display:none;">
+        <div class="briefing-box">
+          <h4 style="font-size:22px;">📋 תדריך מפגישה זו (להזכרת עין)</h4>
+          <div id="prepReminderContent" style="font-size:13px;"></div>
+        </div>
+      </div>
+
+      <div class="recorder" id="recorderBox">
+        <button class="record-btn" id="recordBtn" onclick="toggleRecording()">REC</button>
+        <div class="record-time" id="recordTime">00:00</div>
+        <div class="record-status" id="recordStatus">לחץ להקלטה</div>
+      </div>
+
+      <div class="tool-card" style="padding:0;">
+        <div style="padding:20px 24px; border-bottom:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center;">
+          <h4 style="font-family:'Heebo';font-size:16px;font-weight:700;color:var(--text);margin:0;">תמלול בזמן אמת <span style="font-size:11px;color:var(--text3);font-weight:400;">· עברית · Chrome</span></h4>
+          <button class="btn-mini" onclick="clearTranscript()" style="font-size:12px;padding:6px 12px;">נקה</button>
+        </div>
+        <div class="live-transcript" id="liveTranscript"></div>
+      </div>
+
+      <div class="notes-pad">
+        <h5>הערות מהירות (פרטיות, לא ללקוח)</h5>
+        <textarea id="liveNotes" placeholder="כתוב הערות תוך כדי הפגישה - נקודות חשובות, פעולות לעשות, תזכורות..."></textarea>
+      </div>
+
+      <div class="action-bar" style="margin-top:24px;">
+        <button class="btn-primary" onclick="goToPhase('summary')">סיים פגישה ועבור לסיכום ←</button>
+        <button class="btn-secondary" onclick="downloadAudio()" id="downloadAudioBtn" style="display:none;">הורד הקלטה</button>
+      </div>
+
+    </div>
+
+    <!-- PHASE 3 - SUMMARY -->
+    <div class="phase-content" data-phase-content="summary">
+
+      <div class="tool-card">
+        <h3 style="font-family:'Karantina';font-size:32px;color:var(--text);margin-bottom:8px;">תמלול הפגישה</h3>
+        <p style="color:var(--text3);font-size:13px;margin-bottom:16px;">העתק לפרומפט #14 בספריית הפרומפטים כדי לקבל סיכום AI. או ערוך ידנית למטה.</p>
+        <textarea id="finalTranscript" class="transcript-area"></textarea>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn-secondary" onclick="copyTranscript()">העתק תמלול</button>
+          <a href="/pro/tools/prompts/" class="btn-secondary">ספריית פרומפטים →</a>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <h3 style="font-family:'Karantina';font-size:32px;color:var(--text);margin-bottom:16px;">סיכום מובנה</h3>
+        <p style="color:var(--text2);font-size:14px;margin-bottom:20px;">מלא את הסעיפים. הפלט מסודר וניתן להעתקה ישירות לסיכום ב-Notion / מייל ללקוח.</p>
+
+        <div class="summary-section">
+          <h4>נושאים שנדונו <span class="badge">topics</span></h4>
+          <textarea id="summTopics" placeholder="3-5 נושאים מרכזיים שעלו בפגישה" style="min-height:100px;"></textarea>
+        </div>
+
+        <div class="summary-section">
+          <h4>החלטות שהתקבלו <span class="badge">decisions</span></h4>
+          <textarea id="summDecisions" placeholder="מה הוחלט? מה הסכמתם עליו? (גם 'אין החלטה - בודק עוד' זו החלטה)" style="min-height:100px;"></textarea>
+        </div>
+
+        <div class="summary-section">
+          <h4>פעולות ממני <span class="badge">my-actions</span></h4>
+          <textarea id="summMyActions" placeholder="מה אני צריך לעשות עד הפגישה הבאה? (1-3 פעולות ספציפיות)" style="min-height:80px;"></textarea>
+        </div>
+
+        <div class="summary-section">
+          <h4>פעולות מהלקוח <span class="badge">client-actions</span></h4>
+          <textarea id="summClientActions" placeholder="מה הלקוח צריך לעשות? (לשלוח מסמך, לחשוב על משהו, להחליט)" style="min-height:80px;"></textarea>
+        </div>
+
+        <div class="summary-section">
+          <h4>שאלות פתוחות <span class="badge">open</span></h4>
+          <textarea id="summOpen" placeholder="מה נשאר לא פתור? מה צריך להתעמק בו?" style="min-height:80px;"></textarea>
+        </div>
+
+        <div class="summary-section">
+          <h4>פגישה הבאה <span class="badge">next</span></h4>
+          <textarea id="summNext" placeholder="מתי? מה הנושא? מה צריך להכין?" style="min-height:60px;"></textarea>
+        </div>
+      </div>
+
+      <div class="tool-card accent">
+        <h3 style="font-family:'Karantina';font-size:32px;color:var(--text);margin-bottom:8px;">פלטים מוכנים</h3>
+        <p style="color:var(--text2);font-size:14px;margin-bottom:20px;">כפתור אחד = פלט מוכן להעתקה. בחר מה אתה צריך:</p>
+
+        <div class="action-bar">
+          <button class="btn-primary" onclick="generateClientEmail()">צור מייל ללקוח</button>
+          <button class="btn-primary" onclick="generateNotionSummary()">צור סיכום ל-Notion</button>
+          <button class="btn-primary" onclick="generatePlainSummary()">צור סיכום פנימי</button>
+        </div>
+
+        <div id="generatedOutput" style="margin-top:24px;display:none;">
+          <textarea id="outputArea" style="min-height:400px;font-family:ui-monospace,monospace;font-size:13px;"></textarea>
+          <div class="action-bar" style="margin-top:12px;">
+            <button class="btn-secondary" onclick="copyGenerated()">העתק לClipboard</button>
+            <button class="btn-secondary" onclick="downloadGenerated()">הורד כ-TXT</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <h3 style="font-family:'Heebo';font-size:18px;color:var(--text);margin-bottom:12px;">סיום וניקוי</h3>
+        <p style="color:var(--text2);font-size:14px;margin-bottom:16px;">בסיום העבודה - מומלץ למחוק את הנתונים מהדפדפן (במיוחד אחרי שהעברת את הסיכום ל-CRM).</p>
+        <div class="action-bar">
+          <button class="btn-secondary" onclick="exportAllData()">ייצא הכל ל-JSON</button>
+          <button class="btn-secondary" onclick="clearAllData()" style="border-color:rgba(239,68,68,0.3);color:#fca5a5;">🗑 מחק הכל</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="disclaimer-small">
+      <strong>הערה:</strong> הכלי משתמש ב-Web Speech API של הדפדפן לתמלול חי. עובד מצוין ב-Chrome / Edge. ב-Safari תמיכה חלקית. כל הנתונים נשמרים מקומית (localStorage) ולא עולים לשרת. הקלטת אודיו דורשת הסכמת המשתמש.
+    </div>
+
+  </div>
+</div>
+
+<script>
+// === STATE MANAGEMENT ===
+const STORAGE_KEY = 'meetingPilot_v1';
+
+function loadState() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  } catch(e) { return {}; }
+}
+function saveState(updates) {
+  const current = loadState();
+  const next = { ...current, ...updates, lastUpdated: Date.now() };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+}
+
+// Restore form values on load
+document.addEventListener('DOMContentLoaded', () => {
+  const s = loadState();
+  ['clientName','clientAge','clientFamily','clientJob','meetingType','meetingDuration','clientHistory',
+   'docBank','docPolicies','docGaps','liveNotes','finalTranscript',
+   'summTopics','summDecisions','summMyActions','summClientActions','summOpen','summNext'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && s[id]) el.value = s[id];
+  });
+
+  // Bind auto-save
+  document.querySelectorAll('input, select, textarea').forEach(el => {
+    if (el.id) {
+      el.addEventListener('input', () => {
+        saveState({ [el.id]: el.value });
+      });
+    }
+  });
+
+  // Restore prep output if exists
+  if (s.prepGenerated) {
+    document.getElementById('prepOutput').style.display = 'block';
+    document.getElementById('prepClientName').textContent = s.clientName || 'הלקוח';
+    document.getElementById('prepContent').innerHTML = s.prepGenerated;
+    document.getElementById('prepReminder').style.display = 'block';
+    document.getElementById('prepReminderContent').innerHTML = s.prepGenerated;
+  }
+});
+
+// === PHASE NAVIGATION ===
+function goToPhase(phase) {
+  document.querySelectorAll('.phase-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.phase-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.phase-tab[data-phase="${phase}"]`).classList.add('active');
+  document.querySelector(`.phase-content[data-phase-content="${phase}"]`).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Mark prior phases as completed
+  const phases = ['prep', 'live', 'summary'];
+  const idx = phases.indexOf(phase);
+  phases.forEach((p, i) => {
+    const tab = document.querySelector(`.phase-tab[data-phase="${p}"]`);
+    if (i < idx) tab.classList.add('completed');
+    else tab.classList.remove('completed');
+  });
+}
+document.querySelectorAll('.phase-tab').forEach(tab => {
+  tab.addEventListener('click', () => goToPhase(tab.dataset.phase));
+});
+
+// === PHASE 1 - PREP GENERATION ===
+function generatePrep() {
+  const data = {
+    name: document.getElementById('clientName').value || '[שם הלקוח]',
+    age: document.getElementById('clientAge').value || '?',
+    family: document.getElementById('clientFamily').value || '?',
+    job: document.getElementById('clientJob').value || '?',
+    meetingType: document.getElementById('meetingType').value,
+    duration: document.getElementById('meetingDuration').value,
+    history: document.getElementById('clientHistory').value,
+    docBank: document.getElementById('docBank').value,
+    docPolicies: document.getElementById('docPolicies').value,
+    docGaps: document.getElementById('docGaps').value
+  };
+
+  let html = '';
+
+  // Profile snapshot
+  html += '<p><strong>פרופיל:</strong> ' +
+    `${data.name}, גיל ${data.age}, ${data.family}, ${data.job}.</p>`;
+
+  // Meeting goals
+  html += '<p style="margin-top:12px;"><strong>מטרת הפגישה:</strong> ' + data.meetingType + ' (' + data.duration + ' דקות)</p>';
+
+  // Key facts
+  if (data.docBank || data.docPolicies) {
+    html += '<p style="margin-top:14px;"><strong>נתונים מהמסמכים:</strong></p><ul>';
+    if (data.docBank) data.docBank.split('\n').filter(l => l.trim().startsWith('-') || l.trim().startsWith('•')).forEach(l => {
+      html += `<li>${l.replace(/^[-•]\s*/, '')}</li>`;
+    });
+    if (data.docPolicies) data.docPolicies.split('\n').filter(l => l.trim().startsWith('-') || l.trim().startsWith('•')).forEach(l => {
+      html += `<li>${l.replace(/^[-•]\s*/, '')}</li>`;
+    });
+    html += '</ul>';
+  }
+
+  // Recommended discussion topics
+  html += '<p style="margin-top:14px;"><strong>נושאים מומלצים לפגישה:</strong></p><ol>';
+  const meetingType = data.meetingType;
+  if (meetingType === 'פגישת היכרות') {
+    html += '<li>הסיפור האישי של הלקוח (10 דקות)</li>';
+    html += '<li>מצב משפחתי + הכנסות (8 דקות)</li>';
+    html += '<li>נכסים והתחייבויות (12 דקות)</li>';
+    html += '<li>מטרות וחששות (10 דקות)</li>';
+  } else if (meetingType === 'הצגת ממצאים') {
+    html += '<li>סקירת מצב נוכחי (10 דקות)</li>';
+    html += '<li>הצגת פערים שזוהו (15 דקות)</li>';
+    html += '<li>אפשרויות לדיון (15 דקות)</li>';
+    html += '<li>שאלות פתוחות (10 דקות)</li>';
+  } else if (meetingType === 'סקירה רבעונית') {
+    html += '<li>סטטוס פעולות מהפגישה הקודמת (8 דקות)</li>';
+    html += '<li>שינויים בתיק / במצב (10 דקות)</li>';
+    html += '<li>פעולות מומלצות לרבעון הבא (15 דקות)</li>';
+    html += '<li>סקירת מטרות שנתיות (10 דקות)</li>';
+  } else {
+    html += '<li>פתיחה ועדכונים (10 דקות)</li>';
+    html += '<li>נושא מרכזי לדיון (30 דקות)</li>';
+    html += '<li>סיכום והחלטות (10 דקות)</li>';
+  }
+  html += '</ol>';
+
+  // Questions to ask
+  html += '<p style="margin-top:14px;"><strong>שאלות מובילות:</strong></p><ul>';
+  if (data.docGaps) {
+    data.docGaps.split('\n').filter(l => l.trim()).forEach(line => {
+      const clean = line.replace(/^[-•]\s*/, '').trim();
+      if (clean) html += `<li>בנוגע ל"${clean}" - מה ההיסטוריה? איך הגענו לזה?</li>`;
+    });
+  }
+  html += '<li>האם חל שינוי במצב המשפחתי / תעסוקתי בחצי השנה האחרונה?</li>';
+  html += '<li>מה החששות שלך הכי גדולים פיננסית כרגע?</li>';
+  html += '<li>איך אתה מרגיש לגבי המצב הנוכחי - בסקאלה של 1 ל-10?</li>';
+  html += '</ul>';
+
+  // Watch-outs
+  if (data.docGaps) {
+    html += '<p style="margin-top:14px;"><strong>נקודות אדומות לעקוב:</strong></p><ul>';
+    data.docGaps.split('\n').filter(l => l.trim()).forEach(line => {
+      const clean = line.replace(/^[-•]\s*/, '').trim();
+      if (clean) html += `<li>${clean}</li>`;
+    });
+    html += '</ul>';
+  }
+
+  // History
+  if (data.history) {
+    html += '<p style="margin-top:14px;"><strong>רקע מפגישות קודמות:</strong></p>';
+    html += '<p style="font-style:italic;color:var(--text3);font-size:13px;">' + data.history.replace(/\n/g, '<br>') + '</p>';
+  }
+
+  document.getElementById('prepOutput').style.display = 'block';
+  document.getElementById('prepClientName').textContent = data.name;
+  document.getElementById('prepContent').innerHTML = html;
+  document.getElementById('prepReminder').style.display = 'block';
+  document.getElementById('prepReminderContent').innerHTML = html;
+
+  saveState({ prepGenerated: html });
+}
+
+function copyPrep() {
+  const text = document.getElementById('prepContent').innerText;
+  const name = document.getElementById('prepClientName').textContent;
+  navigator.clipboard.writeText(`תדריך לפגישה - ${name}\n\n${text}\n\n— הופק ב-Meeting Pilot של YARIN.MALKA Pro`).then(() => alert('התדריך הועתק.'));
+}
+
+function clearPrepData() {
+  if (!confirm('למחוק את כל נתוני ההכנה לפגישה?')) return;
+  ['clientName','clientAge','clientFamily','clientJob','clientHistory','docBank','docPolicies','docGaps'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  document.getElementById('prepOutput').style.display = 'none';
+  document.getElementById('prepReminder').style.display = 'none';
+  saveState({ prepGenerated: null });
+}
+
+// === PHASE 2 - RECORDING & TRANSCRIPTION ===
+let mediaRecorder, audioChunks = [], audioBlob;
+let recognition, isRecording = false, recordStart = 0, timerInterval;
+
+function toggleRecording() {
+  if (isRecording) stopRecording();
+  else startRecording();
+}
+
+async function startRecording() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream);
+    audioChunks = [];
+    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+    mediaRecorder.onstop = () => {
+      audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+      document.getElementById('downloadAudioBtn').style.display = 'inline-flex';
+      stream.getTracks().forEach(t => t.stop());
+    };
+    mediaRecorder.start();
+
+    // Speech recognition
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SR();
+      recognition.lang = 'he-IL';
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.onresult = (event) => {
+        let interim = '', final = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const r = event.results[i];
+          if (r.isFinal) final += r[0].transcript + ' ';
+          else interim += r[0].transcript;
+        }
+        if (final) {
+          const div = document.getElementById('liveTranscript');
+          const span = document.createElement('span');
+          span.className = 'final';
+          span.textContent = final + ' ';
+          div.appendChild(span);
+          // Append to final transcript
+          const ft = document.getElementById('finalTranscript');
+          ft.value = (ft.value + ' ' + final).trim();
+          saveState({ finalTranscript: ft.value });
+          div.scrollTop = div.scrollHeight;
+        }
+        if (interim) {
+          const div = document.getElementById('liveTranscript');
+          const existing = div.querySelector('.interim');
+          if (existing) existing.textContent = interim;
+          else {
+            const span = document.createElement('span');
+            span.className = 'interim';
+            span.textContent = interim;
+            div.appendChild(span);
+          }
+        } else {
+          const existing = document.querySelector('#liveTranscript .interim');
+          if (existing) existing.remove();
+        }
+      };
+      recognition.onerror = (e) => {
+        console.warn('Speech recognition error:', e.error);
+      };
+      recognition.onend = () => {
+        if (isRecording) recognition.start(); // restart if still recording
+      };
+      recognition.start();
+    } else {
+      alert('הדפדפן לא תומך בתמלול חי. עברו ל-Chrome / Edge.');
+    }
+
+    isRecording = true;
+    recordStart = Date.now();
+    document.getElementById('recordBtn').classList.add('recording');
+    document.getElementById('recordBtn').textContent = 'STOP';
+    document.getElementById('recorderBox').classList.add('recording');
+    document.getElementById('recordStatus').textContent = '⚫ מקליט...';
+    document.getElementById('recordStatus').classList.add('live');
+    timerInterval = setInterval(updateTimer, 1000);
+  } catch (e) {
+    alert('לא ניתן להתחיל הקלטה: ' + e.message + '\n\nוודא שאישרת גישה למיקרופון.');
+  }
+}
+
+function stopRecording() {
+  if (mediaRecorder && mediaRecorder.state === 'recording') mediaRecorder.stop();
+  if (recognition) {
+    isRecording = false;
+    try { recognition.stop(); } catch(e) {}
+  }
+  isRecording = false;
+  clearInterval(timerInterval);
+  document.getElementById('recordBtn').classList.remove('recording');
+  document.getElementById('recordBtn').textContent = 'REC';
+  document.getElementById('recorderBox').classList.remove('recording');
+  document.getElementById('recordStatus').textContent = 'הקלטה הסתיימה. ניתן להמשיך הקלטה נוספת.';
+  document.getElementById('recordStatus').classList.remove('live');
+}
+
+function updateTimer() {
+  const elapsed = Math.floor((Date.now() - recordStart) / 1000);
+  const mm = String(Math.floor(elapsed / 60)).padStart(2, '0');
+  const ss = String(elapsed % 60).padStart(2, '0');
+  document.getElementById('recordTime').textContent = `${mm}:${ss}`;
+}
+
+function clearTranscript() {
+  if (!confirm('למחוק את כל התמלול?')) return;
+  document.getElementById('liveTranscript').innerHTML = '';
+  document.getElementById('finalTranscript').value = '';
+  saveState({ finalTranscript: '' });
+}
+
+function downloadAudio() {
+  if (!audioBlob) return;
+  const url = URL.createObjectURL(audioBlob);
+  const a = document.createElement('a');
+  a.href = url;
+  const name = document.getElementById('clientName').value || 'meeting';
+  const date = new Date().toISOString().split('T')[0];
+  a.download = `${name}-${date}.webm`;
+  a.click();
+}
+
+// === PHASE 3 - SUMMARY OUTPUTS ===
+function generateClientEmail() {
+  const data = collectSummaryData();
+  const text = `שלום ${data.name},
+
+תודה על הפגישה שלנו ${data.dateText}.
+
+נושאים מרכזיים שדנו בהם:
+${formatList(data.topics)}
+
+החלטות שהתקבלו:
+${formatList(data.decisions)}
+
+הצעדים הבאים מהצד שלך:
+${formatList(data.clientActions)}
+
+הצעדים מצדי:
+${formatList(data.myActions)}
+
+${data.open ? `שאלות פתוחות שנמשיך לחשוב עליהן:\n${formatList(data.open)}\n\n` : ''}${data.next ? `פגישה הבאה: ${data.next}\n\n` : ''}אם משהו לא ברור או יש לך שאלות נוספות - רק תגיד.
+
+[שם המתכנן]`;
+
+  showOutput(text);
+}
+
+function generateNotionSummary() {
+  const data = collectSummaryData();
+  const text = `# ${data.name} - ${data.meetingType}
+תאריך: ${data.dateText}
+משך: ${data.duration} דקות
+
+## נושאים שנדונו
+${formatList(data.topics)}
+
+## החלטות
+${formatList(data.decisions)}
+
+## פעולות שלי
+${formatList(data.myActions)}
+
+## פעולות הלקוח
+${formatList(data.clientActions)}
+
+## שאלות פתוחות
+${formatList(data.open)}
+
+## פגישה הבאה
+${data.next || 'לא נקבעה עדיין'}
+
+---
+
+## תמלול מלא
+${data.transcript || '(אין תמלול)'}
+
+---
+הופק ב-Meeting Pilot · ${new Date().toLocaleDateString('he-IL')}`;
+
+  showOutput(text);
+}
+
+function generatePlainSummary() {
+  const data = collectSummaryData();
+  const text = `סיכום פגישה - ${data.name}
+${data.dateText} · ${data.meetingType} · ${data.duration} דקות
+
+נושאים:
+${formatList(data.topics)}
+
+החלטות:
+${formatList(data.decisions)}
+
+פעולות:
+- שלי: ${data.myActions || 'אין'}
+- הלקוח: ${data.clientActions || 'אין'}
+
+פתוח: ${data.open || 'אין'}
+
+הבא: ${data.next || 'לא נקבע'}
+
+תמלול:
+${data.transcript || '(אין)'}`;
+
+  showOutput(text);
+}
+
+function collectSummaryData() {
+  const today = new Date().toLocaleDateString('he-IL', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  return {
+    name: document.getElementById('clientName').value || 'הלקוח',
+    meetingType: document.getElementById('meetingType').value,
+    duration: document.getElementById('meetingDuration').value,
+    dateText: today,
+    topics: document.getElementById('summTopics').value,
+    decisions: document.getElementById('summDecisions').value,
+    myActions: document.getElementById('summMyActions').value,
+    clientActions: document.getElementById('summClientActions').value,
+    open: document.getElementById('summOpen').value,
+    next: document.getElementById('summNext').value,
+    transcript: document.getElementById('finalTranscript').value
+  };
+}
+
+function formatList(text) {
+  if (!text || !text.trim()) return '(לא צוין)';
+  return text.split('\n').filter(l => l.trim()).map(l => '• ' + l.replace(/^[-•]\s*/, '')).join('\n');
+}
+
+function showOutput(text) {
+  document.getElementById('generatedOutput').style.display = 'block';
+  document.getElementById('outputArea').value = text;
+  document.getElementById('outputArea').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function copyGenerated() {
+  const text = document.getElementById('outputArea').value;
+  navigator.clipboard.writeText(text).then(() => alert('הועתק.'));
+}
+
+function downloadGenerated() {
+  const text = document.getElementById('outputArea').value;
+  const name = document.getElementById('clientName').value || 'meeting';
+  const date = new Date().toISOString().split('T')[0];
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `${name}-${date}-summary.txt`; a.click();
+}
+
+function copyTranscript() {
+  const text = document.getElementById('finalTranscript').value;
+  navigator.clipboard.writeText(text).then(() => alert('התמלול הועתק.'));
+}
+
+function exportAllData() {
+  const data = loadState();
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const name = data.clientName || 'meeting';
+  const date = new Date().toISOString().split('T')[0];
+  a.download = `${name}-${date}-full-export.json`;
+  a.click();
+}
+
+function clearAllData() {
+  if (!confirm('זה ימחק את כל הנתונים מהדפדפן (פרטי לקוח, תמלול, סיכומים). פעולה לא הפיכה. להמשיך?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  location.reload();
+}
+</script>
+
+</body>
+</html>
