@@ -217,6 +217,7 @@ hamburger.addEventListener('click', () => { hamburger.classList.toggle('active')
 function closeMenu() { hamburger.classList.remove('active'); mobileMenu.classList.remove('open'); }
 function toggleTheme() { var c = document.documentElement.getAttribute('data-theme') || 'dark'; var n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('theme', n); }
 </script>
+<script defer src="/assets/js/a11y.js"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "9105c6491cdc412ba8510ee4615553c5"}'></script>
 </body>
 </html>

@@ -2606,6 +2606,232 @@ figure.screenshot { margin-inline-start: 0; margin-inline-end: 0; }
   outline-offset: 4px;
 }
 
+/* === A11Y: WIDGET (floating button + panel) === */
+.a11y-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 950;
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(108,60,225,0.45);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.a11y-btn:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(108,60,225,0.6); }
+.a11y-btn svg { width: 28px; height: 28px; }
+
+.a11y-panel {
+  position: fixed;
+  bottom: 90px;
+  right: 24px;
+  z-index: 949;
+  width: 320px;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+  background: var(--bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+  backdrop-filter: blur(20px);
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s, transform 0.25s;
+  font-family: 'Heebo', sans-serif;
+}
+.a11y-panel.open { display: block; opacity: 1; transform: translateY(0); }
+[data-theme="light"] .a11y-panel { background: #fff; box-shadow: 0 12px 40px rgba(31,41,55,0.15); }
+
+.a11y-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--glass-border);
+}
+.a11y-panel-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: 'Heebo', sans-serif;
+}
+.a11y-close {
+  background: none;
+  border: none;
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.a11y-close:hover { background: rgba(108,60,225,0.1); color: var(--text); }
+
+.a11y-section {
+  margin-bottom: 16px;
+}
+.a11y-section-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+}
+
+.a11y-row { display: flex; gap: 8px; }
+.a11y-row .a11y-action {
+  flex: 1;
+  padding: 10px;
+  background: rgba(108,60,225,0.08);
+  border: 1px solid rgba(108,60,225,0.2);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.a11y-row .a11y-action:hover { background: rgba(108,60,225,0.16); border-color: var(--accent); }
+
+.a11y-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 6px;
+  text-align: right;
+}
+.a11y-toggle:hover { background: rgba(108,60,225,0.06); border-color: rgba(108,60,225,0.3); }
+.a11y-toggle .a11y-switch {
+  width: 36px;
+  height: 20px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 999px;
+  position: relative;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+[data-theme="light"] .a11y-toggle .a11y-switch { background: rgba(31,41,55,0.12); }
+.a11y-toggle .a11y-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+.a11y-toggle[aria-pressed="true"] .a11y-switch { background: var(--accent); }
+.a11y-toggle[aria-pressed="true"] .a11y-switch::after { transform: translateX(-16px); }
+
+.a11y-footer {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--glass-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.a11y-footer a { font-size: 13px; color: var(--accent-light); }
+.a11y-footer a:hover { color: var(--accent); text-decoration: underline; }
+.a11y-reset {
+  padding: 8px 14px;
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  color: var(--text2);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.a11y-reset:hover { color: var(--text); border-color: var(--accent); }
+
+/* === A11Y: APPLIED MODIFIERS === */
+html.a11y-large-1 { font-size: 110%; }
+html.a11y-large-2 { font-size: 120%; }
+html.a11y-large-3 { font-size: 130%; }
+
+html.a11y-no-motion *,
+html.a11y-no-motion *::before,
+html.a11y-no-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+html.a11y-no-motion .marquee-row,
+html.a11y-no-motion .mesh-bg,
+html.a11y-no-motion .orb,
+html.a11y-no-motion body::before { animation: none !important; }
+html.a11y-no-motion .reveal,
+html.a11y-no-motion .reveal-left,
+html.a11y-no-motion .reveal-right,
+html.a11y-no-motion .reveal-scale {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+html.a11y-underline-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 3px !important;
+}
+
+html.a11y-readable-font,
+html.a11y-readable-font * {
+  font-family: 'Heebo', Arial, sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+}
+
+html.a11y-high-contrast {
+  --bg: #000;
+  --text: #fff;
+  --text2: #fff;
+  --text3: #e5e5e5;
+  --accent: #ffe600;
+  --accent-light: #ffe600;
+  --accent-dark: #c8b400;
+  --glass: rgba(255,255,255,0.05);
+  --glass-border: rgba(255,255,255,0.7);
+}
+html.a11y-high-contrast body::before { display: none !important; }
+html.a11y-high-contrast .orb { display: none !important; }
+html.a11y-high-contrast a { color: #ffe600 !important; text-decoration: underline !important; }
+html.a11y-high-contrast .nav-cta,
+html.a11y-high-contrast .cta-btn {
+  background: #ffe600 !important;
+  color: #000 !important;
+  border: 2px solid #fff !important;
+}
+
 /* === A11Y: SKIP LINK === */
 .skip-link {
   position: absolute;
