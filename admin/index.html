@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>ניהול | YARIN.MALKA</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&family=Karantina:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Heebo', sans-serif; background: #0a0a16; color: #f3f3f7; min-height: 100vh; line-height: 1.5; }
+.admin { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+.admin h1 { font-family: 'Karantina'; font-size: 56px; line-height: 1; margin-bottom: 8px; color: #f3f3f7; }
+.admin h1 .accent { color: #a78bfa; }
+.admin > .sub { color: #b0b0bd; margin-bottom: 32px; font-size: 14px; }
+
+/* Login */
+.login-card { max-width: 400px; margin: 80px auto; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 36px; }
+.login-card h2 { font-family: 'Karantina'; font-size: 36px; margin-bottom: 8px; }
+.login-card p { color: #b0b0bd; font-size: 13px; margin-bottom: 24px; }
+.login-card input { width: 100%; padding: 14px 16px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: #fff; font-size: 16px; font-family: 'Heebo'; }
+.login-card input:focus { outline: none; border-color: #6C3CE1; }
+.login-card button { width: 100%; padding: 14px; background: linear-gradient(135deg, #6C3CE1, #4F2EAB); color: #fff; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; margin-top: 12px; font-size: 15px; font-family: 'Heebo'; }
+.login-card button:hover { transform: translateY(-1px); }
+.login-card .error { color: #fca5a5; font-size: 13px; margin-top: 12px; text-align: center; }
+
+/* Tabs */
+.tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.tab { padding: 12px 20px; background: transparent; border: none; color: #b0b0bd; cursor: pointer; font-family: 'Heebo'; font-size: 14px; font-weight: 500; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tab.active { color: #a78bfa; border-bottom-color: #6C3CE1; }
+.tab:hover { color: #fff; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Project list */
+.actions-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
+.btn { padding: 10px 18px; background: linear-gradient(135deg, #6C3CE1, #4F2EAB); color: #fff; border: 1px solid rgba(108,60,225,0.6); border-radius: 10px; font-family: 'Heebo'; font-weight: 600; font-size: 14px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { transform: translateY(-1px); }
+.btn-secondary { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.15); color: #f3f3f7; }
+.btn-secondary:hover { background: rgba(255,255,255,0.08); }
+.btn-danger { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.4); color: #fca5a5; }
+.btn-danger:hover { background: rgba(239,68,68,0.25); }
+
+.project-row { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px 20px; margin-bottom: 10px; display: grid; grid-template-columns: 80px 1fr auto; gap: 16px; align-items: center; }
+.project-row img { width: 80px; height: 60px; object-fit: cover; border-radius: 6px; background: #1a1a2e; }
+.project-row .pinfo h3 { font-size: 16px; margin-bottom: 4px; }
+.project-row .pinfo .pmeta { font-size: 12px; color: #7a7a88; font-family: 'Inter'; }
+.project-row .pinfo .pdesc { font-size: 13px; color: #b0b0bd; margin-top: 6px; }
+.project-row .pactions { display: flex; gap: 6px; }
+.project-row .pactions button { padding: 6px 12px; font-size: 12px; }
+.project-row.featured { border-color: rgba(108,60,225,0.3); }
+.project-row.featured::before { content: '⭐ בעמוד הראשי'; position: absolute; }
+
+/* Edit form modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.show { display: flex; }
+.modal { background: #14142a; border: 1px solid rgba(108,60,225,0.3); border-radius: 16px; padding: 32px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
+.modal h2 { font-family: 'Karantina'; font-size: 32px; margin-bottom: 20px; }
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 13px; color: #b0b0bd; margin-bottom: 6px; font-weight: 500; }
+.field input, .field textarea, .field select { width: 100%; padding: 11px 14px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: #fff; font-family: 'Heebo'; font-size: 14px; }
+.field textarea { min-height: 70px; resize: vertical; }
+.field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: #6C3CE1; }
+.field .hint { font-size: 11px; color: #7a7a88; margin-top: 4px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.checkbox { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.checkbox input { width: auto; }
+.modal .actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+/* Export panel */
+.export-panel { background: rgba(108,60,225,0.05); border: 1px solid rgba(108,60,225,0.2); border-radius: 12px; padding: 20px; margin-top: 24px; }
+.export-panel h3 { font-family: 'Karantina'; font-size: 24px; margin-bottom: 8px; }
+.export-panel p { font-size: 13px; color: #b0b0bd; margin-bottom: 12px; }
+.code-block { background: #0a0a16; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 14px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #b0b0bd; overflow-x: auto; max-height: 200px; overflow-y: auto; direction: ltr; text-align: left; white-space: pre; line-height: 1.5; }
+
+.toast { position: fixed; bottom: 30px; right: 50%; transform: translateX(50%); background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4); color: #6ee7b7; padding: 14px 24px; border-radius: 10px; font-size: 14px; font-weight: 500; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+.toast.show { opacity: 1; }
+
+.placeholder-section { background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1); border-radius: 12px; padding: 40px; text-align: center; color: #7a7a88; }
+.placeholder-section h3 { color: #b0b0bd; margin-bottom: 8px; font-family: 'Karantina'; font-size: 24px; }
+
+/* Logout */
+.logout-btn { position: absolute; top: 30px; left: 24px; padding: 6px 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #b0b0bd; font-size: 12px; cursor: pointer; font-family: 'Heebo'; }
+.logout-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
+</style>
+</head>
+<body>
+
+<div id="loginView" class="login-card">
+    <h2>אזור ניהול</h2>
+    <p>הקלד סיסמה כדי להמשיך</p>
+    <input type="password" id="passwordInput" placeholder="סיסמה" autocomplete="off">
+    <button onclick="checkPassword()">היכנס</button>
+    <div class="error" id="loginError"></div>
+</div>
+
+<div id="adminView" style="display:none;">
+    <button class="logout-btn" onclick="logout()">יציאה</button>
+    <div class="admin">
+        <h1>אזור <span class="accent">ניהול.</span></h1>
+        <p class="sub">ערוך פרויקטים, צפה במצב האתר, וייצא תוכן.</p>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="projects">פרויקטים</button>
+            <button class="tab" data-tab="testimonials">עדויות</button>
+            <button class="tab" data-tab="content">תוכן כללי</button>
+            <button class="tab" data-tab="settings">הגדרות</button>
+        </div>
+
+        <div class="tab-content active" data-tab-content="projects">
+            <div class="actions-bar">
+                <button class="btn" onclick="openEditModal()">+ פרויקט חדש</button>
+                <button class="btn btn-secondary" onclick="exportData()">📦 הצג JSON לעדכון</button>
+                <button class="btn btn-secondary" onclick="downloadJSON()">⬇ הורד projects.json</button>
+                <button class="btn btn-secondary" onclick="reloadProjects()">🔄 טען מחדש</button>
+                <span id="projectsCount" style="margin-right:auto;font-size:13px;color:#7a7a88;"></span>
+            </div>
+
+            <div id="projectsList"></div>
+
+            <div class="export-panel" id="exportPanel" style="display:none;">
+                <h3>JSON לעדכון</h3>
+                <p>העתק את התוכן הבא והחלף את התוכן ב-<code>assets/data/projects.json</code>, ואז commit + push.</p>
+                <div class="code-block" id="exportCode"></div>
+                <button class="btn" onclick="copyJSON()" style="margin-top:12px;">העתק ל-Clipboard</button>
+            </div>
+        </div>
+
+        <div class="tab-content" data-tab-content="testimonials">
+            <div class="placeholder-section">
+                <h3>ניהול עדויות</h3>
+                <p>בקרוב - יוטמע אחרי שתקבל עוד עדויות אמיתיות.</p>
+                <p style="margin-top:12px;font-size:12px;">כרגע 2 עדויות (עדיאל + מוריה) - אם אתה רוצה לערוך אותן, ערוך ידנית ב-index.html</p>
+            </div>
+        </div>
+
+        <div class="tab-content" data-tab-content="content">
+            <div class="placeholder-section">
+                <h3>תוכן כללי</h3>
+                <p>בקרוב - עריכת hero, שירותים, אודות, FAQ.</p>
+                <p style="margin-top:12px;font-size:12px;">ננטמע כשתתחיל לעדכן את הטקסטים בתדירות גבוהה יותר.</p>
+            </div>
+        </div>
+
+        <div class="tab-content" data-tab-content="settings">
+            <div class="placeholder-section">
+                <h3>הגדרות</h3>
+                <p>שינוי סיסמה: ערוך את הקובץ <code>admin/index.html</code> וחפש <code>PASSWORD_HASH</code></p>
+                <p style="margin-top:12px;font-size:12px;">הסיסמה הנוכחית מאוחסנת כ-SHA-256 hash. ראה תיעוד ב-finance-pro/STATUS.md</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="editModal" onclick="if(event.target===this) closeEditModal()">
+    <div class="modal">
+        <h2 id="modalTitle">פרויקט חדש</h2>
+        <input type="hidden" id="editId">
+        <div class="field">
+            <label>שם הפרויקט</label>
+            <input type="text" id="editTitle" placeholder="לדוגמה: מרכז שלם">
+        </div>
+        <div class="field">
+            <label>URL</label>
+            <input type="text" id="editUrl" placeholder="https://...">
+        </div>
+        <div class="field">
+            <label>תיאור (קצר, 1-2 משפטים)</label>
+            <textarea id="editDescription" placeholder="לדוגמה: אתר למטפל ברפואה משלימה..."></textarea>
+        </div>
+        <div class="field-row">
+            <div class="field">
+                <label>תגית</label>
+                <input type="text" id="editBadge" placeholder="לדוגמה: אתר עסקי">
+            </div>
+            <div class="field">
+                <label>שנה</label>
+                <input type="text" id="editYear" placeholder="2026" value="2026">
+            </div>
+        </div>
+        <div class="field">
+            <label>נתיב תמונה (relative)</label>
+            <input type="text" id="editImage" placeholder="assets/project-name.jpg">
+            <div class="hint">העלה תמונה ל-assets/ ב-GitHub וציין את הנתיב</div>
+        </div>
+        <div class="field">
+            <label>סגנון תמונה (אופציונלי)</label>
+            <input type="text" id="editImageStyle" placeholder="object-position:top">
+            <div class="hint">השתמש ב-"object-position:top" אם הראש נחתך</div>
+        </div>
+        <div class="field">
+            <label class="checkbox">
+                <input type="checkbox" id="editFeatured">
+                <span>הצג בעמוד הראשי (6 פרויקטים מומלצים בלבד)</span>
+            </label>
+        </div>
+        <div class="actions">
+            <button class="btn btn-secondary" onclick="closeEditModal()">ביטול</button>
+            <button class="btn btn-danger" id="deleteBtn" onclick="deleteProject()" style="display:none;">מחק</button>
+            <button class="btn" onclick="saveProject()">שמור</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast">פעולה הושלמה</div>
+
+<script>
+// PASSWORD: yarin2026 - HASH below is SHA-256
+// To change: compute SHA-256 of new password and replace this value
+const PASSWORD_HASH = '37db28375b1c75d35190fa166915e4b5e27fa5b8621e8b692b46ce71a396d876';
+
+async function sha256(text) {
+    const buffer = new TextEncoder().encode(text);
+    const hash = await crypto.subtle.digest('SHA-256', buffer);
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function checkPassword() {
+    const pwd = document.getElementById('passwordInput').value;
+    const hash = await sha256(pwd);
+    if (hash === PASSWORD_HASH) {
+        sessionStorage.setItem('admin-auth', '1');
+        showAdmin();
+    } else {
+        document.getElementById('loginError').textContent = 'סיסמה שגויה';
+    }
+}
+
+function logout() {
+    sessionStorage.removeItem('admin-auth');
+    location.reload();
+}
+
+document.getElementById('passwordInput').addEventListener('keypress', e => {
+    if (e.key === 'Enter') checkPassword();
+});
+
+function showAdmin() {
+    document.getElementById('loginView').style.display = 'none';
+    document.getElementById('adminView').style.display = 'block';
+    loadProjects();
+}
+
+// Check auth on load
+if (sessionStorage.getItem('admin-auth') === '1') {
+    showAdmin();
+}
+
+// === PROJECTS MANAGEMENT ===
+let projects = [];
+
+async function loadProjects() {
+    try {
+        const res = await fetch('/assets/data/projects.json?v=' + Date.now());
+        const data = await res.json();
+        projects = data.projects;
+        renderProjects();
+    } catch (e) {
+        toast('שגיאה בטעינה: ' + e.message, true);
+    }
+}
+
+function renderProjects() {
+    const list = document.getElementById('projectsList');
+    document.getElementById('projectsCount').textContent = `${projects.length} פרויקטים (${projects.filter(p => p.featured).length} מומלצים)`;
+    list.innerHTML = projects.map((p, i) => `
+        <div class="project-row ${p.featured ? 'featured' : ''}" data-id="${p.id}">
+            <img src="/${p.image}" alt="${esc(p.title)}" onerror="this.style.background='#333';this.src='';">
+            <div class="pinfo">
+                <h3>${esc(p.title)} ${p.featured ? '⭐' : ''}</h3>
+                <div class="pmeta">${esc(p.badge)} · ${p.year || '–'} · <a href="${esc(p.url)}" target="_blank" style="color:#a78bfa;">${esc(p.url)}</a></div>
+                <div class="pdesc">${esc(p.description)}</div>
+            </div>
+            <div class="pactions">
+                <button class="btn btn-secondary" onclick="moveProject(${i}, -1)" ${i === 0 ? 'disabled style="opacity:0.3;"' : ''}>↑</button>
+                <button class="btn btn-secondary" onclick="moveProject(${i}, 1)" ${i === projects.length - 1 ? 'disabled style="opacity:0.3;"' : ''}>↓</button>
+                <button class="btn btn-secondary" onclick="editProject('${p.id}')">ערוך</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function esc(s) { return String(s || '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]); }
+
+function moveProject(idx, delta) {
+    const newIdx = idx + delta;
+    if (newIdx < 0 || newIdx >= projects.length) return;
+    const tmp = projects[idx];
+    projects[idx] = projects[newIdx];
+    projects[newIdx] = tmp;
+    renderProjects();
+}
+
+function openEditModal() {
+    document.getElementById('modalTitle').textContent = 'פרויקט חדש';
+    document.getElementById('editId').value = '';
+    document.getElementById('editTitle').value = '';
+    document.getElementById('editUrl').value = '';
+    document.getElementById('editDescription').value = '';
+    document.getElementById('editBadge').value = '';
+    document.getElementById('editYear').value = '2026';
+    document.getElementById('editImage').value = 'assets/project-name.jpg';
+    document.getElementById('editImageStyle').value = '';
+    document.getElementById('editFeatured').checked = false;
+    document.getElementById('deleteBtn').style.display = 'none';
+    document.getElementById('editModal').classList.add('show');
+}
+
+function editProject(id) {
+    const p = projects.find(x => x.id === id);
+    if (!p) return;
+    document.getElementById('modalTitle').textContent = 'עריכת פרויקט';
+    document.getElementById('editId').value = p.id;
+    document.getElementById('editTitle').value = p.title;
+    document.getElementById('editUrl').value = p.url;
+    document.getElementById('editDescription').value = p.description;
+    document.getElementById('editBadge').value = p.badge;
+    document.getElementById('editYear').value = p.year || '';
+    document.getElementById('editImage').value = p.image;
+    document.getElementById('editImageStyle').value = p.imageStyle || '';
+    document.getElementById('editFeatured').checked = p.featured;
+    document.getElementById('deleteBtn').style.display = 'inline-flex';
+    document.getElementById('editModal').classList.add('show');
+}
+
+function closeEditModal() {
+    document.getElementById('editModal').classList.remove('show');
+}
+
+function slugify(s) {
+    return s.toString().trim().toLowerCase().replace(/[^a-z0-9֐-׿]+/g, '-').replace(/^-|-$/g, '');
+}
+
+function saveProject() {
+    const id = document.getElementById('editId').value;
+    const data = {
+        id: id || slugify(document.getElementById('editTitle').value) || ('project-' + Date.now()),
+        title: document.getElementById('editTitle').value.trim(),
+        url: document.getElementById('editUrl').value.trim(),
+        description: document.getElementById('editDescription').value.trim(),
+        badge: document.getElementById('editBadge').value.trim(),
+        year: document.getElementById('editYear').value.trim(),
+        image: document.getElementById('editImage').value.trim(),
+        imageStyle: document.getElementById('editImageStyle').value.trim(),
+        featured: document.getElementById('editFeatured').checked
+    };
+    if (!data.title || !data.url) {
+        alert('חובה למלא שם ו-URL');
+        return;
+    }
+    if (id) {
+        const idx = projects.findIndex(p => p.id === id);
+        if (idx >= 0) projects[idx] = data;
+    } else {
+        projects.push(data);
+    }
+    renderProjects();
+    closeEditModal();
+    toast('נשמר. אל תשכח לייצא את ה-JSON ולעדכן ב-GitHub');
+}
+
+function deleteProject() {
+    const id = document.getElementById('editId').value;
+    if (!id) return;
+    if (!confirm('למחוק את הפרויקט?')) return;
+    projects = projects.filter(p => p.id !== id);
+    renderProjects();
+    closeEditModal();
+    toast('נמחק. אל תשכח לייצא את ה-JSON');
+}
+
+function exportData() {
+    const json = JSON.stringify({ projects }, null, 2);
+    document.getElementById('exportCode').textContent = json;
+    document.getElementById('exportPanel').style.display = 'block';
+    document.getElementById('exportPanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function copyJSON() {
+    const json = document.getElementById('exportCode').textContent;
+    navigator.clipboard.writeText(json).then(() => toast('הועתק! עכשיו עדכן ב-GitHub'));
+}
+
+function downloadJSON() {
+    const json = JSON.stringify({ projects }, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'projects.json';
+    a.click();
+    toast('ירד projects.json - העלה אותו ל-assets/data/');
+}
+
+function reloadProjects() {
+    if (confirm('יטען מחדש מהשרת. שינויים לא שמורים יאבדו.')) loadProjects();
+}
+
+function toast(msg, isError) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    if (isError) { t.style.background = 'rgba(239,68,68,0.15)'; t.style.borderColor = 'rgba(239,68,68,0.4)'; t.style.color = '#fca5a5'; }
+    else { t.style.background = 'rgba(16,185,129,0.15)'; t.style.borderColor = 'rgba(16,185,129,0.4)'; t.style.color = '#6ee7b7'; }
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Tabs
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.querySelector(`.tab-content[data-tab-content="${tab.dataset.tab}"]`).classList.add('active');
+    });
+});
+</script>
+</body>
+</html>

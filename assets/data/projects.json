@@ -1,0 +1,92 @@
+{
+  "projects": [
+    {
+      "id": "merkaz-shalem",
+      "title": "מרכז שלם",
+      "url": "https://merkaz-shalem.base44.app",
+      "image": "assets/project-adiel.jpg",
+      "imageStyle": "object-position:top",
+      "badge": "אתר עסקי",
+      "description": "אתר למטפל ברפואה משלימה - מיתוג, הזמנת תורים, מאמרים ואזור אישי.",
+      "featured": true,
+      "year": "2026"
+    },
+    {
+      "id": "alayas",
+      "title": "ALAYAS - The System",
+      "url": "https://alayas-system-72f20027.base44.app",
+      "image": "assets/project-alayas.png",
+      "imageStyle": "",
+      "badge": "אתר + מערכת",
+      "description": "פלטפורמה לניהול והתפתחות אישית ועסקית.",
+      "featured": true,
+      "year": "2025"
+    },
+    {
+      "id": "educake",
+      "title": "EduCake",
+      "url": "https://educake.co.il",
+      "image": "assets/project-educake.jpg",
+      "imageStyle": "object-position:top",
+      "badge": "אתר תוכן",
+      "description": "תהליכי התפתחות רגשית וחברתית דרך חוויית אפייה.",
+      "featured": true,
+      "year": "2025"
+    },
+    {
+      "id": "hoppop",
+      "title": "Hoppop",
+      "url": "https://hoppop.agentdesk.co.il",
+      "image": "assets/project-hoppop.jpg",
+      "imageStyle": "",
+      "badge": "פלטפורמה",
+      "description": "פלטפורמה ליצירה ועיצוב דמויות Funko Pop מותאמות אישית.",
+      "featured": true,
+      "year": "2025"
+    },
+    {
+      "id": "moni-ai",
+      "title": "Moni AI",
+      "url": "https://moni-ai.base44.app",
+      "image": "assets/project-moni-v2.jpg",
+      "imageStyle": "object-position:top",
+      "badge": "AI חינוכי",
+      "description": "עוזר AI חינוכי ללימוד עולם הפיננסים לילדים ולנוער.",
+      "featured": true,
+      "year": "2026"
+    },
+    {
+      "id": "yarin-portfolio",
+      "title": "Yarin · Portfolio",
+      "url": "https://yarin-malka-portfolio.agentdesk.co.il",
+      "image": "assets/project-yarin.jpg",
+      "imageStyle": "",
+      "badge": "דשבורד אישי",
+      "description": "דשבורד אישי בעיצוב משחקי - תיק עבודות, כלים, סדנאות וצור קשר במקום אחד.",
+      "featured": true,
+      "year": "2026"
+    },
+    {
+      "id": "kanity",
+      "title": "Kanity",
+      "url": "https://kanity.agentdesk.co.il",
+      "image": "assets/project-kanity.jpg",
+      "imageStyle": "",
+      "badge": "מערכת חכמה",
+      "description": "מנהל המצרכים החכם - מערכת לניהול מלאי קניות ומצרכים לבית.",
+      "featured": false,
+      "year": "2025"
+    },
+    {
+      "id": "ai-navigator",
+      "title": "AI Navigator",
+      "url": "https://ai-navigator-02368211.base44.app",
+      "image": "assets/project-ainav.jpg",
+      "imageStyle": "",
+      "badge": "מדריך AI",
+      "description": "מדריך אינטראקטיבי מקיף לעולם הבינה המלאכותית.",
+      "featured": false,
+      "year": "2025"
+    }
+  ]
+}
