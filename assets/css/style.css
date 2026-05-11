@@ -696,11 +696,12 @@ nav#mainNav {
   gap: 60px;
   width: max-content;
   animation: marqueeScroll 32s linear infinite;
+  will-change: transform;
 }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 @keyframes marqueeScroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-33.3333%, 0, 0); }
 }
 .marquee-item {
   display: inline-flex;
