@@ -55,7 +55,7 @@
     try { v ? sessionStorage.setItem(DISMISS_KEY, '1') : sessionStorage.removeItem(DISMISS_KEY); } catch (_) {}
   }
 
-  const A11Y_ICON = '<svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><circle cx="16" cy="6" r="3"/><path d="M21 9H11c-.9 0-1.5.6-1.5 1.5S10.1 12 11 12h2v3.2c0 1.2-2 5.5-3.5 9-.3.8.5 1.7 1.4 1.4l4.1-1.4v4.3c0 .8.7 1.5 1.5 1.5s1.5-.7 1.5-1.5v-4.3l4.1 1.4c.9.3 1.7-.6 1.4-1.4-1.5-3.5-3.5-7.8-3.5-9V12h2c.9 0 1.5-.6 1.5-1.5S21.9 9 21 9z"/></svg>';
+  const A11Y_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="4" r="2"/><path d="M19 13v-2c-1.54 0-2.84-.39-3.96-1.13l-1.43-.93c-.39-.25-.83-.34-1.31-.25-.04 0-.04 0-.08.04l-3.59.94c-.69.21-1.18.84-1.13 1.57.04.84.84 1.62 1.83 1.62l3.94-1c.45 1.44 1.44 2.69 2.75 3.42L13.59 22h2.16l3.84-7.05c.66-1.21-.21-2.42-.59-2.95zM7.46 21.25c-2.05-.61-3.46-2.59-3.46-4.75 0-1.45.59-2.81 1.53-3.74L6 11.41c-1.83 1.13-3 3.15-3 5.41 0 3.05 2.13 5.61 5 6.35v-1.92z"/></svg>';
 
   function render() {
     if (document.getElementById('a11yDock')) return;
