@@ -665,9 +665,7 @@ document.querySelectorAll('[data-tilt]').forEach(card=>{
   card.addEventListener('pointerleave',()=>{card.style.setProperty('--rx','0deg');card.style.setProperty('--ry','0deg');});
 });
 
-// Hero photo parallax on scroll
-const heroPhoto=document.querySelector('.hero-photo img');
-if(heroPhoto){window.addEventListener('scroll',()=>{const y=Math.min(window.scrollY*0.15,80);heroPhoto.style.transform=`translateY(${y}px)`;},{passive:true});}
+// Hero photo parallax removed - was causing photo to slide down on scroll
 
 // Theme toggle
 function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark';var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('theme',n);}

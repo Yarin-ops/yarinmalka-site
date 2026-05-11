@@ -693,7 +693,6 @@ nav#mainNav {
 }
 .marquee-track {
   display: flex;
-  gap: 60px;
   width: max-content;
   animation: marqueeScroll 32s linear infinite;
   will-change: transform;
@@ -714,6 +713,7 @@ nav#mainNav {
   letter-spacing: 0.04em;
   white-space: nowrap;
   flex-shrink: 0;
+  margin-inline-end: 60px;
 }
 .marquee-item .bullet {
   width: 5px; height: 5px;
