@@ -55,7 +55,7 @@
     try { v ? sessionStorage.setItem(DISMISS_KEY, '1') : sessionStorage.removeItem(DISMISS_KEY); } catch (_) {}
   }
 
-  const A11Y_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="15" cy="3.5" r="1.7"/><path d="M13 6.5c-.83 0-1.5.67-1.5 1.5v4c0 .55.45 1 1 1h3v2h-2v2h2.5c.55 0 1-.45 1-1V14h1.5l1.5 3c.28.5.92.66 1.4.37.49-.28.65-.91.37-1.4l-2-3.5a1 1 0 0 0-.87-.5H17V9c0-1.4-.93-2.5-2-2.5h-2z"/><circle cx="10" cy="17.5" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>';
+  const A11Y_ICON = '<svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M232,128a8,8,0,0,0-8,8c0,15.74-7.34,30.6-19.84,40.51L185.45,124.4A16,16,0,0,0,170.49,114H128a8,8,0,0,0,0,16h41.51l31,77.62A8,8,0,0,0,208,212a7.73,7.73,0,0,0,3-.59,7.91,7.91,0,0,0,4.5-4.4l5.36-13.42C238.86,178.2,248,158,248,136A8,8,0,0,0,232,128ZM124,86A30,30,0,1,0,94,56,30,30,0,0,0,124,86Zm0-44a14,14,0,1,1-14,14A14,14,0,0,1,124,42ZM120,200a40,40,0,1,1-40-40,8,8,0,0,0,0-16,56,56,0,1,0,56,56,8,8,0,0,0-16,0Z"/></svg>';
 
   function render() {
     if (document.getElementById('a11yDock')) return;
