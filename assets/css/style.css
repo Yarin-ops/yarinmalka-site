@@ -994,6 +994,12 @@ nav#mainNav {
   font-size: 1rem;
   color: var(--ta-color, var(--accent-light));
   flex-shrink: 0;
+  overflow: hidden;
+}
+.testi-avatar img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
 }
 .testi-name { font-weight: 700; font-size: 0.92rem; line-height: 1.3; }
 .testi-role { font-size: 0.78rem; color: var(--text3); margin-top: 2px; }
