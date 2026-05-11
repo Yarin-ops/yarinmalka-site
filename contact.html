@@ -3,16 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>הצהרת נגישות | YARIN.MALKA</title>
-<meta name="description" content="הצהרת הנגישות של אתר YARIN.MALKA - תאימות לתקן ישראלי 5568 (WCAG 2.1 AA), אמצעי נגישות, ופניות בנושא.">
+<title>צור קשר | YARIN.MALKA</title>
+<meta name="description" content="בחר את המסלול הנכון - פרויקט דיגיטלי, סדנה, ייעוץ פיננסי או שאלה כללית. אענה אישית.">
 <meta name="author" content="Yarin Malka">
 <meta name="theme-color" content="#0a0a16">
-<meta name="robots" content="index,follow">
-<link rel="canonical" href="https://yarinmalka.co.il/accessibility">
-<meta property="og:title" content="הצהרת נגישות | YARIN.MALKA">
-<meta property="og:description" content="הצהרת הנגישות של האתר.">
+<link rel="canonical" href="https://yarinmalka.co.il/contact">
+<meta property="og:title" content="צור קשר | YARIN.MALKA">
+<meta property="og:description" content="בחר את המסלול שמתאים לך.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://yarinmalka.co.il/accessibility">
+<meta property="og:url" content="https://yarinmalka.co.il/contact">
 <meta property="og:image" content="https://yarinmalka.co.il/assets/og-image.png">
 <meta property="og:site_name" content="YARIN.MALKA">
 <meta property="og:locale" content="he_IL">
@@ -26,6 +25,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/style.css">
 <script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+<style>
+.contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
+.contact-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 18px; padding: 32px 26px; backdrop-filter: blur(20px); transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; gap: 16px; }
+.contact-card:hover { transform: translateY(-4px); border-color: rgba(108,60,225,0.4); box-shadow: 0 12px 32px rgba(108,60,225,0.18); }
+.contact-icon { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: rgba(108,60,225,0.12); color: var(--accent-light); }
+.contact-icon.blue { background: rgba(59,130,246,0.12); color: var(--blue-light); }
+.contact-icon.green { background: rgba(16,185,129,0.12); color: var(--green-light); }
+.contact-card h3 { font-size: 22px; font-weight: 700; color: var(--text); font-family: 'Heebo'; }
+.contact-card p { font-size: 15px; color: var(--text2); line-height: 1.7; min-height: 80px; }
+.contact-card ul { list-style: none; padding: 0; margin: 0; }
+.contact-card ul li { font-size: 14px; color: var(--text3); padding: 4px 0; }
+.contact-card ul li::before { content: '•'; color: var(--accent); margin-left: 8px; }
+.contact-cta { margin-top: auto; padding: 12px 22px; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #fff; border-radius: 999px; text-align: center; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: box-shadow 0.3s, transform 0.2s; }
+.contact-cta:hover { box-shadow: 0 0 28px rgba(108,60,225,0.5); transform: translateY(-1px); }
+.contact-cta.green-cta { background: linear-gradient(135deg, #25D366, #1aa850); }
+.contact-cta.green-cta:hover { box-shadow: 0 0 28px rgba(37,211,102,0.45); }
+.contact-cta.outline-cta { background: transparent; border: 1px solid rgba(108,60,225,0.4); color: var(--accent-light); }
+.contact-cta.outline-cta:hover { background: rgba(108,60,225,0.08); }
+.contact-quick { max-width: 700px; margin: 60px auto 100px; padding: 28px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 18px; text-align: center; backdrop-filter: blur(20px); }
+.contact-quick h3 { font-size: 18px; font-weight: 500; color: var(--text); margin-bottom: 14px; }
+.contact-quick .ways { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.contact-quick .way { padding: 10px 18px; background: transparent; border: 1px solid var(--glass-border); border-radius: 999px; color: var(--text2); font-size: 14px; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; }
+.contact-quick .way:hover { color: var(--text); border-color: var(--accent); background: rgba(108,60,225,0.08); }
+@media (max-width: 1024px) { .contact-grid { grid-template-columns: 1fr; gap: 20px; padding: 0 20px 60px; } .contact-card p { min-height: auto; } }
+</style>
 </head>
 <body>
 
@@ -44,7 +68,7 @@
                 <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                 <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
             </button>
-            <a href="/contact.html" class="nav-cta" target="_blank">בואו נדבר</a>
+            <a href="/contact.html" class="nav-cta">צור קשר</a>
         </div>
         <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
@@ -55,7 +79,7 @@
     <a href="/guides.html" onclick="closeMenu()">מדריכים</a>
     <a href="/about.html" onclick="closeMenu()">אודות</a>
     <a href="/#portfolio" onclick="closeMenu()">פרויקטים</a>
-    <a href="/contact.html" onclick="closeMenu()">בואו נדבר</a>
+    <a href="/contact.html" onclick="closeMenu()">צור קשר</a>
     <button class="mobile-theme-toggle" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -65,55 +89,79 @@
 </div>
 
 <section class="page-hero reveal">
-    <span class="badge">הצהרת נגישות</span>
-    <h1>נגישות לכולם, <em>זה ברירת מחדל.</em></h1>
-    <p class="lead">האתר נבנה כך שיהיה זמין ושימושי לכל אחד - כולל גולשים עם מוגבלויות. הצהרה זו מפרטת את ההתאמות שבוצעו, איך אפשר ליהנות מהן, ואיך לפנות אם משהו לא עובד לך. עודכן לאחרונה: 11 במאי 2026.</p>
+    <span class="badge">צור קשר</span>
+    <h1>אז על מה <em>נדבר?</em></h1>
+    <p class="lead">לכל מסלול דרך משלו. בחר את המתאים לך - ואני אענה אישית, לרוב באותו יום.</p>
 </section>
 
-<div class="about-content">
-    <div class="reveal">
-        <h2>תקן הנגישות</h2>
-        <p>האתר נבנה ברוח <strong>תקן ישראלי 5568</strong> (התאמת תוכן באינטרנט), שמתבסס על הנחיות <strong>WCAG 2.1 ברמת AA</strong> של ה-W3C - הסטנדרט המקובל לנגישות אתרים.</p>
-        <p>אני שואף לתאימות מלאה. בפועל, ייתכן ויש פינות שעדיין דורשות שיפור. אני מזמין כל גולש לפנות אליי אם נתקל בקושי - אטפל מהר.</p>
+<div class="contact-grid">
+    <div class="contact-card reveal">
+        <div class="contact-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <h3>פרויקט דיגיטלי</h3>
+        <p>אתר תדמית, חנות, מערכת מורכבת, אפליקציה? יש לי שאלון אפיון קצר שיעזור לי להבין את הצרכים שלך - ובסוף אחזור עם הצעה מותאמת.</p>
+        <ul>
+            <li>אתרים, חנויות, מערכות, אפליקציות</li>
+            <li>אפיון UX/UI ועיצוב</li>
+            <li>אינטגרציות ואוטומציות</li>
+        </ul>
+        <a href="https://forms.agentdesk.co.il" target="_blank" rel="noopener" class="contact-cta">
+            פתח שאלון אפיון
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
     </div>
 
-    <div class="reveal">
-        <h2>מה כן עובד באתר</h2>
-        <p><strong>ניווט במקלדת</strong> - כל הקישורים, הכפתורים והטפסים נגישים דרך Tab, Shift+Tab ו-Enter. אין מלכודות מקלדת.</p>
-        <p><strong>תיאורי קריינות</strong> - כל התמונות החשובות עם תיאור alt, כפתורים עם aria-label, אזורי תוכן מסומנים semantically.</p>
-        <p><strong>ניגודיות צבעים</strong> - גופנים בהירים על רקע כהה ביחס ניגודיות גבוה. יש מצב יום (רקע בהיר) למי שמעדיף - כפתור החלפה בראש כל עמוד.</p>
-        <p><strong>טקסט מתכוונן</strong> - הטקסט בנוי ביחידות יחסיות (rem), אפשר להגדיל דרך Ctrl/Cmd + עד 200% בלי שבירת הפריסה.</p>
-        <p><strong>RTL מלא</strong> - כל הממשק עברית, ימין-לשמאל, גופן Heebo קריא.</p>
-        <p><strong>טפסים נגישים</strong> - כל שדה עם label ברור, הודעות שגיאה טקסטואליות, אישור הצלחה מוכרז.</p>
-        <p><strong>וידאו ואודיו</strong> - באתר אין כרגע סרטונים או הקלטות אוטומטיות שמופעלות. אם בעתיד יתווסף תוכן כזה, הוא יקבל כתוביות ותמלול.</p>
-        <p><strong>אנימציות מעודנות</strong> - האתר מכבד את העדפת המערכת <code>prefers-reduced-motion</code> - אם הגדרת אצלך הקטנת תנועה, האנימציות יושבתו.</p>
+    <div class="contact-card reveal">
+        <div class="contact-icon blue">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3>סדנה או ייעוץ פיננסי</h3>
+        <p>מעוניין בסדנת AI לצוות שלך, או רוצה ייעוץ פיננסי? נדבר בשיחה קצרה כדי להבין מה הכי מתאים - ואז נקבע פגישה.</p>
+        <ul>
+            <li>סדנאות AI לחברות וצוותים</li>
+            <li>ייעוץ פיננסי לעסקים ועצמאים</li>
+            <li>הרצאות מקצועיות</li>
+        </ul>
+        <a href="https://wa.me/972536805136?text=%D7%94%D7%99%20%D7%99%D7%A8%D7%99%D7%9F%2C%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20" target="_blank" rel="noopener" class="contact-cta green-cta">
+            כתבו לי ב-WhatsApp
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+        </a>
     </div>
 
-    <div class="reveal">
-        <h2>טכנולוגיות מסייעות נתמכות</h2>
-        <p>האתר נבדק בשימוש עם <strong>קוראי מסך מובילים</strong> (NVDA, VoiceOver), בדפדפנים נפוצים (Chrome, Safari, Firefox, Edge), במצב מקלדת בלבד, ובמסכים בגדלים שונים - ממובייל ועד דסקטופ רחב.</p>
+    <div class="contact-card reveal">
+        <div class="contact-icon green">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <h3>שאלה כללית</h3>
+        <p>רוצה לשאול שאלה? להתייעץ? להציע שיתוף פעולה? שלח אימייל ישיר - אענה בתוך 24 שעות.</p>
+        <ul>
+            <li>התייעצויות</li>
+            <li>שיתופי פעולה</li>
+            <li>שאלות על מאמרים ותכנים</li>
+        </ul>
+        <a href="mailto:yarinmalka7@gmail.com" class="contact-cta outline-cta">
+            שלח אימייל
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
     </div>
+</div>
 
-    <div class="reveal">
-        <h2>איפה עדיין יש פערים</h2>
-        <p>אני שקוף - יש דברים שעדיין דורשים עבודה:</p>
-        <p><strong>1.</strong> חלק מהתמונות שצולמו מאתרי לקוחות (פורטפוליו) משמשות כאלמנט עיצובי בלבד. הן מסומנות עם alt תיאורי, אבל אינן תחליף לחוויית הלקוח באתר עצמו.</p>
-        <p><strong>2.</strong> ה-PDF-ים שאשלח בעתיד דרך מיילים לא נגישים בהכרח. אם זה רלוונטי לך, פנה ואשלח גרסת טקסט מקבילה.</p>
-        <p><strong>3.</strong> אם תיתקל בכל פער אחר - אשמח לדעת. אני מתחייב לתקן תוך פרק זמן סביר.</p>
-    </div>
-
-    <div class="reveal">
-        <h2>איך לפנות אליי</h2>
-        <p>אחראי הנגישות של האתר: <strong>ירין מלכה</strong>.</p>
-        <p><strong>אימייל:</strong> <a href="mailto:yarinmalka7@gmail.com">yarinmalka7@gmail.com</a></p>
-        <p><strong>טלפון:</strong> <a href="tel:0536805136">053-680-5136</a></p>
-        <p><strong>WhatsApp:</strong> <a href="https://wa.me/972536805136" target="_blank">פתח שיחה</a></p>
-        <p>אם נתקלת בקושי, חוויית בעיה, או יש לך הצעה לשיפור - אנא פנה אליי. כתוב לי <strong>איזה דף, איזה דפדפן, ואיזה סוג של קושי</strong>. אענה תוך <strong>14 ימי עסקים</strong>.</p>
-    </div>
-
-    <div class="reveal">
-        <h2>הצהרה זו</h2>
-        <p>ההצהרה תקפה מתאריך <strong>11 במאי 2026</strong>. היא תעודכן בכל פעם שיוטמעו שיפורי נגישות מהותיים. את הגרסה העדכנית תמצא תמיד בכתובת <a href="https://yarinmalka.co.il/accessibility">yarinmalka.co.il/accessibility</a>.</p>
+<div class="contact-quick reveal">
+    <h3>או פשוט לחץ ישירות:</h3>
+    <div class="ways">
+        <a href="tel:0536805136" class="way">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            053-680-5136
+        </a>
+        <a href="https://wa.me/972536805136" target="_blank" rel="noopener" class="way">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487"/></svg>
+            WhatsApp
+        </a>
+        <a href="mailto:yarinmalka7@gmail.com" class="way">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            yarinmalka7@gmail.com
+        </a>
     </div>
 </div>
 
