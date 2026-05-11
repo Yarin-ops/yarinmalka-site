@@ -696,6 +696,7 @@ nav#mainNav {
   width: max-content;
   animation: marqueeScroll 32s linear infinite;
   will-change: transform;
+  direction: ltr;
 }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 @keyframes marqueeScroll {
