@@ -985,15 +985,15 @@ nav#mainNav {
   border-top: 1px solid var(--glass-border);
 }
 .testi-avatar {
-  width: 44px; height: 44px;
-  min-width: 44px; min-height: 44px;
-  max-width: 44px; max-height: 44px;
+  width: 56px; height: 56px;
+  min-width: 56px; min-height: 56px;
+  max-width: 56px; max-height: 56px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--ta-from, rgba(108,60,225,0.18)), var(--ta-to, rgba(108,60,225,0.10)));
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.10);
   display: flex; align-items: center; justify-content: center;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--ta-color, var(--accent-light));
   flex-shrink: 0;
   overflow: hidden;
@@ -1004,7 +1004,7 @@ nav#mainNav {
   inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center top;
   display: block;
   border-radius: 50%;
 }
