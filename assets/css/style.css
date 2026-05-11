@@ -394,6 +394,31 @@ nav#mainNav {
   border-radius: 10px;
 }
 .mobile-menu a:hover { color: var(--text); background: rgba(108,60,225,0.08); }
+.mobile-menu .mobile-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 12px 22px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--text2);
+  background: rgba(108,60,225,0.08);
+  border: 1px solid rgba(108,60,225,0.25);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.mobile-menu .mobile-theme-toggle:hover { color: var(--text); border-color: var(--accent); background: rgba(108,60,225,0.16); }
+.mobile-menu .mobile-theme-toggle svg { width: 18px; height: 18px; }
+.mobile-menu .mobile-theme-toggle .icon-sun { display: none; }
+.mobile-menu .mobile-theme-toggle .icon-moon { display: block; }
+.mobile-menu .mobile-theme-toggle .lbl-light { display: inline; }
+.mobile-menu .mobile-theme-toggle .lbl-dark { display: none; }
+[data-theme="light"] .mobile-menu .mobile-theme-toggle .icon-sun { display: block; }
+[data-theme="light"] .mobile-menu .mobile-theme-toggle .icon-moon { display: none; }
+[data-theme="light"] .mobile-menu .mobile-theme-toggle .lbl-light { display: none; }
+[data-theme="light"] .mobile-menu .mobile-theme-toggle .lbl-dark { display: inline; }
 
 /* === HERO (homepage) === */
 .hero {
@@ -2551,4 +2576,49 @@ figure.screenshot { margin-inline-start: 0; margin-inline-end: 0; }
 
   /* Testimonial */
   .testi-card { padding: 26px 22px; }
+}
+
+/* === A11Y: REDUCED MOTION === */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-row, .mesh-bg, .orb, .photo-ring { animation: none !important; }
+  .reveal, .reveal-left, .reveal-right, .reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* === A11Y: FOCUS VISIBLE === */
+:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.nav-cta:focus-visible,
+.cta-btn:focus-visible,
+.theme-toggle-nav:focus-visible,
+.mobile-theme-toggle:focus-visible {
+  outline-offset: 4px;
+}
+
+/* === A11Y: SKIP LINK === */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  right: 16px;
+  z-index: 10000;
+  padding: 10px 18px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 16px;
 }
