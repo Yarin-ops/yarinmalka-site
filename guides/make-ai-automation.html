@@ -136,6 +136,36 @@
       <h2 id="example">2. הדוגמה שתבנה</h2>
       <p>תארו לעצמכם: יש לכם דף נחיתה לעסק. כשמישהו ממלא טופס פניה - אתם רוצים שהמידע יגיע למקום אחד מסודר, עם <strong>סיכום חכם</strong> של מה שהאדם כתב, כדי שתוכלו להחליט מהר אם להחזיר אליו.</p>
       <p>זה התרשים:</p>
+      <div class="step-flow">
+        <div class="step-flow-item">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>טופס יצירת קשר ממולא</h4>
+            <p>מבקר באתר ממלא שמו, הודעה, ומטרת הפנייה</p>
+          </div>
+        </div>
+        <div class="step-flow-item">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Make מקבל את הנתונים</h4>
+            <p>webhook שמקבל ת התוכן ומעביר לסוכן AI</p>
+          </div>
+        </div>
+        <div class="step-flow-item">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Claude מסווג ומנסח</h4>
+            <p>מזהה אם זה ליד חם/קר, וכותב תגובה מותאמת בעברית</p>
+          </div>
+        </div>
+        <div class="step-flow-item">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>שולח מייל + נוטיפיקציה</h4>
+            <p>תגובה ללקוח, סיכום למייל שלך, רישום ב-Notion</p>
+          </div>
+        </div>
+      </div>
       <p><strong>טופס נשלח</strong> → <strong>Claude קורא ומסכם בעברית</strong> → <strong>שורה חדשה ב-Notion עם הסיכום</strong> → <strong>מייל אליי עם הפרטים והסיכום</strong>.</p>
       <div class="note-box"><strong>למה זה משנה:</strong> במקום לקרוא 5 דקות כל מייל פניה ולהחליט אם זה רציני - אתה מקבל מייל בן 2 שורות עם סיכום של מה שהאדם רוצה. הופך טיפול בלידים ממשימה למקבץ של החלטות בני 10 שניות.</div>
 
