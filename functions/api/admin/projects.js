@@ -39,12 +39,19 @@ async function getFile(env) {
   );
   if (!res.ok) throw new Error(`GitHub GET failed: ${res.status}`);
   const data = await res.json();
-  const content = atob(data.content.replace(/\n/g, ''));
+  const binary = atob(data.content.replace(/\n/g, ''));
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  const content = new TextDecoder('utf-8').decode(bytes);
   return { content: JSON.parse(content), sha: data.sha };
 }
 
 async function putFile(env, newContent, sha, message) {
-  const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(newContent, null, 2))));
+  const json = JSON.stringify(newContent, null, 2);
+  const utf8 = new TextEncoder().encode(json);
+  let binary = '';
+  for (let i = 0; i < utf8.length; i++) binary += String.fromCharCode(utf8[i]);
+  const b64 = btoa(binary);
   const res = await fetch(
     `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}`,
     {
