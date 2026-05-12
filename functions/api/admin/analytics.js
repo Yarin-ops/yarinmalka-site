@@ -23,7 +23,7 @@ export async function onRequestGet({ request, env }) {
     viewer {
       zones(filter: {zoneTag: "${ZONE_TAG}"}) {
         totals: httpRequests1dGroups(limit: 1, filter: {date_geq: "${since}", date_leq: "${until}"}) {
-          sum { requests pageViews }
+          sum { requests pageViews bytes threats }
           uniq { uniques }
         }
         byDay: httpRequests1dGroups(limit: 31, filter: {date_geq: "${since}", date_leq: "${until}"}, orderBy: [date_ASC]) {
@@ -31,17 +31,13 @@ export async function onRequestGet({ request, env }) {
           sum { requests pageViews }
           uniq { uniques }
         }
-        topPaths: rumPageloadEventsAdaptiveGroups(limit: 8, filter: {date_geq: "${since}", date_leq: "${until}"}, orderBy: [count_DESC]) {
-          count
-          dimensions { requestPath }
-        }
-        topReferers: rumPageloadEventsAdaptiveGroups(limit: 6, filter: {date_geq: "${since}", date_leq: "${until}", refererHost_neq: ""}, orderBy: [count_DESC]) {
-          count
-          dimensions { refererHost }
-        }
-        topCountries: rumPageloadEventsAdaptiveGroups(limit: 6, filter: {date_geq: "${since}", date_leq: "${until}"}, orderBy: [count_DESC]) {
-          count
-          dimensions { countryName }
+        topCountries: httpRequests1dGroups(limit: 31, filter: {date_geq: "${since}", date_leq: "${until}"}) {
+          sum {
+            countryMap {
+              clientCountryName
+              requests
+            }
+          }
         }
       }
     }
@@ -63,13 +59,23 @@ export async function onRequestGet({ request, env }) {
     const data = await res.json();
     if (data.errors) throw new Error(JSON.stringify(data.errors[0]));
     const zone = data.data?.viewer?.zones?.[0] || {};
+    // Flatten countryMap from hourly buckets into top list
+    const countryAgg = {};
+    (zone.topCountries || []).forEach(group => {
+      (group.sum?.countryMap || []).forEach(c => {
+        countryAgg[c.clientCountryName] = (countryAgg[c.clientCountryName] || 0) + (c.requests || 0);
+      });
+    });
+    const topCountries = Object.entries(countryAgg)
+      .map(([name, count]) => ({ count, dimensions: { countryName: name } }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 6);
+
     return new Response(JSON.stringify({
       since, until, days,
       totals: zone.totals?.[0] || { sum: { requests: 0, pageViews: 0 }, uniq: { uniques: 0 } },
       byDay: zone.byDay || [],
-      topPaths: zone.topPaths || [],
-      topReferers: zone.topReferers || [],
-      topCountries: zone.topCountries || [],
+      topCountries,
     }), { headers: { 'content-type': 'application/json' } });
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message }), {
