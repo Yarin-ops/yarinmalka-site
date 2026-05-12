@@ -346,12 +346,17 @@ main { padding: 28px 36px; max-width: 1240px; }
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
         <span>סדנאות</span>
       </button>
-      <button class="nav-item soon">
+      <button class="nav-item" data-view="testimonials">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
         <span>טסטימוניאלים</span>
+        <span class="badge" id="navCountTesti">-</span>
       </button>
 
-      <div class="nav-label">קהל ופניות</div>
+      <div class="nav-label">נתונים</div>
+      <button class="nav-item" data-view="analytics">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+        <span>אנליטיקס</span>
+      </button>
       <button class="nav-item" data-view="subscribers">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         <span>רשימת תפוצה</span>
@@ -530,25 +535,64 @@ main { padding: 28px 36px; max-width: 1240px; }
       <div class="topbar">
         <div>
           <h1>רשימת תפוצה</h1>
-          <div class="sub">מנויים פעילים ב-MailerLite</div>
+          <div class="sub">מנויים פעילים ב-MailerLite. מעודכן בזמן אמת</div>
         </div>
-        <a href="https://dashboard.mailerlite.com" target="_blank">
-          <button class="btn btn-s">פתח MailerLite ↗</button>
-        </a>
+        <div class="action-row">
+          <button class="btn btn-s" onclick="downloadCsv()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            ייצא CSV
+          </button>
+          <button class="btn btn-s" onclick="loadSubscribers()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            רענן
+          </button>
+        </div>
+      </div>
+
+      <div class="stat-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 16px;">
+        <div class="stat-card pink"><div class="stat-row"><div class="stat-icon pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="stat-info"><div class="stat-label">סה״כ מנויים</div><div class="stat-value" id="subsTotal">-</div></div></div></div>
+        <div class="stat-card green"><div class="stat-row"><div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="stat-info"><div class="stat-label">פעילים</div><div class="stat-value" id="subsActive">-</div></div></div></div>
+        <div class="stat-card blue"><div class="stat-row"><div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="stat-info"><div class="stat-label">השבוע</div><div class="stat-value" id="subsWeek">-</div></div></div></div>
+      </div>
+
+      <div class="card">
+        <div id="subsList"><div class="empty"><div class="loading"></div></div></div>
+      </div>
+    </div>
+
+    <!-- TESTIMONIALS VIEW -->
+    <div id="view-testimonials" class="view" style="display:none">
+      <div class="topbar">
+        <div>
+          <h1>טסטימוניאלים</h1>
+          <div class="sub">המלצות לקוחות שמופיעות בעמוד הבית</div>
+        </div>
+        <button class="btn btn-p" onclick="openTesti()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          המלצה חדשה
+        </button>
       </div>
       <div class="card">
-        <div class="stat-row" style="margin-bottom:16px">
-          <div class="stat-icon pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
-          <div class="stat-info">
-            <div class="stat-label">סה״כ מנויים פעילים</div>
-            <div class="stat-value" id="subsTotal">-</div>
-          </div>
+        <div id="testiList"><div class="empty"><div class="loading"></div></div></div>
+      </div>
+    </div>
+
+    <!-- ANALYTICS VIEW -->
+    <div id="view-analytics" class="view" style="display:none">
+      <div class="topbar">
+        <div>
+          <h1>אנליטיקס</h1>
+          <div class="sub">נתוני תנועה ומבקרים מ-Cloudflare</div>
         </div>
-        <div style="font-size:13px; color:var(--text2); line-height:1.8;">
-          <p style="margin-bottom:8px;">לניהול פרטני (שליחת קמפיינים, אוטומציות, ייצוא נתונים) - <a href="https://dashboard.mailerlite.com" target="_blank" style="color:var(--accent-light)">דאשבורד MailerLite</a>.</p>
-          <p>פעולות זמינות שם: שליחת ניוזלטר, יצירת welcome series, סטטיסטיקות פתיחה/לחיצה, ייצוא מנויים ל-CSV.</p>
+        <div class="action-row">
+          <select id="analyticsRange" class="btn btn-s" onchange="loadAnalytics()" style="padding:8px 14px; cursor:pointer;">
+            <option value="7" selected>7 ימים</option>
+            <option value="30">30 ימים</option>
+            <option value="14">14 ימים</option>
+          </select>
         </div>
       </div>
+      <div id="analyticsContent"><div class="empty"><div class="loading"></div></div></div>
     </div>
   </main>
 </div>
@@ -599,7 +643,9 @@ function navigate(view) {
   if (el) el.style.display = 'block';
   if (view === 'projects') loadProjects();
   if (view === 'guides') loadGuides();
-  if (view === 'subscribers') loadStatsOnly();
+  if (view === 'subscribers') loadSubscribers();
+  if (view === 'testimonials') loadTestimonials();
+  if (view === 'analytics') loadAnalytics();
 }
 document.querySelectorAll('.nav-item[data-view]').forEach(b => b.addEventListener('click', () => navigate(b.dataset.view)));
 
@@ -831,6 +877,247 @@ async function deleteProj() {
     btn.disabled = false;
     btn.textContent = 'מחק';
   }
+}
+
+// === SUBSCRIBERS ===
+state.subscribers = [];
+
+async function loadSubscribers() {
+  try {
+    const r = await fetch('/api/admin/subscribers?limit=100');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
+    state.subscribers = d.subscribers || [];
+    document.getElementById('subsTotal').textContent = d.total ?? state.subscribers.length;
+    document.getElementById('subsActive').textContent = state.subscribers.filter(s => s.status === 'active').length;
+    const weekAgo = Date.now() - 7*86400000;
+    document.getElementById('subsWeek').textContent = state.subscribers.filter(s => new Date(s.subscribed_at).getTime() > weekAgo).length;
+    renderSubscribers();
+  } catch (e) {
+    document.getElementById('subsList').innerHTML = '<div class="empty"><h3>שגיאה בטעינה</h3><p>' + e.message + '</p></div>';
+  }
+}
+
+function renderSubscribers() {
+  const list = document.getElementById('subsList');
+  if (!state.subscribers.length) {
+    list.innerHTML = '<div class="empty"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><h3>אין מנויים עדיין</h3></div>';
+    return;
+  }
+  list.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr auto auto;gap:14px;padding:8px 12px;font-size:11px;font-family:Inter;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;border-bottom:1px solid var(--glass-border);">' +
+    '<div>אימייל</div><div>שם</div><div>סטטוס</div><div>תאריך</div></div>' +
+    state.subscribers.map(s => `
+      <div class="proj-row" style="grid-template-columns:1fr 1fr auto auto;padding:10px 12px;">
+        <div style="font-size:13px;color:var(--text);overflow:hidden;text-overflow:ellipsis;direction:ltr;text-align:right;">${escapeHtml(s.email)}</div>
+        <div style="font-size:13px;color:var(--text2);">${escapeHtml(s.name || '—')}</div>
+        <div><span class="badge" style="${s.status === 'active' ? 'background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.3);color:#6ee7b7' : ''}">${s.status}</span></div>
+        <div style="font-size:11px;color:var(--text3);font-family:Inter;">${fmtDate(s.subscribed_at)}</div>
+      </div>
+    `).join('');
+}
+
+function downloadCsv() {
+  if (!state.subscribers.length) return;
+  const rows = [['email','name','status','subscribed_at']];
+  state.subscribers.forEach(s => rows.push([s.email, s.name || '', s.status, s.subscribed_at]));
+  const csv = rows.map(r => r.map(c => `"${(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob(["﻿" + csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `subscribers-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('CSV הורד');
+}
+
+// === TESTIMONIALS ===
+state.testimonials = [];
+state.editingTestiId = null;
+
+async function loadTestimonials() {
+  try {
+    const r = await fetch('/api/admin/testimonials');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
+    state.testimonials = d.testimonials || [];
+    document.getElementById('navCountTesti').textContent = state.testimonials.length;
+    renderTestimonials();
+  } catch (e) {
+    document.getElementById('testiList').innerHTML = '<div class="empty"><h3>שגיאה</h3><p>' + e.message + '</p></div>';
+  }
+}
+
+function renderTestimonials() {
+  const list = document.getElementById('testiList');
+  if (!state.testimonials.length) {
+    list.innerHTML = '<div class="empty"><h3>אין המלצות</h3></div>';
+    return;
+  }
+  list.innerHTML = state.testimonials.map(t => `
+    <div class="proj-row" style="grid-template-columns:48px 1fr auto;">
+      <img src="/${t.avatar}" alt="" style="width:48px;height:48px;border-radius:50%;">
+      <div class="proj-info">
+        <h3>${escapeHtml(t.name)}</h3>
+        <div class="meta">${escapeHtml(t.role || '')} · ⭐${t.rating || 5}</div>
+        <p style="margin-top:6px;">"${escapeHtml((t.quote || '').substring(0, 140))}${(t.quote || '').length > 140 ? '...' : ''}"</p>
+      </div>
+      <button class="btn btn-s btn-icon" onclick="openTesti('${t.id}')" aria-label="ערוך">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </button>
+    </div>
+  `).join('');
+}
+
+function openTesti(id) {
+  state.editingTestiId = id || null;
+  const t = id ? state.testimonials.find(x => x.id === id) : { id: '', name: '', role: '', avatar: '', link: '', rating: 5, quote: '' };
+  if (!t) return;
+  const html = `
+    <div class="modal-bg open" id="testiModalBg" onclick="if(event.target.id==='testiModalBg')closeTestiModal()">
+      <div class="modal">
+        <h2>${id ? 'עריכת המלצה' : 'המלצה חדשה'}</h2>
+        <form id="testiForm">
+          <div class="field"><label>מזהה</label><input name="id" required pattern="[a-z0-9-]+" value="${escapeHtml(t.id)}" ${id?'readonly':''}></div>
+          <div class="field-row">
+            <div class="field"><label>שם</label><input name="name" required value="${escapeHtml(t.name)}"></div>
+            <div class="field"><label>תפקיד/עסק</label><input name="role" value="${escapeHtml(t.role||'')}"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>אווטר (נתיב)</label><input name="avatar" value="${escapeHtml(t.avatar||'')}" placeholder="assets/x-avatar.jpg"></div>
+            <div class="field"><label>קישור (אופציונלי)</label><input name="link" value="${escapeHtml(t.link||'')}"></div>
+          </div>
+          <div class="field"><label>דירוג (1-5)</label><input name="rating" type="number" min="1" max="5" value="${t.rating||5}"></div>
+          <div class="field"><label>ציטוט</label><textarea name="quote" required>${escapeHtml(t.quote||'')}</textarea></div>
+          <div class="modal-actions">
+            ${id ? '<button type="button" class="btn btn-d" onclick="deleteTesti()">מחק</button>' : ''}
+            <div style="display:flex;gap:8px;margin-inline-start:auto;">
+              <button type="button" class="btn btn-s" onclick="closeTestiModal()">ביטול</button>
+              <button type="submit" class="btn btn-p" id="testiSaveBtn">שמור</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  `;
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  document.body.appendChild(div.firstElementChild);
+  document.getElementById('testiForm').addEventListener('submit', saveTesti);
+}
+
+function closeTestiModal() {
+  const el = document.getElementById('testiModalBg');
+  if (el) el.remove();
+  state.editingTestiId = null;
+}
+
+async function saveTesti(e) {
+  e.preventDefault();
+  const btn = document.getElementById('testiSaveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading"></span>';
+  try {
+    const fd = new FormData(e.target);
+    const data = { rating: 5 };
+    fd.forEach((v, k) => { data[k] = k === 'rating' ? parseInt(v) : v; });
+    let newTestis;
+    if (state.editingTestiId) {
+      newTestis = state.testimonials.map(t => t.id === state.editingTestiId ? { ...t, ...data } : t);
+    } else {
+      if (state.testimonials.find(t => t.id === data.id)) throw new Error('מזהה כבר קיים');
+      newTestis = [...state.testimonials, data];
+    }
+    const r = await fetch('/api/admin/testimonials', {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ testimonials: newTestis, message: state.editingTestiId ? `Update testimonial: ${data.id}` : `Add testimonial: ${data.id}` }),
+    });
+    if (!r.ok) { const er = await r.json(); throw new Error(er.error); }
+    state.testimonials = newTestis;
+    renderTestimonials();
+    document.getElementById('navCountTesti').textContent = state.testimonials.length;
+    closeTestiModal();
+    toast('נשמר!');
+  } catch (e) {
+    toast(e.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'שמור';
+  }
+}
+
+async function deleteTesti() {
+  if (!state.editingTestiId) return;
+  if (!confirm('למחוק את ההמלצה?')) return;
+  try {
+    const newTestis = state.testimonials.filter(t => t.id !== state.editingTestiId);
+    const r = await fetch('/api/admin/testimonials', {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ testimonials: newTestis, message: `Delete testimonial: ${state.editingTestiId}` }),
+    });
+    if (!r.ok) { const er = await r.json(); throw new Error(er.error); }
+    state.testimonials = newTestis;
+    renderTestimonials();
+    document.getElementById('navCountTesti').textContent = state.testimonials.length;
+    closeTestiModal();
+    toast('נמחק');
+  } catch (e) { toast(e.message, true); }
+}
+
+// === ANALYTICS ===
+async function loadAnalytics() {
+  const days = document.getElementById('analyticsRange')?.value || '7';
+  const content = document.getElementById('analyticsContent');
+  content.innerHTML = '<div class="empty"><div class="loading"></div></div>';
+  try {
+    const r = await fetch('/api/admin/analytics?days=' + days);
+    const d = await r.json();
+    if (d.error) {
+      content.innerHTML = `
+        <div class="card">
+          <div class="empty">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+            <h3>אנליטיקס לא מוגדר עדיין</h3>
+            <p style="max-width:420px;margin:8px auto 0;line-height:1.7;">
+              צריך טוקן Cloudflare ייעודי עם הרשאת Analytics:Read. בוא לקלאודפלייר → My Profile → API Tokens → Create Token, בחר "Read all resources" או צור custom עם <code>Account:Analytics:Read</code>, ושמור כ-<code>CF_ANALYTICS_TOKEN</code> ב-Pages env vars.
+            </p>
+            <a href="https://dash.cloudflare.com/profile/api-tokens" target="_blank"><button class="btn btn-p" style="margin-top:14px;">פתח Cloudflare API Tokens ↗</button></a>
+          </div>
+        </div>`;
+      return;
+    }
+    const t = d.totals?.sum || {};
+    const uniq = d.totals?.uniq?.uniques || 0;
+    content.innerHTML = `
+      <div class="stat-grid" style="margin-bottom:16px;">
+        <div class="stat-card"><div class="stat-row"><div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><div class="stat-info"><div class="stat-label">צפיות בעמודים</div><div class="stat-value">${(t.pageViews || 0).toLocaleString()}</div></div></div></div>
+        <div class="stat-card blue"><div class="stat-row"><div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="stat-info"><div class="stat-label">מבקרים ייחודיים</div><div class="stat-value">${uniq.toLocaleString()}</div></div></div></div>
+        <div class="stat-card green"><div class="stat-row"><div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="stat-info"><div class="stat-label">בקשות</div><div class="stat-value">${(t.requests || 0).toLocaleString()}</div></div></div></div>
+        <div class="stat-card pink"><div class="stat-row"><div class="stat-icon pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg></div><div class="stat-info"><div class="stat-label">ב-${days} ימים</div><div class="stat-value" style="font-size:16px;">${d.since}<br><small style="font-size:11px;color:var(--text3);font-weight:400;">עד ${d.until}</small></div></div></div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><h2>עמודים פופולריים</h2></div>${renderTopList(d.topPaths, 'requestPath', '/')}</div>
+        <div class="card"><div class="card-header"><h2>מקורות תנועה</h2></div>${renderTopList(d.topReferers, 'refererHost', '—')}</div>
+      </div>
+      <div class="card" style="margin-top:16px;"><div class="card-header"><h2>מדינות מובילות</h2></div>${renderTopList(d.topCountries, 'countryName', '—')}</div>
+    `;
+  } catch (e) {
+    content.innerHTML = '<div class="card"><div class="empty"><h3>שגיאה</h3><p>' + e.message + '</p></div></div>';
+  }
+}
+
+function renderTopList(items, dimKey, fallback) {
+  if (!items || !items.length) return '<div class="empty"><p>אין נתונים</p></div>';
+  const max = Math.max(...items.map(i => i.count));
+  return items.map(i => {
+    const label = i.dimensions?.[dimKey] || fallback;
+    const pct = (i.count / max) * 100;
+    return `<div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span style="color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:75%;">${escapeHtml(label)}</span><span style="color:var(--text3);font-family:Inter;font-size:12px;">${i.count.toLocaleString()}</span></div><div style="height:5px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--accent-light),var(--accent));"></div></div></div>`;
+  }).join('');
 }
 
 loadMe();
