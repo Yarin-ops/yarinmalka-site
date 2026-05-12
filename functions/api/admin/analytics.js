@@ -1,5 +1,6 @@
-// Cloudflare Web Analytics via GraphQL. Returns page views and visitors over a date range.
-const ZONE_TAG = '5641be3e859feae0578c5b22c8c0ea5f';
+// Cloudflare Web Analytics (RUM) - real human visitor data from JS beacon.
+const ACCOUNT_TAG = '5bb1e2244f7cde1e7799484a5d654e3c';
+const SITE_TAG = 'a4bcd85c63c14878980008d345a8db88';
 
 function dateNDaysAgo(n) {
   const d = new Date();
@@ -19,25 +20,39 @@ export async function onRequestGet({ request, env }) {
   const since = dateNDaysAgo(days);
   const until = dateNDaysAgo(0);
 
+  const baseFilter = `{date_geq: "${since}", date_leq: "${until}", siteTag: "${SITE_TAG}"}`;
+  const refFilter = `{date_geq: "${since}", date_leq: "${until}", siteTag: "${SITE_TAG}", refererHost_neq: ""}`;
+
   const query = `query {
     viewer {
-      zones(filter: {zoneTag: "${ZONE_TAG}"}) {
-        totals: httpRequests1dGroups(limit: 1, filter: {date_geq: "${since}", date_leq: "${until}"}) {
-          sum { requests pageViews bytes threats }
-          uniq { uniques }
+      accounts(filter: {accountTag: "${ACCOUNT_TAG}"}) {
+        totals: rumPageloadEventsAdaptiveGroups(limit: 1, filter: ${baseFilter}) {
+          count
+          sum { visits }
         }
-        byDay: httpRequests1dGroups(limit: 31, filter: {date_geq: "${since}", date_leq: "${until}"}, orderBy: [date_ASC]) {
+        byDay: rumPageloadEventsAdaptiveGroups(limit: 31, filter: ${baseFilter}, orderBy: [date_ASC]) {
+          count
           dimensions { date }
-          sum { requests pageViews }
-          uniq { uniques }
         }
-        topCountries: httpRequests1dGroups(limit: 31, filter: {date_geq: "${since}", date_leq: "${until}"}) {
-          sum {
-            countryMap {
-              clientCountryName
-              requests
-            }
-          }
+        topPaths: rumPageloadEventsAdaptiveGroups(limit: 8, filter: ${baseFilter}, orderBy: [count_DESC]) {
+          count
+          dimensions { requestPath }
+        }
+        topReferers: rumPageloadEventsAdaptiveGroups(limit: 6, filter: ${refFilter}, orderBy: [count_DESC]) {
+          count
+          dimensions { refererHost }
+        }
+        topCountries: rumPageloadEventsAdaptiveGroups(limit: 8, filter: ${baseFilter}, orderBy: [count_DESC]) {
+          count
+          dimensions { countryName }
+        }
+        topDevices: rumPageloadEventsAdaptiveGroups(limit: 5, filter: ${baseFilter}, orderBy: [count_DESC]) {
+          count
+          dimensions { deviceType }
+        }
+        topBrowsers: rumPageloadEventsAdaptiveGroups(limit: 5, filter: ${baseFilter}, orderBy: [count_DESC]) {
+          count
+          dimensions { userAgentBrowser }
         }
       }
     }
@@ -58,24 +73,18 @@ export async function onRequestGet({ request, env }) {
     }
     const data = await res.json();
     if (data.errors) throw new Error(JSON.stringify(data.errors[0]));
-    const zone = data.data?.viewer?.zones?.[0] || {};
-    // Flatten countryMap from hourly buckets into top list
-    const countryAgg = {};
-    (zone.topCountries || []).forEach(group => {
-      (group.sum?.countryMap || []).forEach(c => {
-        countryAgg[c.clientCountryName] = (countryAgg[c.clientCountryName] || 0) + (c.requests || 0);
-      });
-    });
-    const topCountries = Object.entries(countryAgg)
-      .map(([name, count]) => ({ count, dimensions: { countryName: name } }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 6);
-
+    const acc = data.data?.viewer?.accounts?.[0] || {};
+    const totals = acc.totals?.[0] || { count: 0, sum: { visits: 0 } };
     return new Response(JSON.stringify({
       since, until, days,
-      totals: zone.totals?.[0] || { sum: { requests: 0, pageViews: 0 }, uniq: { uniques: 0 } },
-      byDay: zone.byDay || [],
-      topCountries,
+      pageViews: totals.count || 0,
+      visits: totals.sum?.visits || 0,
+      byDay: acc.byDay || [],
+      topPaths: acc.topPaths || [],
+      topReferers: acc.topReferers || [],
+      topCountries: acc.topCountries || [],
+      topDevices: acc.topDevices || [],
+      topBrowsers: acc.topBrowsers || [],
     }), { headers: { 'content-type': 'application/json' } });
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message }), {
