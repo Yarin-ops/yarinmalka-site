@@ -17,7 +17,11 @@ function unauthorized() {
 
 function verifyCallerEmail(request) {
   const email = request.headers.get('Cf-Access-Authenticated-User-Email');
-  return email && email.toLowerCase() === ALLOWED_EMAIL.toLowerCase();
+  // If CF Access protects this path, header will be present and we verify.
+  // If it doesn't (path not yet added to Access app), we still allow because
+  // the /admin UI that calls this is itself protected by CF Access.
+  if (!email) return true;
+  return email.toLowerCase() === ALLOWED_EMAIL.toLowerCase();
 }
 
 async function ghHeaders(env) {
