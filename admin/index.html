@@ -3,61 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>אזור ניהול | YARIN.MALKA</title>
+<title>ניהול | YARIN.MALKA</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #0a0a16;
   --bg-soft: #12122a;
+  --bg-card: rgba(255,255,255,0.025);
   --accent: #6C3CE1;
   --accent-light: #a78bfa;
   --accent-dark: #4F2EAB;
+  --blue: #3B82F6;
+  --green: #10B981;
+  --pink: #EC4899;
+  --orange: #F59E0B;
+  --cyan: #06B6D4;
+  --red: #ef4444;
   --text: #f3f3f7;
   --text2: #b0b0bd;
   --text3: #7a7a88;
-  --glass: rgba(255,255,255,0.035);
-  --glass-border: rgba(255,255,255,0.075);
-  --green: #10B981;
-  --red: #ef4444;
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.08);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
 body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Heebo', system-ui, sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.6;
-  min-height: 100vh;
 }
 body::before {
   content: '';
   position: fixed; inset: -10%; z-index: 0; pointer-events: none;
-  background: radial-gradient(ellipse 50% 35% at 80% 5%, rgba(108,60,225,0.18) 0%, transparent 55%),
-              radial-gradient(ellipse 45% 35% at 5% 90%, rgba(59,130,246,0.10) 0%, transparent 55%);
+  background:
+    radial-gradient(ellipse 40% 30% at 90% 5%, rgba(108,60,225,0.16) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 30% at 10% 95%, rgba(59,130,246,0.10) 0%, transparent 60%);
 }
-.app { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; position: relative; z-index: 1; }
+
+.app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; position: relative; z-index: 1; }
+
+/* === SIDEBAR === */
 aside {
-  background: rgba(10,10,22,0.6);
-  backdrop-filter: blur(20px);
+  background: rgba(8,8,18,0.7);
+  backdrop-filter: blur(24px);
   border-left: 1px solid var(--glass-border);
-  padding: 28px 18px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
 }
-.brand { font-family: 'Inter'; font-weight: 700; font-size: 18px; letter-spacing: -0.02em; margin-bottom: 26px; padding: 0 8px; }
-.brand .dot { color: var(--accent); }
-.brand small { display: block; font-family: 'Inter'; font-size: 10px; font-weight: 500; color: var(--text3); letter-spacing: 0.18em; text-transform: uppercase; margin-top: 4px; }
-.nav-btn {
+.brand {
+  padding: 24px 20px;
+  border-bottom: 1px solid var(--glass-border);
+}
+.brand-logo { font-family: 'Inter'; font-weight: 700; font-size: 18px; letter-spacing: -0.01em; }
+.brand-logo .dot { color: var(--accent); }
+.brand-sub { font-family: 'Inter'; font-size: 10px; font-weight: 500; color: var(--text3); letter-spacing: 0.2em; text-transform: uppercase; margin-top: 4px; }
+
+.nav { flex: 1; padding: 14px 12px; overflow-y: auto; }
+.nav-label {
+  font-family: 'Inter';
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 14px 12px 8px;
+}
+.nav-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 11px 14px;
+  padding: 10px 12px;
   border-radius: 10px;
   color: var(--text2);
   cursor: pointer;
@@ -66,36 +91,62 @@ aside {
   background: transparent;
   border: none;
   text-align: start;
+  width: 100%;
   transition: all 0.2s;
+  position: relative;
 }
-.nav-btn:hover { background: rgba(108,60,225,0.08); color: var(--text); }
-.nav-btn.active { background: rgba(108,60,225,0.15); color: var(--accent-light); }
-.nav-btn svg { width: 18px; height: 18px; }
-.spacer { flex: 1; }
-.user-card { padding: 12px 14px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 10px; font-size: 12px; color: var(--text3); }
-.user-card strong { color: var(--text); display: block; margin-top: 4px; word-break: break-all; font-weight: 500; }
+.nav-item:hover { background: rgba(108,60,225,0.08); color: var(--text); }
+.nav-item.active {
+  background: linear-gradient(135deg, rgba(108,60,225,0.18), rgba(108,60,225,0.08));
+  color: var(--accent-light);
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  right: 0; top: 8px; bottom: 8px;
+  width: 3px; border-radius: 0 3px 3px 0;
+  background: var(--accent);
+}
+.nav-item svg { width: 17px; height: 17px; flex-shrink: 0; }
+.nav-item .badge { margin-inline-start: auto; padding: 2px 8px; background: rgba(108,60,225,0.18); border-radius: 999px; font-size: 10px; color: var(--accent-light); font-family: 'Inter'; font-weight: 600; }
+.nav-item.soon { opacity: 0.5; cursor: default; }
+.nav-item.soon:hover { background: transparent; color: var(--text2); }
 
-main { padding: 36px 44px; max-width: 1100px; }
-h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
-.sub { color: var(--text3); font-size: 14px; margin-bottom: 28px; }
-
-.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
-.stat {
+.sidebar-bottom {
+  border-top: 1px solid var(--glass-border);
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.sidebar-bottom .nav-item { font-size: 13px; }
+.user-card {
+  margin: 12px 4px 0;
+  padding: 10px 12px;
   background: var(--glass);
   border: 1px solid var(--glass-border);
-  border-radius: 14px;
-  padding: 20px 22px;
-  backdrop-filter: blur(20px);
+  border-radius: 10px;
+  font-size: 11px;
+  color: var(--text3);
 }
-.stat-l { font-family: 'Inter'; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
-.stat-v { font-size: 28px; font-weight: 700; }
+.user-card strong { color: var(--text); display: block; margin-top: 2px; font-weight: 500; word-break: break-all; font-size: 12px; }
 
-.card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; padding: 24px; backdrop-filter: blur(20px); margin-bottom: 16px; }
-.card h2 { font-size: 18px; font-weight: 700; margin-bottom: 14px; }
+/* === MAIN === */
+main { padding: 28px 36px; max-width: 1240px; }
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+.topbar h1 { font-size: 24px; font-weight: 700; }
+.topbar .sub { color: var(--text3); font-size: 13px; margin-top: 2px; }
+.action-row { display: flex; gap: 10px; }
 
-.btn { padding: 10px 20px; border-radius: 10px; border: none; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+/* === BUTTONS === */
+.btn { padding: 9px 18px; border-radius: 10px; border: none; font-family: inherit; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
 .btn-p { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #fff; }
-.btn-p:hover { box-shadow: 0 0 24px rgba(108,60,225,0.5); transform: translateY(-1px); }
+.btn-p:hover { box-shadow: 0 0 20px rgba(108,60,225,0.45); transform: translateY(-1px); }
 .btn-p:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 .btn-s { background: var(--glass); color: var(--text); border: 1px solid var(--glass-border); }
 .btn-s:hover { background: rgba(108,60,225,0.1); border-color: var(--accent); }
@@ -103,40 +154,163 @@ h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
 .btn-d:hover { background: rgba(239,68,68,0.2); }
 .btn-icon { padding: 8px 10px; }
 
-.proj-row { display: grid; grid-template-columns: 72px 1fr auto; gap: 16px; align-items: center; padding: 14px; border-radius: 12px; border: 1px solid transparent; margin-bottom: 8px; transition: border-color 0.2s; }
+/* === STATS GRID === */
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: -30px; left: -30px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.3;
+  background: var(--accent);
+}
+.stat-card.blue::before { background: var(--blue); }
+.stat-card.green::before { background: var(--green); }
+.stat-card.pink::before { background: var(--pink); }
+.stat-card.orange::before { background: var(--orange); }
+.stat-card.cyan::before { background: var(--cyan); }
+.stat-row { display: flex; align-items: center; gap: 12px; position: relative; }
+.stat-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: rgba(108,60,225,0.14);
+  color: var(--accent-light);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.stat-icon.blue { background: rgba(59,130,246,0.14); color: #93c5fd; }
+.stat-icon.green { background: rgba(16,185,129,0.14); color: #6ee7b7; }
+.stat-icon.pink { background: rgba(236,72,153,0.14); color: #f9a8d4; }
+.stat-icon.orange { background: rgba(245,158,11,0.14); color: #fcd34d; }
+.stat-icon.cyan { background: rgba(6,182,212,0.14); color: #67e8f9; }
+.stat-icon svg { width: 19px; height: 19px; }
+.stat-info { flex: 1; min-width: 0; }
+.stat-label { font-size: 11px; font-family: 'Inter'; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 2px; }
+.stat-value { font-size: 24px; font-weight: 700; line-height: 1.1; }
+.stat-trend { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.stat-trend.up { color: var(--green); }
+
+/* === GRID === */
+.grid-2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
+
+/* === CARD === */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 20px 22px;
+  backdrop-filter: blur(16px);
+}
+.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.card-header h2 { font-size: 15px; font-weight: 700; }
+.card-header .more { font-size: 12px; color: var(--accent-light); text-decoration: none; }
+
+/* === ACTIVITY === */
+.activity-item {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--glass-border);
+}
+.activity-item:last-child { border-bottom: none; }
+.activity-dot {
+  flex-shrink: 0;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-top: 8px;
+  box-shadow: 0 0 0 3px rgba(108,60,225,0.12);
+}
+.activity-content { flex: 1; min-width: 0; }
+.activity-msg { font-size: 13px; color: var(--text); margin-bottom: 2px; word-break: break-word; }
+.activity-meta { font-size: 11px; color: var(--text3); font-family: 'Inter'; }
+.activity-meta .sha { background: rgba(108,60,225,0.1); padding: 1px 6px; border-radius: 4px; font-size: 10px; color: var(--accent-light); margin-inline-end: 6px; }
+
+/* === LINK CARDS === */
+.link-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  color: var(--text);
+  text-decoration: none;
+  transition: all 0.2s;
+  margin-bottom: 8px;
+}
+.link-card:hover { background: rgba(108,60,225,0.08); border-color: var(--accent); transform: translateX(-3px); }
+.link-card svg.icon { width: 18px; height: 18px; color: var(--accent-light); flex-shrink: 0; }
+.link-card .title { font-size: 13px; font-weight: 500; flex: 1; }
+.link-card .arrow { color: var(--text3); }
+
+/* === PROJECT LIST === */
+.proj-row {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  margin-bottom: 6px;
+  transition: all 0.2s;
+}
 .proj-row:hover { border-color: var(--glass-border); background: rgba(255,255,255,0.02); }
-.proj-row img { width: 72px; height: 48px; object-fit: cover; border-radius: 6px; background: #000; }
-.proj-info h3 { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
-.proj-info .badge { display: inline-block; padding: 2px 10px; background: rgba(108,60,225,0.12); border: 1px solid rgba(108,60,225,0.3); border-radius: 999px; font-size: 10px; color: var(--accent-light); margin-inline-end: 8px; font-family: 'Inter'; }
-.proj-info p { font-size: 12px; color: var(--text3); margin-top: 4px; }
+.proj-row img { width: 64px; height: 42px; object-fit: cover; border-radius: 6px; background: #000; }
+.proj-info h3 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+.proj-info .badge { display: inline-block; padding: 2px 9px; background: rgba(108,60,225,0.14); border: 1px solid rgba(108,60,225,0.3); border-radius: 999px; font-size: 10px; color: var(--accent-light); margin-inline-end: 6px; font-family: 'Inter'; }
+.proj-info .badge.feat { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.3); color: #6ee7b7; }
+.proj-info .meta { font-size: 11px; color: var(--text3); margin-top: 2px; font-family: 'Inter'; }
+.proj-info p { font-size: 12px; color: var(--text3); margin-top: 3px; }
 
-.modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
+/* === MODAL === */
+.modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(10px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
 .modal-bg.open { display: flex; }
-.modal { background: #1a1a2e; border: 1px solid var(--glass-border); border-radius: 18px; padding: 30px; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; }
-.modal h2 { font-size: 20px; margin-bottom: 18px; }
-.field { margin-bottom: 14px; }
-.field label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 6px; }
-.field input, .field textarea, .field select { width: 100%; padding: 10px 14px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text); font-family: inherit; font-size: 14px; }
-.field textarea { min-height: 80px; resize: vertical; }
-.field input:focus, .field textarea:focus, .field select:focus { outline: 2px solid var(--accent); outline-offset: 2px; border-color: transparent; }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.field-check { display: flex; align-items: center; gap: 8px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 10px; }
+.modal { background: #14142a; border: 1px solid var(--glass-border); border-radius: 18px; padding: 28px; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; }
+.modal h2 { font-size: 18px; margin-bottom: 16px; font-weight: 700; }
+.field { margin-bottom: 12px; }
+.field label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 5px; font-weight: 500; }
+.field input, .field textarea { width: 100%; padding: 9px 13px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 9px; color: var(--text); font-family: inherit; font-size: 13px; }
+.field textarea { min-height: 70px; resize: vertical; }
+.field input:focus, .field textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.field-check { display: flex; align-items: center; gap: 8px; padding: 9px 12px; background: rgba(0,0,0,0.2); border-radius: 9px; }
 .field-check input { width: auto; }
-.modal-actions { display: flex; gap: 10px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--glass-border); }
+.modal-actions { display: flex; gap: 8px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--glass-border); }
 
+/* === MISC === */
 .loading { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.2); border-top-color: var(--accent-light); border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-
-.toast { position: fixed; top: 20px; right: 50%; transform: translateX(50%); padding: 14px 22px; background: var(--green); color: #fff; border-radius: 12px; z-index: 200; opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; font-weight: 500; }
+.toast { position: fixed; top: 20px; right: 50%; transform: translateX(50%); padding: 12px 22px; background: var(--green); color: #fff; border-radius: 10px; z-index: 200; opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; font-weight: 500; font-size: 13px; }
 .toast.show { opacity: 1; transform: translateX(50%) translateY(8px); }
 .toast.err { background: var(--red); }
+.empty { padding: 36px 20px; text-align: center; color: var(--text3); }
+.empty .ico { width: 44px; height: 44px; border-radius: 12px; background: rgba(108,60,225,0.1); color: var(--accent-light); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+.empty .ico svg { width: 22px; height: 22px; }
+.empty h3 { font-size: 14px; color: var(--text2); margin-bottom: 4px; font-weight: 500; }
+.empty p { font-size: 12px; }
 
-.empty { padding: 40px; text-align: center; color: var(--text3); }
-
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .app { grid-template-columns: 1fr; }
   aside { display: none; }
-  main { padding: 20px; }
+  main { padding: 18px; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 500px) {
   .stat-grid { grid-template-columns: 1fr; }
 }
 </style>
@@ -146,84 +320,255 @@ h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
 <div class="app">
 
   <aside>
-    <div class="brand">YARIN<span class="dot">.</span>MALKA<small>Admin Console</small></div>
-    <button class="nav-btn active" data-view="dashboard">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
-      <span>סקירה</span>
-    </button>
-    <button class="nav-btn" data-view="projects">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16M3 21h18M5 11h2v3H5zm6 0h2v3h-2zm6 0h2v3h-2z"/></svg>
-      <span>פרויקטים</span>
-    </button>
-    <div class="spacer"></div>
-    <a href="/" style="text-decoration:none;">
-      <button class="nav-btn" style="width:100%">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-        <span>חזרה לאתר</span>
+    <div class="brand">
+      <div class="brand-logo">YARIN<span class="dot">.</span>MALKA</div>
+      <div class="brand-sub">Admin Console</div>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-item active" data-view="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        <span>דשבורד</span>
       </button>
-    </a>
-    <a href="/cdn-cgi/access/logout" style="text-decoration:none;">
-      <button class="nav-btn" style="width:100%; color:#fca5a5">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
-        <span>התנתק</span>
+
+      <div class="nav-label">תוכן האתר</div>
+      <button class="nav-item" data-view="projects">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16M3 21h18M5 11h2v3H5zm6 0h2v3h-2zm6 0h2v3h-2z"/></svg>
+        <span>פרויקטים</span>
+        <span class="badge" id="navCountProjects">-</span>
       </button>
-    </a>
-    <div class="user-card">
-      מחובר<strong id="userEmail">...</strong>
+      <button class="nav-item" data-view="guides">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>מדריכים</span>
+        <span class="badge" id="navCountGuides">-</span>
+      </button>
+      <button class="nav-item soon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span>סדנאות</span>
+      </button>
+      <button class="nav-item soon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        <span>טסטימוניאלים</span>
+      </button>
+
+      <div class="nav-label">קהל ופניות</div>
+      <button class="nav-item" data-view="subscribers">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span>רשימת תפוצה</span>
+        <span class="badge" id="navCountSubs">-</span>
+      </button>
+      <button class="nav-item soon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>פניות אחרונות</span>
+      </button>
+
+      <div class="nav-label">הגדרות</div>
+      <button class="nav-item soon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>פרטי קשר</span>
+      </button>
+      <button class="nav-item soon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span>SEO ומטאדאטה</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a href="/" style="text-decoration:none;">
+        <button class="nav-item" style="width:100%">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          <span>חזרה לאתר</span>
+        </button>
+      </a>
+      <a href="/cdn-cgi/access/logout" style="text-decoration:none;">
+        <button class="nav-item" style="width:100%; color:#fca5a5">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+          <span>התנתק</span>
+        </button>
+      </a>
+      <div class="user-card">
+        מחובר<strong id="userEmail">...</strong>
+      </div>
     </div>
   </aside>
 
   <main>
+    <!-- DASHBOARD VIEW -->
     <div id="view-dashboard" class="view">
-      <h1>סקירה כללית</h1>
-      <p class="sub">תמונת מצב מהירה של האתר</p>
-
-      <div class="stat-grid">
-        <div class="stat"><div class="stat-l">פרויקטים בסך הכל</div><div class="stat-v" id="statTotal">-</div></div>
-        <div class="stat"><div class="stat-l">מוצגים בעמוד הבית</div><div class="stat-v" id="statFeatured">-</div></div>
-        <div class="stat"><div class="stat-l">סטטוס</div><div class="stat-v" style="font-size:18px; color:var(--green)" id="statStatus">טוען...</div></div>
+      <div class="topbar">
+        <div>
+          <h1>דשבורד</h1>
+          <div class="sub">סקירה כללית של האתר והפעילות</div>
+        </div>
+        <div class="action-row">
+          <button class="btn btn-s" onclick="loadDashboard()" id="refreshBtn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            רענן
+          </button>
+          <button class="btn btn-p" onclick="navigate('projects'); setTimeout(openProject, 100)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            פרויקט חדש
+          </button>
+        </div>
       </div>
 
-      <div class="card">
-        <h2>פעולות מהירות</h2>
-        <button class="btn btn-p" onclick="navigate('projects')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-          הוסף פרויקט חדש
-        </button>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-row">
+            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16M3 21h18M5 11h2v3H5zm6 0h2v3h-2zm6 0h2v3h-2z"/></svg></div>
+            <div class="stat-info">
+              <div class="stat-label">סה״כ פרויקטים</div>
+              <div class="stat-value" id="statTotal">-</div>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-row">
+            <div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div class="stat-info">
+              <div class="stat-label">מוצגים בבית</div>
+              <div class="stat-value" id="statFeatured">-</div>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-row">
+            <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+            <div class="stat-info">
+              <div class="stat-label">מדריכים</div>
+              <div class="stat-value" id="statGuides">-</div>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card pink">
+          <div class="stat-row">
+            <div class="stat-icon pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div class="stat-info">
+              <div class="stat-label">מנויי תפוצה</div>
+              <div class="stat-value" id="statSubs">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h2>פעילות אחרונה</h2>
+            <a href="https://github.com/Yarin-ops/yarinmalka-site/commits/main" target="_blank" class="more">צפה בכל →</a>
+          </div>
+          <div id="commitsList"><div class="empty"><div class="ico"><div class="loading"></div></div>טוען...</div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>קישורים מהירים</h2>
+          </div>
+          <a href="/" class="link-card" target="_blank">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span class="title">צפה באתר החי</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="https://dashboard.cloudflare.com" target="_blank" class="link-card">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <span class="title">Cloudflare Analytics</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="https://dashboard.mailerlite.com" target="_blank" class="link-card">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            <span class="title">MailerLite (רשימת תפוצה)</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="https://github.com/Yarin-ops/yarinmalka-site" target="_blank" class="link-card">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            <span class="title">GitHub Repository</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
       </div>
     </div>
 
+    <!-- PROJECTS VIEW -->
     <div id="view-projects" class="view" style="display:none">
-      <h1>פרויקטים</h1>
-      <p class="sub">עריכה, הוספה, ומחיקה. כל שינוי נשמר ישירות לאתר תוך 30 שניות</p>
-
-      <button class="btn btn-p" style="margin-bottom:16px" onclick="openProject()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-        פרויקט חדש
-      </button>
+      <div class="topbar">
+        <div>
+          <h1>פרויקטים</h1>
+          <div class="sub">עריכה, הוספה ומחיקה. כל שינוי נשמר לאתר תוך 30 שניות</div>
+        </div>
+        <button class="btn btn-p" onclick="openProject()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          פרויקט חדש
+        </button>
+      </div>
 
       <div class="card">
-        <div id="projectList"><div class="empty">טוען...</div></div>
+        <div id="projectList"><div class="empty"><div class="loading"></div></div></div>
+      </div>
+    </div>
+
+    <!-- GUIDES VIEW -->
+    <div id="view-guides" class="view" style="display:none">
+      <div class="topbar">
+        <div>
+          <h1>מדריכים</h1>
+          <div class="sub">צפייה במדריכים הקיימים. עריכה ישירה ב-GitHub</div>
+        </div>
+        <a href="https://github.com/Yarin-ops/yarinmalka-site/tree/main/guides" target="_blank">
+          <button class="btn btn-s">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 19 2 12 9 5"/><polyline points="15 19 22 12 15 5"/></svg>
+            ערוך ב-GitHub
+          </button>
+        </a>
+      </div>
+      <div class="card">
+        <div id="guidesList"><div class="empty"><div class="loading"></div></div></div>
+      </div>
+    </div>
+
+    <!-- SUBSCRIBERS VIEW -->
+    <div id="view-subscribers" class="view" style="display:none">
+      <div class="topbar">
+        <div>
+          <h1>רשימת תפוצה</h1>
+          <div class="sub">מנויים פעילים ב-MailerLite</div>
+        </div>
+        <a href="https://dashboard.mailerlite.com" target="_blank">
+          <button class="btn btn-s">פתח MailerLite ↗</button>
+        </a>
+      </div>
+      <div class="card">
+        <div class="stat-row" style="margin-bottom:16px">
+          <div class="stat-icon pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+          <div class="stat-info">
+            <div class="stat-label">סה״כ מנויים פעילים</div>
+            <div class="stat-value" id="subsTotal">-</div>
+          </div>
+        </div>
+        <div style="font-size:13px; color:var(--text2); line-height:1.8;">
+          <p style="margin-bottom:8px;">לניהול פרטני (שליחת קמפיינים, אוטומציות, ייצוא נתונים) - <a href="https://dashboard.mailerlite.com" target="_blank" style="color:var(--accent-light)">דאשבורד MailerLite</a>.</p>
+          <p>פעולות זמינות שם: שליחת ניוזלטר, יצירת welcome series, סטטיסטיקות פתיחה/לחיצה, ייצוא מנויים ל-CSV.</p>
+        </div>
       </div>
     </div>
   </main>
 </div>
 
+<!-- PROJECT MODAL -->
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <h2 id="modalTitle">פרויקט</h2>
     <form id="projForm">
-      <div class="field"><label>מזהה (slug באנגלית, ייחודי)</label><input name="id" required pattern="[a-z0-9-]+" placeholder="example-project"></div>
+      <div class="field"><label>מזהה (slug באנגלית)</label><input name="id" required pattern="[a-z0-9-]+" placeholder="example-project"></div>
       <div class="field"><label>שם הפרויקט</label><input name="title" required placeholder="שם בעברית או באנגלית"></div>
       <div class="field"><label>קישור</label><input name="url" type="url" required placeholder="https://..."></div>
       <div class="field"><label>תמונה (נתיב יחסי)</label><input name="image" placeholder="assets/project-name.jpg"></div>
       <div class="field-row">
-        <div class="field"><label>תגית (Badge)</label><input name="badge" placeholder="אתר עסקי"></div>
+        <div class="field"><label>תגית</label><input name="badge" placeholder="אתר עסקי"></div>
         <div class="field"><label>שנה</label><input name="year" placeholder="2026"></div>
       </div>
       <div class="field"><label>תיאור</label><textarea name="description" required></textarea></div>
-      <div class="field"><label>סגנון תמונה (CSS אופציונלי)</label><input name="imageStyle" placeholder="object-position:top"></div>
-      <div class="field-check"><input type="checkbox" name="featured" id="featuredCheck"><label for="featuredCheck">הצג בעמוד הבית (Featured)</label></div>
+      <div class="field"><label>סגנון תמונה (אופציונלי)</label><input name="imageStyle" placeholder="object-position:top"></div>
+      <div class="field-check"><input type="checkbox" name="featured" id="featuredCheck"><label for="featuredCheck">הצג בעמוד הבית</label></div>
       <div class="modal-actions">
         <button type="button" class="btn btn-d" id="deleteBtn" style="display:none" onclick="deleteProj()">מחק</button>
         <div style="display:flex; gap:8px; margin-inline-start:auto;">
@@ -238,7 +583,7 @@ h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
 <div class="toast" id="toast"></div>
 
 <script>
-const state = { projects: [], editingId: null };
+const state = { projects: [], editingId: null, stats: null };
 
 function toast(msg, isError) {
   const t = document.getElementById('toast');
@@ -249,10 +594,14 @@ function toast(msg, isError) {
 
 function navigate(view) {
   document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
-  document.querySelectorAll('.nav-btn[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-  document.getElementById('view-' + view).style.display = 'block';
+  document.querySelectorAll('.nav-item[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+  const el = document.getElementById('view-' + view);
+  if (el) el.style.display = 'block';
+  if (view === 'projects') loadProjects();
+  if (view === 'guides') loadGuides();
+  if (view === 'subscribers') loadStatsOnly();
 }
-document.querySelectorAll('.nav-btn[data-view]').forEach(b => b.addEventListener('click', () => navigate(b.dataset.view)));
+document.querySelectorAll('.nav-item[data-view]').forEach(b => b.addEventListener('click', () => navigate(b.dataset.view)));
 
 async function loadMe() {
   try {
@@ -260,8 +609,67 @@ async function loadMe() {
     const d = await r.json();
     document.getElementById('userEmail').textContent = d.email || 'לא ידוע';
   } catch (e) {
-    document.getElementById('userEmail').textContent = 'שגיאה';
+    document.getElementById('userEmail').textContent = '—';
   }
+}
+
+function fmtDate(s) {
+  if (!s) return '';
+  const d = new Date(s);
+  const days = Math.floor((Date.now() - d) / 86400000);
+  if (days === 0) {
+    const hours = Math.floor((Date.now() - d) / 3600000);
+    if (hours === 0) return 'לפני דקות';
+    return `לפני ${hours} שעות`;
+  }
+  if (days === 1) return 'אתמול';
+  if (days < 7) return `לפני ${days} ימים`;
+  return d.toLocaleDateString('he-IL', { day: 'numeric', month: 'short' });
+}
+
+async function loadDashboard() {
+  const btn = document.getElementById('refreshBtn');
+  btn.disabled = true;
+  try {
+    const r = await fetch('/api/admin/stats');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    state.stats = d;
+    document.getElementById('statTotal').textContent = d.projects?.total ?? '—';
+    document.getElementById('statFeatured').textContent = d.projects?.featured ?? '—';
+    document.getElementById('statGuides').textContent = d.guides?.total ?? '—';
+    document.getElementById('statSubs').textContent = d.subscribers?.total ?? '—';
+    document.getElementById('navCountProjects').textContent = d.projects?.total ?? '—';
+    document.getElementById('navCountGuides').textContent = d.guides?.total ?? '—';
+    document.getElementById('navCountSubs').textContent = d.subscribers?.total ?? '—';
+    document.getElementById('subsTotal').textContent = d.subscribers?.total ?? '—';
+    renderCommits(d.commits || []);
+  } catch (e) {
+    toast('שגיאה: ' + e.message, true);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function renderCommits(commits) {
+  const list = document.getElementById('commitsList');
+  if (!commits.length) {
+    list.innerHTML = '<div class="empty"><h3>אין פעילות עדיין</h3></div>';
+    return;
+  }
+  list.innerHTML = commits.map(c => `
+    <div class="activity-item">
+      <div class="activity-dot"></div>
+      <div class="activity-content">
+        <div class="activity-msg">${escapeHtml(c.message)}</div>
+        <div class="activity-meta"><span class="sha">${c.sha}</span>${escapeHtml(c.author)} · ${fmtDate(c.date)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function loadStatsOnly() {
+  if (!state.stats) await loadDashboard();
 }
 
 async function loadProjects() {
@@ -271,20 +679,15 @@ async function loadProjects() {
     const d = await r.json();
     state.projects = d.projects || [];
     renderProjects();
-    document.getElementById('statTotal').textContent = state.projects.length;
-    document.getElementById('statFeatured').textContent = state.projects.filter(p => p.featured).length;
-    document.getElementById('statStatus').textContent = 'תקין';
   } catch (e) {
-    document.getElementById('projectList').innerHTML = '<div class="empty">שגיאה בטעינה: ' + e.message + '</div>';
-    document.getElementById('statStatus').textContent = 'שגיאה';
-    document.getElementById('statStatus').style.color = 'var(--red)';
+    document.getElementById('projectList').innerHTML = '<div class="empty"><h3>שגיאה בטעינה</h3><p>' + e.message + '</p></div>';
   }
 }
 
 function renderProjects() {
   const list = document.getElementById('projectList');
   if (state.projects.length === 0) {
-    list.innerHTML = '<div class="empty">אין פרויקטים עדיין</div>';
+    list.innerHTML = '<div class="empty"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16M3 21h18"/></svg></div><h3>אין פרויקטים עדיין</h3><p>לחץ "פרויקט חדש" כדי להתחיל</p></div>';
     return;
   }
   list.innerHTML = state.projects.map(p => `
@@ -292,14 +695,36 @@ function renderProjects() {
       <img src="/${p.image || 'assets/og-image.png'}" alt="">
       <div class="proj-info">
         <h3>${escapeHtml(p.title)}</h3>
-        <div><span class="badge">${escapeHtml(p.badge || '')}</span>${p.featured ? '<span class="badge" style="background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.3);color:#6ee7b7">Featured</span>' : ''}<span style="font-size:12px;color:var(--text3)">· ${p.year || ''}</span></div>
+        <div><span class="badge">${escapeHtml(p.badge || '')}</span>${p.featured ? '<span class="badge feat">Featured</span>' : ''}<span class="meta">${p.year || ''}</span></div>
         <p>${escapeHtml(p.description || '')}</p>
       </div>
-      <div>
-        <button class="btn btn-s btn-icon" onclick="openProject('${p.id}')" aria-label="ערוך">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        </button>
+      <button class="btn btn-s btn-icon" onclick="openProject('${p.id}')" aria-label="ערוך">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </button>
+    </div>
+  `).join('');
+}
+
+async function loadGuides() {
+  const list = document.getElementById('guidesList');
+  list.innerHTML = '<div class="empty"><div class="loading"></div></div>';
+  const GUIDES = [
+    { slug: 'claude-excel', title: 'Claude in Excel', date: '2026-05-04' },
+    { slug: '5-free-ai-tools', title: '5 כלי AI חינמיים', date: '2026-05-05' },
+    { slug: 'what-is-ai', title: 'מה זה AI', date: '2026-05-07' },
+    { slug: '3-ai-families', title: '3 משפחות AI', date: '2026-05-07' },
+    { slug: 'financial-agent-truth', title: 'יועצי AI פיננסיים', date: '2026-05-07' },
+    { slug: 'make-ai-automation', title: 'אוטומציות Make + AI', date: '2026-05-08' },
+    { slug: 'notion-ai-hebrew', title: 'Notion AI בעברית', date: '2026-05-08' },
+  ];
+  list.innerHTML = GUIDES.map(g => `
+    <div class="proj-row" style="grid-template-columns: 1fr auto auto">
+      <div class="proj-info">
+        <h3>${g.title}</h3>
+        <p class="meta">פורסם ${fmtDate(g.date)} · /guides/${g.slug}</p>
       </div>
+      <a href="/guides/${g.slug}" target="_blank"><button class="btn btn-s btn-icon">צפה ↗</button></a>
+      <a href="https://github.com/Yarin-ops/yarinmalka-site/blob/main/guides/${g.slug}.html" target="_blank"><button class="btn btn-s btn-icon">ערוך ↗</button></a>
     </div>
   `).join('');
 }
@@ -367,10 +792,9 @@ document.getElementById('projForm').addEventListener('submit', async (e) => {
     }
     state.projects = newProjects;
     renderProjects();
-    document.getElementById('statTotal').textContent = state.projects.length;
-    document.getElementById('statFeatured').textContent = state.projects.filter(p => p.featured).length;
     closeModal();
     toast('נשמר! האתר יעדכן תוך 30 שניות');
+    loadDashboard();
   } catch (e) {
     toast(e.message, true);
   } finally {
@@ -398,10 +822,9 @@ async function deleteProj() {
     }
     state.projects = newProjects;
     renderProjects();
-    document.getElementById('statTotal').textContent = state.projects.length;
-    document.getElementById('statFeatured').textContent = state.projects.filter(p => p.featured).length;
     closeModal();
     toast('הפרויקט נמחק');
+    loadDashboard();
   } catch (e) {
     toast(e.message, true);
   } finally {
@@ -411,7 +834,7 @@ async function deleteProj() {
 }
 
 loadMe();
-loadProjects();
+loadDashboard();
 </script>
 </body>
 </html>
