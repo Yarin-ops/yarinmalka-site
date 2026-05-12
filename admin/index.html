@@ -294,6 +294,47 @@ main { padding: 28px 36px; max-width: 1240px; }
 /* === MISC === */
 .loading { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.2); border-top-color: var(--accent-light); border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* View transitions */
+.view { animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Stat cards hover */
+.stat-card { transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; cursor: default; }
+.stat-card:hover { transform: translateY(-2px); border-color: rgba(108,60,225,0.3); box-shadow: 0 10px 30px -10px rgba(108,60,225,0.25); }
+
+/* Nav item polish */
+.nav-item { transition: background 0.2s, color 0.2s, padding 0.2s; }
+.nav-item:hover { padding-right: 16px; }
+.nav-item.soon { transition: opacity 0.2s; }
+.nav-item.soon:hover { padding-right: 12px; }
+
+/* Project row lift on hover */
+.proj-row { transition: border-color 0.2s, background 0.2s, transform 0.2s; }
+.proj-row:hover { transform: translateX(-3px); }
+
+/* Card subtle hover */
+.card { transition: border-color 0.3s; }
+
+/* Link card */
+.link-card { transition: all 0.2s; }
+
+/* Buttons */
+.btn { transition: all 0.2s, transform 0.15s; }
+.btn:active { transform: scale(0.97); }
+
+/* Modal slide-in */
+.modal-bg.open .modal { animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Toast better positioning */
+.toast { box-shadow: 0 10px 30px -5px rgba(0,0,0,0.4); }
 .toast { position: fixed; top: 20px; right: 50%; transform: translateX(50%); padding: 12px 22px; background: var(--green); color: #fff; border-radius: 10px; z-index: 200; opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; font-weight: 500; font-size: 13px; }
 .toast.show { opacity: 1; transform: translateX(50%) translateY(8px); }
 .toast.err { background: var(--red); }
