@@ -1098,7 +1098,7 @@ nav#mainNav {
 .showcase-devices .device-phone {
   position: absolute;
   bottom: -70px;
-  right: -90px;
+  left: -90px;
   width: 180px;
   z-index: 2;
 }
