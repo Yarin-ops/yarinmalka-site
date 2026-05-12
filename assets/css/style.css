@@ -998,43 +998,65 @@ nav#mainNav {
 .port-info .port-link svg { width: 12px; height: 12px; }
 .port-card:hover .port-info .port-link { color: var(--accent); }
 
-/* === DEVICE MOCKUPS (Mac + iPhone) === */
+/* === DEVICE MOCKUPS: MacBook Pro M3 === */
 .device-mac {
   position: relative;
-  padding: 18px 18px 0;
-  background: linear-gradient(180deg, #1f1f30, #14142a);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px 16px 6px 6px;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,0,0,0.4);
-  margin-bottom: 18px;
+  padding: 16px 16px 0;
+  background: linear-gradient(180deg, #2a2a30 0%, #1c1c22 100%);
+  border-top: 1px solid rgba(255,255,255,0.18);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px 14px 4px 4px;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.5),
+    0 30px 60px -10px rgba(0,0,0,0.6),
+    0 60px 120px -20px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  margin-bottom: 12px;
 }
 .device-mac::before {
+  /* camera dot in top bezel */
   content: '';
   position: absolute;
   top: 7px; left: 50%;
   transform: translateX(-50%);
-  width: 5px; height: 5px;
-  background: rgba(255,255,255,0.12);
+  width: 4px; height: 4px;
+  background: radial-gradient(circle, #444 0%, #1a1a1a 60%, #000 100%);
   border-radius: 50%;
+  box-shadow: 0 0 1px rgba(255,255,255,0.3);
 }
 .device-mac::after {
+  /* base / keyboard hint */
   content: '';
   position: absolute;
-  bottom: -14px;
-  left: -3.5%;
-  right: -3.5%;
-  height: 16px;
-  background: linear-gradient(180deg, #2a2a3e, #1a1a2c);
-  border-radius: 0 0 14px 14px;
-  border: 1px solid rgba(255,255,255,0.06);
+  bottom: -18px;
+  left: -4.5%;
+  right: -4.5%;
+  height: 18px;
+  background: linear-gradient(180deg, #3a3a42 0%, #2c2c34 30%, #1a1a20 100%);
+  border-radius: 0 0 8px 8px;
+  border: 1px solid rgba(255,255,255,0.05);
   border-top: none;
+  box-shadow:
+    0 8px 18px -4px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.08);
 }
 .device-mac .device-screen {
   background: #000;
-  border-radius: 5px;
+  border-radius: 4px;
   overflow: hidden;
   position: relative;
   aspect-ratio: 16 / 10;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+.device-mac .device-screen::after {
+  /* subtle screen reflection */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg, rgba(255,255,255,0.04) 0%, transparent 35%, transparent 65%, rgba(255,255,255,0.02) 100%);
+  pointer-events: none;
+  z-index: 3;
 }
 .device-mac .device-screen img {
   width: 100%; height: 100%;
@@ -1043,31 +1065,58 @@ nav#mainNav {
   display: block;
 }
 
+/* === DEVICE MOCKUPS: iPhone 16 Pro === */
 .device-phone {
   position: relative;
-  padding: 9px;
-  background: linear-gradient(180deg, #1f1f30, #14142a);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 38px;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,0,0,0.4);
-  max-width: 240px;
+  padding: 11px;
+  background: linear-gradient(135deg, #3a3a44 0%, #1f1f28 50%, #2a2a34 100%);
+  border-radius: 52px;
+  box-shadow:
+    0 0 0 1.5px rgba(255,255,255,0.12),
+    0 30px 60px -10px rgba(0,0,0,0.65),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+  max-width: 260px;
 }
 .device-phone::before {
+  /* Dynamic Island */
   content: '';
   position: absolute;
-  top: 14px; left: 50%;
+  top: 22px; left: 50%;
   transform: translateX(-50%);
-  width: 78px; height: 20px;
+  width: 95px; height: 28px;
   background: #000;
-  border-radius: 0 0 14px 14px;
+  border-radius: 999px;
+  z-index: 3;
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.8);
+}
+.device-phone::after {
+  /* side button hint - power button on right (left in RTL visually = right of phone) */
+  content: '';
+  position: absolute;
+  top: 90px;
+  right: -2px;
+  width: 3px;
+  height: 60px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.18), rgba(255,255,255,0.05));
+  border-radius: 2px 0 0 2px;
   z-index: 2;
 }
 .device-phone .device-screen {
   background: #000;
-  border-radius: 30px;
+  border-radius: 42px;
   overflow: hidden;
   aspect-ratio: 9 / 19.5;
   position: relative;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+}
+.device-phone .device-screen::after {
+  /* subtle reflection */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg, rgba(255,255,255,0.05) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.025) 100%);
+  pointer-events: none;
+  z-index: 2;
 }
 .device-phone .device-screen img {
   width: 100%; height: 100%;
@@ -1075,6 +1124,20 @@ nav#mainNav {
   object-position: top;
   display: block;
 }
+.device-phone .device-volume-up,
+.device-phone .device-volume-down,
+.device-phone .device-mute {
+  /* left-side buttons (visually left = phone's left) */
+  position: absolute;
+  left: -2px;
+  width: 3px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0.18));
+  border-radius: 0 2px 2px 0;
+  z-index: 2;
+}
+.device-phone .device-mute { top: 75px; height: 28px; }
+.device-phone .device-volume-up { top: 115px; height: 40px; }
+.device-phone .device-volume-down { top: 165px; height: 40px; }
 
 /* === SHOWCASE SECTION === */
 .showcase-stage {
