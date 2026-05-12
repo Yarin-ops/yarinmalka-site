@@ -111,10 +111,11 @@
     <div class="nav-inner">
         <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
         <div class="nav-links">
+            <a href="/">בית</a>
             <a href="/#services">שירותים</a>
-            <a href="/workshops.html">סדנאות</a>            <a href="/guides.html">מדריכים</a>
+            <a href="/workshops.html">סדנאות</a>            <a href="/guides.html" class="active">מדריכים</a>
             <a href="/about.html">אודות</a>
-            <a href="/#portfolio">פרויקטים</a>
+            <a href="/projects/">פרויקטים</a>
             <button class="theme-toggle-nav" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
                 <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                 <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -125,10 +126,11 @@
     </div>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
+    <a href="/" onclick="closeMenu()">בית</a>
     <a href="/#services" onclick="closeMenu()">שירותים</a>
     <a href="/workshops.html" onclick="closeMenu()">סדנאות</a>    <a href="/guides.html" onclick="closeMenu()">מדריכים</a>
     <a href="/about.html" onclick="closeMenu()">אודות</a>
-    <a href="/#portfolio" onclick="closeMenu()">פרויקטים</a>
+    <a href="/projects/" onclick="closeMenu()">פרויקטים</a>
     <a href="/contact.html" onclick="closeMenu()">בואו נדבר</a>
     <button class="mobile-theme-toggle" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
