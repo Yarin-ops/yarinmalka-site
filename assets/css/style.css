@@ -913,15 +913,45 @@ nav#mainNav {
   border-color: var(--glass-hover);
   box-shadow: 0 0 40px rgba(108,60,225,0.1);
 }
-.port-thumb { overflow: hidden; position: relative; height: 180px; flex-shrink: 0; }
+.port-thumb {
+  overflow: hidden;
+  position: relative;
+  height: 200px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, rgba(35,35,50,0.95), rgba(22,22,38,0.95));
+}
+.port-thumb::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 24px;
+  background: linear-gradient(180deg, rgba(45,45,62,0.98), rgba(28,28,42,0.98));
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  z-index: 2;
+}
+.port-thumb::after {
+  content: '';
+  position: absolute;
+  top: 9px; left: 12px;
+  width: 7px; height: 7px;
+  background: #ff5f57;
+  border-radius: 50%;
+  box-shadow: 13px 0 0 #febc2e, 26px 0 0 #28c840;
+  z-index: 3;
+}
 .port-thumb img {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: calc(100% - 24px);
+  margin-top: 24px;
   object-fit: cover;
   transition: transform 0.6s;
+  display: block;
 }
 .port-card:hover .port-thumb img { transform: scale(1.06); }
 .port-thumb-art {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: calc(100% - 24px);
+  margin-top: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -967,6 +997,168 @@ nav#mainNav {
 }
 .port-info .port-link svg { width: 12px; height: 12px; }
 .port-card:hover .port-info .port-link { color: var(--accent); }
+
+/* === DEVICE MOCKUPS (Mac + iPhone) === */
+.device-mac {
+  position: relative;
+  padding: 18px 18px 0;
+  background: linear-gradient(180deg, #1f1f30, #14142a);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px 16px 6px 6px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,0,0,0.4);
+  margin-bottom: 18px;
+}
+.device-mac::before {
+  content: '';
+  position: absolute;
+  top: 7px; left: 50%;
+  transform: translateX(-50%);
+  width: 5px; height: 5px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 50%;
+}
+.device-mac::after {
+  content: '';
+  position: absolute;
+  bottom: -14px;
+  left: -3.5%;
+  right: -3.5%;
+  height: 16px;
+  background: linear-gradient(180deg, #2a2a3e, #1a1a2c);
+  border-radius: 0 0 14px 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-top: none;
+}
+.device-mac .device-screen {
+  background: #000;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 16 / 10;
+}
+.device-mac .device-screen img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+.device-phone {
+  position: relative;
+  padding: 9px;
+  background: linear-gradient(180deg, #1f1f30, #14142a);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 38px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,0,0,0.4);
+  max-width: 240px;
+}
+.device-phone::before {
+  content: '';
+  position: absolute;
+  top: 14px; left: 50%;
+  transform: translateX(-50%);
+  width: 78px; height: 20px;
+  background: #000;
+  border-radius: 0 0 14px 14px;
+  z-index: 2;
+}
+.device-phone .device-screen {
+  background: #000;
+  border-radius: 30px;
+  overflow: hidden;
+  aspect-ratio: 9 / 19.5;
+  position: relative;
+}
+.device-phone .device-screen img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+/* === SHOWCASE SECTION === */
+.showcase-stage {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 60px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.showcase-devices {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.showcase-devices .device-mac {
+  width: 100%;
+  max-width: 620px;
+}
+.showcase-devices .device-phone {
+  position: absolute;
+  bottom: -20px;
+  right: -10px;
+  width: 180px;
+  z-index: 2;
+}
+.showcase-caption .showcase-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  background: rgba(108,60,225,0.12);
+  border: 1px solid rgba(108,60,225,0.3);
+  border-radius: 999px;
+  font-family: 'Inter';
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin-bottom: 18px;
+}
+.showcase-caption h3 {
+  font-family: 'Karantina';
+  font-weight: 700;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.05;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+.showcase-caption h3 .accent {
+  background: linear-gradient(135deg, var(--accent-light), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.showcase-caption p {
+  color: var(--text2);
+  font-size: 16px;
+  line-height: 1.85;
+  margin-bottom: 28px;
+}
+.showcase-caption .showcase-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 500;
+  transition: box-shadow 0.3s, transform 0.2s;
+}
+.showcase-caption .showcase-cta:hover {
+  box-shadow: 0 0 30px rgba(108,60,225,0.5);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 1024px) {
+  .showcase-stage { grid-template-columns: 1fr; gap: 40px; }
+  .showcase-devices .device-phone { display: none; }
+}
+@media (max-width: 768px) {
+  .showcase-devices .device-mac { padding: 10px 10px 0; }
+}
 
 /* === TESTIMONIAL === */
 .testi-grid {
