@@ -1079,28 +1079,27 @@ nav#mainNav {
 /* === SHOWCASE SECTION === */
 .showcase-stage {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 60px;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 50px;
   align-items: center;
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
 }
 .showcase-devices {
-  position: relative;
   display: flex;
+  gap: 24px;
   align-items: center;
   justify-content: center;
 }
 .showcase-devices .device-mac {
-  width: 100%;
-  max-width: 620px;
+  flex: 1;
+  min-width: 0;
+  max-width: 540px;
 }
 .showcase-devices .device-phone {
-  position: absolute;
-  bottom: -50px;
-  left: 30px;
-  width: 160px;
-  z-index: 2;
+  flex-shrink: 0;
+  width: 150px;
+  position: relative;
 }
 .showcase-caption .showcase-badge {
   display: inline-block;
