@@ -424,9 +424,10 @@ main { padding: 28px 36px; max-width: 1240px; }
         <span>מדריכים</span>
         <span class="badge" id="navCountGuides">-</span>
       </button>
-      <button class="nav-item soon">
+      <button class="nav-item" data-view="workshops">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
         <span>סדנאות</span>
+        <span class="badge" id="navCountWorkshops">-</span>
       </button>
       <button class="nav-item" data-view="testimonials">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -657,6 +658,23 @@ main { padding: 28px 36px; max-width: 1240px; }
       </div>
     </div>
 
+    <!-- WORKSHOPS VIEW -->
+    <div id="view-workshops" class="view" style="display:none">
+      <div class="topbar">
+        <div>
+          <h1>סדנאות</h1>
+          <div class="sub">הסדנאות שמופיעות בעמוד הסדנאות. שינויים יופיעו תוך 30 שניות</div>
+        </div>
+        <button class="btn btn-p" onclick="openWorkshop()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          סדנה חדשה
+        </button>
+      </div>
+      <div class="card">
+        <div id="workshopsList"><div class="empty"><div class="loading"></div></div></div>
+      </div>
+    </div>
+
     <!-- ANALYTICS VIEW -->
     <div id="view-analytics" class="view" style="display:none">
       <div class="topbar">
@@ -685,7 +703,17 @@ main { padding: 28px 36px; max-width: 1240px; }
       <div class="field"><label>מזהה (slug באנגלית)</label><input name="id" required pattern="[a-z0-9-]+" placeholder="example-project"></div>
       <div class="field"><label>שם הפרויקט</label><input name="title" required placeholder="שם בעברית או באנגלית"></div>
       <div class="field"><label>קישור</label><input name="url" type="url" required placeholder="https://..."></div>
-      <div class="field"><label>תמונה (נתיב יחסי)</label><input name="image" placeholder="assets/project-name.jpg"></div>
+      <div class="field">
+        <label>תמונה</label>
+        <div style="display:flex;gap:8px;">
+          <input name="image" id="projImagePath" placeholder="assets/project-name.jpg" style="flex:1;">
+          <input type="file" id="projImageFile" accept="image/*" hidden onchange="handleImageSelect(this, 'projImagePath')">
+          <button type="button" class="btn btn-s" style="white-space:nowrap;padding:9px 14px;" onclick="document.getElementById('projImageFile').click()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            העלה
+          </button>
+        </div>
+      </div>
       <div class="field-row">
         <div class="field"><label>תגית</label><input name="badge" placeholder="אתר עסקי"></div>
         <div class="field"><label>שנה</label><input name="year" placeholder="2026"></div>
@@ -726,6 +754,7 @@ function navigate(view) {
   if (view === 'subscribers') loadSubscribers();
   if (view === 'testimonials') loadTestimonials();
   if (view === 'analytics') loadAnalytics();
+  if (view === 'workshops') loadWorkshops();
 }
 document.querySelectorAll('.nav-item[data-view]').forEach(b => b.addEventListener('click', () => navigate(b.dataset.view)));
 
@@ -1221,6 +1250,183 @@ function renderTopList(items, dimKey, fallback) {
     const pct = (i.count / max) * 100;
     return `<div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span style="color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:75%;">${escapeHtml(label)}</span><span style="color:var(--text3);font-family:Inter;font-size:12px;">${i.count.toLocaleString()}</span></div><div style="height:5px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--accent-light),var(--accent));"></div></div></div>`;
   }).join('');
+}
+
+// === WORKSHOPS ===
+state.workshops = [];
+state.editingWorkshopId = null;
+
+async function loadWorkshops() {
+  try {
+    const r = await fetch('/api/admin/workshops');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
+    state.workshops = d.workshops || [];
+    document.getElementById('navCountWorkshops').textContent = state.workshops.length;
+    renderWorkshops();
+  } catch (e) {
+    document.getElementById('workshopsList').innerHTML = '<div class="empty"><h3>שגיאה</h3><p>' + e.message + '</p></div>';
+  }
+}
+
+const WS_COLORS = ['cyan','purple','blue','green','orange','pink'];
+
+function renderWorkshops() {
+  const list = document.getElementById('workshopsList');
+  if (!state.workshops.length) {
+    list.innerHTML = '<div class="empty"><h3>אין סדנאות</h3></div>';
+    return;
+  }
+  list.innerHTML = state.workshops.map(w => `
+    <div class="proj-row" style="grid-template-columns:48px 1fr auto;">
+      <div class="stat-icon ${w.color || 'purple'}" style="margin:0;width:48px;height:48px;border-radius:12px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+      </div>
+      <div class="proj-info">
+        <h3>${escapeHtml(w.title)}</h3>
+        <div><span class="badge">${escapeHtml(w.duration || '')}</span><span class="meta">${escapeHtml(w.format || '')} ${w.published ? '· פעילה' : '· טיוטה'}</span></div>
+        <p style="margin-top:6px;">${escapeHtml((w.description || '').substring(0, 110))}${(w.description || '').length > 110 ? '...' : ''}</p>
+      </div>
+      <button class="btn btn-s btn-icon" onclick="openWorkshop('${w.id}')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </button>
+    </div>
+  `).join('');
+}
+
+function openWorkshop(id) {
+  state.editingWorkshopId = id || null;
+  const w = id ? state.workshops.find(x => x.id === id) : { id: '', title: '', color: 'purple', description: '', bullets: [], audience: '', duration: '', format: '', published: true };
+  if (!w) return;
+  const bulletsStr = (w.bullets || []).join('\n');
+  const html = `
+    <div class="modal-bg open" id="wsModalBg" onclick="if(event.target.id==='wsModalBg')closeWsModal()">
+      <div class="modal">
+        <h2>${id ? 'עריכת סדנה' : 'סדנה חדשה'}</h2>
+        <form id="wsForm">
+          <div class="field-row">
+            <div class="field"><label>מזהה</label><input name="id" required pattern="[a-z0-9-]+" value="${escapeHtml(w.id)}" ${id?'readonly':''}></div>
+            <div class="field"><label>צבע תמה</label><select name="color">
+              ${WS_COLORS.map(c => `<option value="${c}" ${w.color===c?'selected':''}>${c}</option>`).join('')}
+            </select></div>
+          </div>
+          <div class="field"><label>כותרת</label><input name="title" required value="${escapeHtml(w.title)}"></div>
+          <div class="field"><label>תיאור</label><textarea name="description" required>${escapeHtml(w.description||'')}</textarea></div>
+          <div class="field"><label>נושאים (כל אחד בשורה נפרדת)</label><textarea name="bullets" rows="6">${escapeHtml(bulletsStr)}</textarea></div>
+          <div class="field"><label>קהל יעד</label><textarea name="audience">${escapeHtml(w.audience||'')}</textarea></div>
+          <div class="field-row">
+            <div class="field"><label>משך</label><input name="duration" value="${escapeHtml(w.duration||'')}" placeholder="3-4 שעות"></div>
+            <div class="field"><label>פורמט</label><input name="format" value="${escapeHtml(w.format||'')}" placeholder="מעשית עם תרגול"></div>
+          </div>
+          <div class="field-check"><input type="checkbox" name="published" id="wsPub" ${w.published?'checked':''}><label for="wsPub">פעילה (מוצגת באתר)</label></div>
+          <div class="modal-actions">
+            ${id ? '<button type="button" class="btn btn-d" onclick="deleteWs()">מחק</button>' : ''}
+            <div style="display:flex;gap:8px;margin-inline-start:auto;">
+              <button type="button" class="btn btn-s" onclick="closeWsModal()">ביטול</button>
+              <button type="submit" class="btn btn-p" id="wsSaveBtn">שמור</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  `;
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  document.body.appendChild(div.firstElementChild);
+  document.getElementById('wsForm').addEventListener('submit', saveWs);
+}
+
+function closeWsModal() {
+  const el = document.getElementById('wsModalBg');
+  if (el) el.remove();
+  state.editingWorkshopId = null;
+}
+
+async function saveWs(e) {
+  e.preventDefault();
+  const btn = document.getElementById('wsSaveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading"></span>';
+  try {
+    const fd = new FormData(e.target);
+    const data = {};
+    fd.forEach((v, k) => { data[k] = v; });
+    data.bullets = (data.bullets || '').split('\n').map(s => s.trim()).filter(Boolean);
+    data.published = !!e.target.published.checked;
+    let newWs;
+    if (state.editingWorkshopId) {
+      newWs = state.workshops.map(w => w.id === state.editingWorkshopId ? { ...w, ...data } : w);
+    } else {
+      if (state.workshops.find(w => w.id === data.id)) throw new Error('מזהה כבר קיים');
+      newWs = [...state.workshops, data];
+    }
+    const r = await fetch('/api/admin/workshops', {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ workshops: newWs, message: state.editingWorkshopId ? `Update workshop: ${data.id}` : `Add workshop: ${data.id}` }),
+    });
+    if (!r.ok) { const er = await r.json(); throw new Error(er.error); }
+    state.workshops = newWs;
+    renderWorkshops();
+    document.getElementById('navCountWorkshops').textContent = state.workshops.length;
+    closeWsModal();
+    toast('נשמר!');
+  } catch (e) {
+    toast(e.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'שמור';
+  }
+}
+
+async function deleteWs() {
+  if (!state.editingWorkshopId) return;
+  if (!confirm('למחוק את הסדנה?')) return;
+  try {
+    const newWs = state.workshops.filter(w => w.id !== state.editingWorkshopId);
+    const r = await fetch('/api/admin/workshops', {
+      method: 'PUT', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ workshops: newWs, message: `Delete workshop: ${state.editingWorkshopId}` }),
+    });
+    if (!r.ok) { const er = await r.json(); throw new Error(er.error); }
+    state.workshops = newWs;
+    renderWorkshops();
+    document.getElementById('navCountWorkshops').textContent = state.workshops.length;
+    closeWsModal();
+    toast('נמחק');
+  } catch (e) { toast(e.message, true); }
+}
+
+// === IMAGE UPLOAD HELPER ===
+async function uploadImage(file, folder) {
+  const fd = new FormData();
+  fd.append('file', file);
+  if (folder) fd.append('folder', folder);
+  const r = await fetch('/api/admin/upload-image', { method: 'POST', body: fd });
+  const d = await r.json();
+  if (!r.ok) throw new Error(d.error || 'upload failed');
+  return d.path;
+}
+
+async function handleImageSelect(inputEl, targetFieldId) {
+  if (!inputEl.files || !inputEl.files[0]) return;
+  const file = inputEl.files[0];
+  const target = document.getElementById(targetFieldId);
+  const originalPlaceholder = target.placeholder;
+  target.placeholder = 'מעלה...';
+  target.disabled = true;
+  try {
+    const path = await uploadImage(file, 'uploads');
+    target.value = path;
+    target.disabled = false;
+    toast('התמונה הועלתה!');
+  } catch (e) {
+    toast('שגיאה בהעלאה: ' + e.message, true);
+    target.disabled = false;
+    target.placeholder = originalPlaceholder;
+  }
+  inputEl.value = '';
 }
 
 // === AUTH FLOW ===
