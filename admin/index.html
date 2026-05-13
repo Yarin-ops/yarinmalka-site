@@ -429,6 +429,11 @@ main { padding: 28px 36px; max-width: 1240px; }
         <span>סדנאות</span>
         <span class="badge" id="navCountWorkshops">-</span>
       </button>
+      <button class="nav-item" data-view="services">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>שירותים</span>
+        <span class="badge" id="navCountServices">-</span>
+      </button>
       <button class="nav-item" data-view="testimonials">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
         <span>טסטימוניאלים</span>
@@ -456,13 +461,9 @@ main { padding: 28px 36px; max-width: 1240px; }
       </button>
 
       <div class="nav-label">הגדרות</div>
-      <button class="nav-item soon">
+      <button class="nav-item" data-view="settings">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        <span>פרטי קשר</span>
-      </button>
-      <button class="nav-item soon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <span>SEO ומטאדאטה</span>
+        <span>הגדרות אתר</span>
       </button>
     </nav>
 
@@ -697,6 +698,38 @@ main { padding: 28px 36px; max-width: 1240px; }
       </div>
     </div>
 
+    <!-- SETTINGS VIEW -->
+    <div id="view-settings" class="view" style="display:none">
+      <div class="topbar">
+        <div>
+          <h1>הגדרות אתר</h1>
+          <div class="sub">פרטי קשר, רשתות חברתיות, ומותג. שינויים יופיעו תוך 30 שניות</div>
+        </div>
+        <button class="btn btn-p" onclick="saveSettings()" id="settingsSaveBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8"/></svg>
+          שמור שינויים
+        </button>
+      </div>
+      <div id="settingsContent"><div class="empty"><div class="loading"></div></div></div>
+    </div>
+
+    <!-- SERVICES VIEW -->
+    <div id="view-services" class="view" style="display:none">
+      <div class="topbar">
+        <div>
+          <h1>שירותים</h1>
+          <div class="sub">3 השירותים הראשיים שמופיעים בעמוד הבית</div>
+        </div>
+        <button class="btn btn-p" onclick="openService()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          שירות חדש
+        </button>
+      </div>
+      <div class="card">
+        <div id="servicesList"><div class="empty"><div class="loading"></div></div></div>
+      </div>
+    </div>
+
     <!-- ANALYTICS VIEW -->
     <div id="view-analytics" class="view" style="display:none">
       <div class="topbar">
@@ -778,6 +811,8 @@ function navigate(view) {
   if (view === 'analytics') loadAnalytics();
   if (view === 'workshops') loadWorkshops();
   if (view === 'faq') loadFaqs();
+  if (view === 'services') loadServices();
+  if (view === 'settings') loadSettings();
 }
 document.querySelectorAll('.nav-item[data-view]').forEach(b => b.addEventListener('click', () => navigate(b.dataset.view)));
 
@@ -1273,6 +1308,221 @@ function renderTopList(items, dimKey, fallback) {
     const pct = (i.count / max) * 100;
     return `<div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span style="color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:75%;">${escapeHtml(label)}</span><span style="color:var(--text3);font-family:Inter;font-size:12px;">${i.count.toLocaleString()}</span></div><div style="height:5px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--accent-light),var(--accent));"></div></div></div>`;
   }).join('');
+}
+
+// === SETTINGS ===
+state.settings = null;
+
+async function loadSettings() {
+  try {
+    const r = await fetch('/api/admin/settings');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
+    state.settings = d.settings || {};
+    renderSettingsForm();
+  } catch (e) {
+    document.getElementById('settingsContent').innerHTML = '<div class="empty"><h3>שגיאה</h3><p>' + e.message + '</p></div>';
+  }
+}
+
+function renderSettingsForm() {
+  const s = state.settings || {};
+  const c = s.contact || {};
+  const soc = s.social || {};
+  const br = s.branding || {};
+  document.getElementById('settingsContent').innerHTML = `
+    <div class="card" style="margin-bottom:14px;">
+      <div class="card-header"><h2>פרטי קשר</h2></div>
+      <div class="field-row">
+        <div class="field"><label>טלפון (תצוגה)</label><input data-setting="contact.phone" value="${escapeHtml(c.phone || '')}" placeholder="053-680-5136"></div>
+        <div class="field"><label>טלפון (בינלאומי)</label><input data-setting="contact.phone_intl" value="${escapeHtml(c.phone_intl || '')}" placeholder="972536805136"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>אימייל</label><input data-setting="contact.email" type="email" value="${escapeHtml(c.email || '')}"></div>
+        <div class="field"><label>WhatsApp (בינלאומי)</label><input data-setting="contact.whatsapp" value="${escapeHtml(c.whatsapp || '')}" placeholder="972536805136"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+      <div class="card-header"><h2>רשתות חברתיות</h2></div>
+      <div class="field"><label>LinkedIn</label><input data-setting="social.linkedin" type="url" value="${escapeHtml(soc.linkedin || '')}"></div>
+      <div class="field"><label>X / Twitter</label><input data-setting="social.twitter" type="url" value="${escapeHtml(soc.twitter || '')}"></div>
+      <div class="field"><label>Instagram</label><input data-setting="social.instagram" type="url" value="${escapeHtml(soc.instagram || '')}"></div>
+      <div class="field"><label>Facebook</label><input data-setting="social.facebook" type="url" value="${escapeHtml(soc.facebook || '')}"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h2>מותג</h2></div>
+      <div class="field"><label>טאגליין</label><input data-setting="branding.tagline" value="${escapeHtml(br.tagline || '')}" placeholder="AI · TECH · TOOLS"></div>
+      <div class="field"><label>תיאור קצר (פוטר)</label><textarea data-setting="branding.blurb" rows="3">${escapeHtml(br.blurb || '')}</textarea></div>
+    </div>
+  `;
+}
+
+async function saveSettings() {
+  const btn = document.getElementById('settingsSaveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading"></span> שומר...';
+  try {
+    const newSettings = {};
+    document.querySelectorAll('[data-setting]').forEach(el => {
+      const path = el.getAttribute('data-setting').split('.');
+      let cur = newSettings;
+      for (let i = 0; i < path.length - 1; i++) {
+        if (!cur[path[i]]) cur[path[i]] = {};
+        cur = cur[path[i]];
+      }
+      cur[path[path.length - 1]] = el.value;
+    });
+    const r = await fetch('/api/admin/settings', {
+      method: 'PUT', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ settings: newSettings, message: 'Update site settings via admin' }),
+    });
+    if (!r.ok) { const er = await r.json(); throw new Error(er.error); }
+    state.settings = newSettings;
+    toast('הגדרות נשמרו!');
+  } catch (e) {
+    toast(e.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8"/></svg> שמור שינויים';
+  }
+}
+
+// === SERVICES ===
+state.services = [];
+state.editingServiceId = null;
+const SVC_COLORS = ['web','fin','aca'];
+const SVC_ICON_OPTS = ['web','finance','academy'];
+
+async function loadServices() {
+  try {
+    const r = await fetch('/api/admin/services');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
+    state.services = d.services || [];
+    document.getElementById('navCountServices').textContent = state.services.length;
+    renderServices();
+  } catch (e) {
+    document.getElementById('servicesList').innerHTML = '<div class="empty"><h3>שגיאה</h3><p>' + e.message + '</p></div>';
+  }
+}
+
+function renderServices() {
+  const list = document.getElementById('servicesList');
+  if (!state.services.length) {
+    list.innerHTML = '<div class="empty"><h3>אין שירותים</h3></div>';
+    return;
+  }
+  list.innerHTML = state.services.map((s, idx) => `
+    <div class="proj-row" style="grid-template-columns:30px 1fr auto;">
+      <div style="font-family:Inter;color:var(--text3);font-size:13px;">${String(idx+1).padStart(2,'0')}</div>
+      <div class="proj-info">
+        <h3>${escapeHtml(s.title)}</h3>
+        <p style="margin-top:4px;">${escapeHtml((s.description || '').substring(0, 120))}${(s.description || '').length > 120 ? '...' : ''}</p>
+      </div>
+      <button class="btn btn-s btn-icon" onclick="openService('${s.id}')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </button>
+    </div>
+  `).join('');
+}
+
+function openService(id) {
+  state.editingServiceId = id || null;
+  const s = id ? state.services.find(x => x.id === id) : { id: '', title: '', description: '', color: 'web', icon: 'web', link: '', linkLabel: 'למידע נוסף' };
+  if (!s) return;
+  const html = `
+    <div class="modal-bg open" id="svcModalBg" onclick="if(event.target.id==='svcModalBg')closeSvcModal()">
+      <div class="modal">
+        <h2>${id ? 'עריכת שירות' : 'שירות חדש'}</h2>
+        <form id="svcForm">
+          <div class="field"><label>מזהה</label><input name="id" required pattern="[a-z0-9-]+" value="${escapeHtml(s.id)}" ${id?'readonly':''}></div>
+          <div class="field"><label>כותרת</label><input name="title" required value="${escapeHtml(s.title)}"></div>
+          <div class="field"><label>תיאור</label><textarea name="description" required>${escapeHtml(s.description||'')}</textarea></div>
+          <div class="field-row">
+            <div class="field"><label>צבע</label><select name="color">${SVC_COLORS.map(c => `<option value="${c}" ${s.color===c?'selected':''}>${c}</option>`).join('')}</select></div>
+            <div class="field"><label>אייקון</label><select name="icon">${SVC_ICON_OPTS.map(c => `<option value="${c}" ${s.icon===c?'selected':''}>${c}</option>`).join('')}</select></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>קישור (אופציונלי)</label><input name="link" value="${escapeHtml(s.link||'')}" placeholder="/workshops.html"></div>
+            <div class="field"><label>תווית קישור</label><input name="linkLabel" value="${escapeHtml(s.linkLabel||'')}"></div>
+          </div>
+          <div class="modal-actions">
+            ${id ? '<button type="button" class="btn btn-d" onclick="deleteService()">מחק</button>' : ''}
+            <div style="display:flex;gap:8px;margin-inline-start:auto;">
+              <button type="button" class="btn btn-s" onclick="closeSvcModal()">ביטול</button>
+              <button type="submit" class="btn btn-p" id="svcSaveBtn">שמור</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  `;
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  document.body.appendChild(div.firstElementChild);
+  document.getElementById('svcForm').addEventListener('submit', saveService);
+}
+
+function closeSvcModal() {
+  const el = document.getElementById('svcModalBg');
+  if (el) el.remove();
+  state.editingServiceId = null;
+}
+
+async function saveService(e) {
+  e.preventDefault();
+  const btn = document.getElementById('svcSaveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading"></span>';
+  try {
+    const fd = new FormData(e.target);
+    const data = {};
+    fd.forEach((v, k) => { data[k] = v; });
+    let newSvc;
+    if (state.editingServiceId) {
+      newSvc = state.services.map(s => s.id === state.editingServiceId ? { ...s, ...data } : s);
+    } else {
+      if (state.services.find(s => s.id === data.id)) throw new Error('מזהה כבר קיים');
+      newSvc = [...state.services, data];
+    }
+    const r = await fetch('/api/admin/services', {
+      method: 'PUT', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ services: newSvc, message: state.editingServiceId ? `Update service: ${data.id}` : `Add service: ${data.id}` }),
+    });
+    if (!r.ok) { const er = await r.json(); throw new Error(er.error); }
+    state.services = newSvc;
+    renderServices();
+    document.getElementById('navCountServices').textContent = state.services.length;
+    closeSvcModal();
+    toast('נשמר!');
+  } catch (e) {
+    toast(e.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'שמור';
+  }
+}
+
+async function deleteService() {
+  if (!state.editingServiceId) return;
+  if (!confirm('למחוק את השירות?')) return;
+  try {
+    const newSvc = state.services.filter(s => s.id !== state.editingServiceId);
+    const r = await fetch('/api/admin/services', {
+      method: 'PUT', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ services: newSvc, message: `Delete service: ${state.editingServiceId}` }),
+    });
+    if (!r.ok) { const er = await r.json(); throw new Error(er.error); }
+    state.services = newSvc;
+    renderServices();
+    document.getElementById('navCountServices').textContent = state.services.length;
+    closeSvcModal();
+    toast('נמחק');
+  } catch (e) { toast(e.message, true); }
 }
 
 // === FAQ ===
