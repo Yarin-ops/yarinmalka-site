@@ -517,9 +517,10 @@ main { padding: 28px 36px; max-width: 1240px; }
         <span>רשימת תפוצה</span>
         <span class="badge" id="navCountSubs">-</span>
       </button>
-      <button class="nav-item soon">
+      <button class="nav-item" data-view="inquiries">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span>פניות אחרונות</span>
+        <span class="badge" id="navCountInq">-</span>
       </button>
 
       <div class="nav-label">הגדרות</div>
@@ -775,6 +776,20 @@ main { padding: 28px 36px; max-width: 1240px; }
       <div id="settingsContent"><div class="empty"><div class="loading"></div></div></div>
     </div>
 
+    <!-- INQUIRIES VIEW -->
+    <div id="view-inquiries" class="view" style="display:none">
+      <div class="topbar">
+        <div>
+          <h1>פניות אחרונות</h1>
+          <div class="sub">פניות שהגיעו דרך הטופס באתר</div>
+        </div>
+        <button class="btn btn-s" onclick="loadInquiries()">רענן</button>
+      </div>
+      <div class="card">
+        <div id="inqList"><div class="empty"><div class="loading"></div></div></div>
+      </div>
+    </div>
+
     <!-- SERVICES VIEW -->
     <div id="view-services" class="view" style="display:none">
       <div class="topbar">
@@ -875,6 +890,7 @@ function navigate(view) {
   if (view === 'faq') loadFaqs();
   if (view === 'services') loadServices();
   if (view === 'settings') loadSettings();
+  if (view === 'inquiries') loadInquiries();
 }
 document.querySelectorAll('.nav-item[data-view]').forEach(b => b.addEventListener('click', () => navigate(b.dataset.view)));
 
@@ -1370,6 +1386,81 @@ function renderTopList(items, dimKey, fallback) {
     const pct = (i.count / max) * 100;
     return `<div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span style="color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:75%;">${escapeHtml(label)}</span><span style="color:var(--text3);font-family:Inter;font-size:12px;">${i.count.toLocaleString()}</span></div><div style="height:5px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--accent-light),var(--accent));"></div></div></div>`;
   }).join('');
+}
+
+// === INQUIRIES ===
+state.inquiries = [];
+
+const INQ_TOPIC = { project: 'פרויקט', workshop: 'סדנה', finance: 'ייעוץ', general: 'כללי', '': 'לא צוין' };
+const INQ_STATUS = { new: { label: 'חדש', color: '#10B981' }, read: { label: 'נקרא', color: '#a78bfa' }, replied: { label: 'נענה', color: '#7a7a88' } };
+
+async function loadInquiries() {
+  try {
+    const r = await fetch('/api/admin/inquiries');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
+    state.inquiries = d.inquiries || [];
+    document.getElementById('navCountInq').textContent = d.newCount || 0;
+    renderInquiries();
+  } catch (e) {
+    document.getElementById('inqList').innerHTML = '<div class="empty"><h3>שגיאה</h3><p>' + e.message + '</p></div>';
+  }
+}
+
+function renderInquiries() {
+  const list = document.getElementById('inqList');
+  if (!state.inquiries.length) {
+    list.innerHTML = '<div class="empty"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>אין פניות עדיין</h3><p>כשמישהו ימלא את הטופס באתר, זה יופיע כאן</p></div>';
+    return;
+  }
+  list.innerHTML = state.inquiries.map(i => {
+    const status = INQ_STATUS[i.status] || INQ_STATUS.new;
+    return `
+    <div style="padding:14px;border-radius:12px;border:1px solid var(--glass-border);margin-bottom:8px;background:${i.status==='new'?'rgba(16,185,129,0.04)':'transparent'};">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px;">
+        <div>
+          <div style="font-size:15px;font-weight:700;color:var(--text);">${escapeHtml(i.name)}</div>
+          <div style="font-size:12px;color:var(--text3);direction:ltr;text-align:right;margin-top:2px;">${escapeHtml(i.email)}${i.phone ? ' · ' + escapeHtml(i.phone) : ''}</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <span class="badge" style="background:${status.color}22;border-color:${status.color}55;color:${status.color};">${status.label}</span>
+          <span class="badge">${INQ_TOPIC[i.topic] || i.topic}</span>
+        </div>
+      </div>
+      <div style="font-size:14px;color:var(--text);line-height:1.7;white-space:pre-wrap;margin-bottom:10px;">${escapeHtml(i.message)}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:10px;border-top:1px solid var(--glass-border);">
+        <div style="font-size:11px;color:var(--text3);font-family:Inter;">${fmtDate(i.ts)}${i.country ? ' · ' + i.country : ''}</div>
+        <div style="display:flex;gap:6px;">
+          <a href="mailto:${escapeHtml(i.email)}" class="btn btn-s btn-icon" title="השב במייל"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          ${i.phone ? `<a href="https://wa.me/${encodeURIComponent(i.phone.replace(/\\D/g, ''))}" target="_blank" class="btn btn-s btn-icon" title="WhatsApp"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606"/></svg></a>` : ''}
+          ${i.status !== 'replied' ? `<button class="btn btn-s btn-icon" onclick="markInquiry('${i.id}','replied')" title="סמן כנענה"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></button>` : ''}
+          <button class="btn btn-d btn-icon" onclick="delInquiry('${i.id}')" title="מחק"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function markInquiry(id, status) {
+  try {
+    const r = await fetch('/api/admin/inquiries', { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id, status }) });
+    if (!r.ok) throw new Error('failed');
+    state.inquiries = state.inquiries.map(i => i.id === id ? { ...i, status } : i);
+    renderInquiries();
+    toast('עודכן');
+  } catch (e) { toast(e.message, true); }
+}
+
+async function delInquiry(id) {
+  if (!confirm('למחוק את הפנייה?')) return;
+  try {
+    const r = await fetch('/api/admin/inquiries', { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ deleteId: id }) });
+    if (!r.ok) throw new Error('failed');
+    state.inquiries = state.inquiries.filter(i => i.id !== id);
+    renderInquiries();
+    toast('נמחק');
+  } catch (e) { toast(e.message, true); }
 }
 
 // === SETTINGS ===

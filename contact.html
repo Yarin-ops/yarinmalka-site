@@ -48,7 +48,27 @@
 .contact-quick .ways { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
 .contact-quick .way { padding: 10px 18px; background: transparent; border: 1px solid var(--glass-border); border-radius: 999px; color: var(--text2); font-size: 14px; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; }
 .contact-quick .way:hover { color: var(--text); border-color: var(--accent); background: rgba(108,60,225,0.08); }
-@media (max-width: 1024px) { .contact-grid { grid-template-columns: 1fr; gap: 20px; padding: 0 20px 60px; } .contact-card p { min-height: auto; } }
+.contact-form-wrap { max-width: 700px; margin: 40px auto 60px; padding: 0 32px; }
+.contact-form { padding: 36px 32px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 22px; backdrop-filter: blur(20px); }
+.contact-form h2 { font-family: 'Karantina'; font-weight: 700; font-size: 36px; margin-bottom: 6px; }
+.contact-form .form-sub { font-size: 14px; color: var(--text2); margin-bottom: 24px; }
+.contact-form .form-field { margin-bottom: 14px; }
+.contact-form .form-field label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 6px; font-weight: 500; }
+.contact-form .form-field input, .contact-form .form-field textarea, .contact-form .form-field select { width: 100%; padding: 11px 14px; background: rgba(0,0,0,0.25); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text); font-family: inherit; font-size: 14px; transition: all 0.2s; }
+.contact-form .form-field input:focus, .contact-form .form-field textarea:focus, .contact-form .form-field select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(108,60,225,0.15); }
+.contact-form .form-field textarea { min-height: 100px; resize: vertical; }
+.contact-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.contact-form .form-submit { width: 100%; margin-top: 12px; padding: 14px; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #fff; border: none; border-radius: 12px; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.contact-form .form-submit:hover:not(:disabled) { box-shadow: 0 0 30px rgba(108,60,225,0.5); transform: translateY(-1px); }
+.contact-form .form-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+.contact-form .form-msg { display: none; margin-top: 12px; padding: 12px 14px; border-radius: 10px; font-size: 13px; }
+.contact-form .form-msg.success { display: block; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #6ee7b7; }
+.contact-form .form-msg.error { display: block; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
+.contact-form .honeypot { position: absolute; left: -9999px; }
+.contact-divider { text-align: center; margin: 50px auto 30px; max-width: 600px; padding: 0 32px; position: relative; }
+.contact-divider::before { content: ''; position: absolute; top: 50%; left: 32px; right: 32px; height: 1px; background: var(--glass-border); }
+.contact-divider span { position: relative; background: var(--bg); padding: 0 20px; font-family: 'Inter'; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); }
+@media (max-width: 1024px) { .contact-grid { grid-template-columns: 1fr; gap: 20px; padding: 0 20px 60px; } .contact-card p { min-height: auto; } .contact-form .form-row { grid-template-columns: 1fr; } .contact-form { padding: 26px 22px; } }
 </style>
 </head>
 <body>
@@ -95,6 +115,52 @@
     <h1>אז על מה <em>נדבר?</em></h1>
     <p class="lead">לכל מסלול דרך משלו. בחר את המתאים לך - ואני אענה אישית, לרוב באותו יום.</p>
 </section>
+
+<!-- CONTACT FORM -->
+<div class="contact-form-wrap reveal">
+    <form class="contact-form" id="contactForm">
+        <h2>שלח לי הודעה</h2>
+        <p class="form-sub">המסלול הפשוט: ממלאים, אני חוזר בתוך 24 שעות.</p>
+        <div class="form-row">
+            <div class="form-field">
+                <label>שם מלא *</label>
+                <input name="name" required maxlength="100">
+            </div>
+            <div class="form-field">
+                <label>אימייל *</label>
+                <input name="email" type="email" required maxlength="120">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-field">
+                <label>טלפון</label>
+                <input name="phone" type="tel" maxlength="30">
+            </div>
+            <div class="form-field">
+                <label>נושא</label>
+                <select name="topic">
+                    <option value="">בחר נושא...</option>
+                    <option value="project">פרויקט דיגיטלי</option>
+                    <option value="workshop">סדנה</option>
+                    <option value="finance">ייעוץ פיננסי</option>
+                    <option value="general">שאלה כללית</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-field">
+            <label>ההודעה *</label>
+            <textarea name="message" required maxlength="3000" placeholder="ספר על הצורך / שאלה / רעיון..."></textarea>
+        </div>
+        <input type="text" class="honeypot" name="website" tabindex="-1" autocomplete="off">
+        <button type="submit" class="form-submit" id="contactSubmit">
+            <span id="contactSubmitText">שלח הודעה</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+        <div class="form-msg" id="contactMsg"></div>
+    </form>
+</div>
+
+<div class="contact-divider"><span>או דרך אחרת</span></div>
 
 <div class="contact-grid">
     <div class="contact-card reveal">
@@ -220,6 +286,38 @@ function closeMenu(){hamburger.classList.remove('active');mobileMenu.classList.r
 const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible')}})},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el=>observer.observe(el));
 function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark';var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('theme',n);}
+
+document.getElementById('contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('contactSubmit');
+  const btnText = document.getElementById('contactSubmitText');
+  const msg = document.getElementById('contactMsg');
+  msg.className = 'form-msg';
+  btn.disabled = true;
+  btnText.textContent = 'שולח...';
+  try {
+    const fd = new FormData(e.target);
+    const data = {};
+    fd.forEach((v, k) => { data[k] = v; });
+    const r = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || 'שגיאה בשליחה');
+    msg.textContent = 'תודה! ההודעה התקבלה ואחזור אליך בקרוב.';
+    msg.className = 'form-msg success';
+    e.target.reset();
+    btnText.textContent = 'שלח הודעה';
+  } catch (ex) {
+    msg.textContent = 'משהו השתבש: ' + ex.message + '. נסה ב-WhatsApp או באימייל.';
+    msg.className = 'form-msg error';
+    btnText.textContent = 'שלח הודעה';
+  } finally {
+    btn.disabled = false;
+  }
+});
 </script>
 <script defer src="/assets/js/a11y.js"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "9105c6491cdc412ba8510ee4615553c5"}'></script>
