@@ -1,43 +1,9 @@
-// Public contact form endpoint - stores inquiry in GitHub JSON file.
-const OWNER = 'Yarin-ops';
-const REPO = 'yarinmalka-site';
+// Public contact form endpoint - stores inquiry + fires notification webhook.
+import { readJson, writeJson, json, errorResponse } from './admin/_store.js';
+
 const FILE_PATH = 'assets/data/inquiries.json';
-const BRANCH = 'main';
 const MAX_MSG = 4000;
 const MAX_FIELD = 200;
-
-function ghHeaders(env) {
-  return {
-    'authorization': `Bearer ${env.GITHUB_TOKEN}`,
-    'accept': 'application/vnd.github+json',
-    'user-agent': 'yarinmalka-contact',
-  };
-}
-
-async function getFile(env) {
-  const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}?ref=${BRANCH}`, { headers: ghHeaders(env) });
-  if (!res.ok) throw new Error(`GET failed: ${res.status}`);
-  const data = await res.json();
-  const binary = atob(data.content.replace(/\n/g, ''));
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-  return { content: JSON.parse(new TextDecoder('utf-8').decode(bytes)), sha: data.sha };
-}
-
-async function putFile(env, newContent, sha, message) {
-  const json = JSON.stringify(newContent, null, 2);
-  const utf8 = new TextEncoder().encode(json);
-  let binary = '';
-  for (let i = 0; i < utf8.length; i++) binary += String.fromCharCode(utf8[i]);
-  const b64 = btoa(binary);
-  const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}`, {
-    method: 'PUT',
-    headers: { ...ghHeaders(env), 'content-type': 'application/json' },
-    body: JSON.stringify({ message, content: b64, sha, branch: BRANCH, committer: { name: 'Yarin Site', email: 'office@yarinmalka.co.il' } }),
-  });
-  if (!res.ok) throw new Error(`PUT failed: ${res.status}`);
-  return res.json();
-}
 
 function clean(s, max) {
   return String(s || '').trim().substring(0, max);
@@ -45,14 +11,14 @@ function clean(s, max) {
 
 export async function onRequestPost({ request, env }) {
   if (!env.GITHUB_TOKEN) {
-    return new Response(JSON.stringify({ error: 'service unavailable' }), { status: 500, headers: { 'content-type': 'application/json' } });
+    return errorResponse('service unavailable');
   }
   try {
     const data = await request.json();
-    // Honeypot check
-    if (data.website) {
-      return new Response(JSON.stringify({ ok: true }), { headers: { 'content-type': 'application/json' } });
-    }
+
+    // Honeypot - bots that fill all fields get a fake success
+    if (data.website) return json({ ok: true });
+
     const name = clean(data.name, MAX_FIELD);
     const email = clean(data.email, MAX_FIELD);
     const phone = clean(data.phone, MAX_FIELD);
@@ -60,49 +26,45 @@ export async function onRequestPost({ request, env }) {
     const message = clean(data.message, MAX_MSG);
 
     if (!name || !email || !message) {
-      return new Response(JSON.stringify({ error: 'missing required fields' }), { status: 400, headers: { 'content-type': 'application/json' } });
+      return errorResponse('missing required fields', 400);
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return new Response(JSON.stringify({ error: 'invalid email' }), { status: 400, headers: { 'content-type': 'application/json' } });
+      return errorResponse('invalid email', 400);
     }
 
-    const ipCountry = request.headers.get('cf-ipcountry') || '';
     const inquiry = {
       id: crypto.randomUUID(),
       ts: new Date().toISOString(),
       name, email, phone, topic, message,
       status: 'new',
-      country: ipCountry,
+      country: request.headers.get('cf-ipcountry') || '',
     };
 
-    const { content, sha } = await getFile(env);
+    const { content, sha } = await readJson(env, FILE_PATH);
     const list = content.inquiries || [];
     list.unshift(inquiry);
-    // Keep last 500 to avoid file getting huge
-    const trimmed = list.slice(0, 500);
-    await putFile(env, { inquiries: trimmed }, sha, `New inquiry from ${name}`);
+    await writeJson(env, FILE_PATH, { inquiries: list.slice(0, 500) }, sha, `New inquiry from ${name}`);
 
-    // Fire Make webhook for email notification (non-blocking, ignore failures)
+    // Fire notification webhook (non-blocking)
     if (env.MAKE_WEBHOOK_URL) {
       try {
         await fetch(env.MAKE_WEBHOOK_URL, {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({
-            name,
-            email,
+            name, email,
             phone: phone || '—',
             topic: topic || 'כללי',
             message,
-            country: ipCountry,
+            country: inquiry.country,
             ts: inquiry.ts,
           }),
         });
-      } catch (_) { /* don't fail the user's submission if notification fails */ }
+      } catch (_) { /* notification failure shouldn't block submission */ }
     }
 
-    return new Response(JSON.stringify({ ok: true, id: inquiry.id }), { headers: { 'content-type': 'application/json' } });
+    return json({ ok: true, id: inquiry.id });
   } catch (e) {
-    return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: { 'content-type': 'application/json' } });
+    return errorResponse(e.message);
   }
 }

@@ -1,9 +1,10 @@
-// Returns aggregated stats for the admin dashboard.
+import { readJson, json, errorResponse } from './_store.js';
+
 const OWNER = 'Yarin-ops';
 const REPO = 'yarinmalka-site';
 const BRANCH = 'main';
 
-async function ghHeaders(env) {
+function ghHeaders(env) {
   return {
     'authorization': `Bearer ${env.GITHUB_TOKEN}`,
     'accept': 'application/vnd.github+json',
@@ -11,33 +12,20 @@ async function ghHeaders(env) {
   };
 }
 
-async function getJsonFromRepo(env, path) {
+async function countDirFiles(env, path, ext) {
   const res = await fetch(
     `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`,
-    { headers: await ghHeaders(env) }
-  );
-  if (!res.ok) return null;
-  const data = await res.json();
-  const binary = atob(data.content.replace(/\n/g, ''));
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-  return JSON.parse(new TextDecoder('utf-8').decode(bytes));
-}
-
-async function countGuides(env) {
-  const res = await fetch(
-    `https://api.github.com/repos/${OWNER}/${REPO}/contents/guides?ref=${BRANCH}`,
-    { headers: await ghHeaders(env) }
+    { headers: ghHeaders(env) }
   );
   if (!res.ok) return 0;
   const list = await res.json();
-  return list.filter(f => f.name.endsWith('.html')).length;
+  return list.filter(f => f.name.endsWith(ext)).length;
 }
 
 async function getCommits(env, limit = 8) {
   const res = await fetch(
     `https://api.github.com/repos/${OWNER}/${REPO}/commits?per_page=${limit}`,
-    { headers: await ghHeaders(env) }
+    { headers: ghHeaders(env) }
   );
   if (!res.ok) return [];
   const data = await res.json();
@@ -64,27 +52,25 @@ async function getMailerLiteCount(env) {
 
 export async function onRequestGet({ env }) {
   try {
-    const [projects, guides, commits, subs] = await Promise.all([
-      getJsonFromRepo(env, 'assets/data/projects.json'),
-      countGuides(env),
+    const [projData, guidesCount, commits, subs] = await Promise.all([
+      readJson(env, 'assets/data/projects.json').catch(() => ({ content: { projects: [] } })),
+      countDirFiles(env, 'guides', '.html'),
       getCommits(env, 8),
       getMailerLiteCount(env),
     ]);
 
-    return new Response(JSON.stringify({
+    const projects = projData.content.projects || [];
+    return json({
       projects: {
-        total: projects?.projects?.length || 0,
-        featured: (projects?.projects || []).filter(p => p.featured).length,
+        total: projects.length,
+        featured: projects.filter(p => p.featured).length,
       },
-      guides: { total: guides },
+      guides: { total: guidesCount },
       subscribers: { total: subs },
       commits,
       lastDeploy: commits[0]?.date || null,
-    }), { headers: { 'content-type': 'application/json' } });
-  } catch (e) {
-    return new Response(JSON.stringify({ error: e.message }), {
-      status: 500,
-      headers: { 'content-type': 'application/json' },
     });
+  } catch (e) {
+    return errorResponse(e.message);
   }
 }
