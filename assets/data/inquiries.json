@@ -1,3 +1,15 @@
 {
-  "inquiries": []
+  "inquiries": [
+    {
+      "id": "9fcb329f-6f39-4520-8872-8a3ddb10d995",
+      "ts": "2026-05-13T20:08:01.330Z",
+      "name": "ירין מלכה",
+      "email": "yarinmalka7@gmail.com",
+      "phone": "0536805136",
+      "topic": "project",
+      "message": "אשמח לשמוע עוד פרטים",
+      "status": "new",
+      "country": "IL"
+    }
+  ]
 }
