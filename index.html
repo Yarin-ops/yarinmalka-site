@@ -245,30 +245,7 @@
             <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3);">טוען...</div>
         </div>
 
-<script>
-function escSvc(s) { return (s || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
-const SVC_ICONS = {
-  web: '<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
-  finance: '<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>',
-  academy: '<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>'
-};
-function renderService(s, i) {
-  const num = String(i + 1).padStart(2, '0');
-  const icon = SVC_ICONS[s.icon] || SVC_ICONS.web;
-  const arrow = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>';
-  const inner = `<div class="srv-num">${num}</div><div class="srv-icon">${icon}</div><h3>${escSvc(s.title)}</h3><p>${escSvc(s.description)}</p><span class="srv-link">${escSvc(s.linkLabel || 'למידע נוסף')} ${arrow}</span>`;
-  if (s.link) {
-    return `<a href="${escSvc(s.link)}" data-tilt class="glass srv-card ${escSvc(s.color || 'web')} reveal visible" style="text-decoration:none;color:inherit">${inner}</a>`;
-  }
-  return `<div data-tilt class="glass srv-card ${escSvc(s.color || 'web')} reveal visible">${inner}</div>`;
-}
-fetch("/assets/data/services.json").then(r => r.json()).then(d => {
-  const items = d.services || [];
-  document.getElementById("srvGrid").innerHTML = items.length ? items.map(renderService).join("") : '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3);">אין שירותים</div>';
-}).catch(() => {
-  document.getElementById("srvGrid").innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3);">שגיאה</div>';
-});
-</script>
+
     </div>
 </section>
 
@@ -409,35 +386,7 @@ fetch("/assets/data/services.json").then(r => r.json()).then(d => {
             <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3);">טוען המלצות...</div>
         </div>
 
-<script>
-function escTesti(s) { return (s || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
-function renderTesti(t) {
-  const stars = Array(t.rating || 5).fill('<svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>').join('');
-  const roleHtml = t.link
-    ? `<a href="${escTesti(t.link)}" target="_blank" rel="noopener" class="testi-role" style="color:var(--accent-light);text-decoration:none;">${escTesti(t.role || "")} →</a>`
-    : `<div class="testi-role">${escTesti(t.role || "")}</div>`;
-  return `<div class="glass testi-card reveal visible">
-    <div class="testi-quote">"</div>
-    <div class="testi-stars">${stars}</div>
-    <blockquote>${escTesti(t.quote)}</blockquote>
-    <div class="testi-author">
-      <div class="testi-avatar"><img src="/${escTesti(t.avatar)}" alt="${escTesti(t.name)}"></div>
-      <div>
-        <div class="testi-name">${escTesti(t.name)}</div>
-        ${roleHtml}
-      </div>
-    </div>
-  </div>`;
-}
-fetch("/assets/data/testimonials.json").then(r => r.json()).then(d => {
-  const items = d.testimonials || [];
-  document.getElementById("testiGrid").innerHTML = items.length
-    ? items.map(renderTesti).join("")
-    : '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3);">אין המלצות עדיין</div>';
-}).catch(() => {
-  document.getElementById("testiGrid").innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3);">שגיאה בטעינה</div>';
-});
-</script>
+
     </div>
 </section>
 
@@ -541,25 +490,7 @@ fetch("/assets/data/testimonials.json").then(r => r.json()).then(d => {
             <div style="text-align:center;padding:40px;color:var(--text3);">טוען...</div>
         </div>
 
-<script>
-function escFaq(s) { return (s || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
-function renderFaq(f) {
-  const paras = (f.answer || "").split(/\n\n+/).map(p => `<p>${escFaq(p)}</p>`).join("");
-  return `<details class="faq-item">
-    <summary>
-      <span>${escFaq(f.question)}</span>
-      <svg class="faq-chev" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-    </summary>
-    <div class="faq-body">${paras}</div>
-  </details>`;
-}
-fetch("/assets/data/faq.json").then(r => r.json()).then(d => {
-  const items = d.faqs || [];
-  document.getElementById("faqList").innerHTML = items.length ? items.map(renderFaq).join("") : '<div style="text-align:center;padding:40px;color:var(--text3);">אין שאלות</div>';
-}).catch(() => {
-  document.getElementById("faqList").innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3);">שגיאה</div>';
-});
-</script>
+
     </div>
 </section>
 
@@ -673,5 +604,6 @@ function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')
 <!-- Cloudflare Web Analytics --><script defer src="/assets/js/a11y.js"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "9105c6491cdc412ba8510ee4615553c5"}'></script><!-- End Cloudflare Web Analytics -->
 <script defer src="/assets/js/site-settings.js"></script>
+<script defer src="/assets/js/render-content.js"></script>
 </body>
 </html>
