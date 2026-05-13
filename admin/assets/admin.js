@@ -22,6 +22,7 @@ function navigate(view) {
   if (view === 'services') loadServices();
   if (view === 'settings') loadSettings();
   if (view === 'inquiries') loadInquiries();
+  if (view === 'system') loadSystem();
 }
 document.querySelectorAll('.nav-item[data-view]').forEach(b => b.addEventListener('click', () => navigate(b.dataset.view)));
 
@@ -1153,6 +1154,84 @@ async function handleImageSelect(inputEl, targetFieldId) {
     target.placeholder = originalPlaceholder;
   }
   inputEl.value = '';
+}
+
+// === SYSTEM / HELP ===
+function loadSystem() {
+  const services = [
+    { name: 'GitHub', role: 'אחסון קוד וקבצי JSON של כל התוכן', url: 'https://github.com/Yarin-ops/yarinmalka-site', dashboard: 'github.com' },
+    { name: 'Cloudflare Pages', role: 'אחסון ופריסת האתר + הרצת ה-API', url: 'https://dash.cloudflare.com', dashboard: 'dash.cloudflare.com' },
+    { name: 'Cloudflare Access', role: 'הגנת אזור הניהול (אופציונלי)', url: 'https://one.dash.cloudflare.com', dashboard: 'one.dash.cloudflare.com' },
+    { name: 'Cloudflare Web Analytics', role: 'מעקב צפיות ומבקרים אמיתיים', url: 'https://dash.cloudflare.com', dashboard: 'dash.cloudflare.com → Analytics' },
+    { name: 'MailerLite', role: 'ניהול רשימת תפוצה ושליחת מיילים', url: 'https://dashboard.mailerlite.com', dashboard: 'dashboard.mailerlite.com' },
+    { name: 'Make.com', role: 'אוטומציה - שולח לך מייל על כל פנייה חדשה', url: 'https://eu2.make.com', dashboard: 'eu2.make.com' },
+  ];
+  document.getElementById('sysServices').innerHTML = services.map(s => `
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--glass-border);">
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;">${s.name}</div>
+        <div style="font-size:12px;color:var(--text2);">${s.role}</div>
+      </div>
+      <a href="${s.url}" target="_blank" rel="noopener" style="font-size:12px;color:var(--accent-light);text-decoration:none;white-space:nowrap;">פתח דאשבורד ↗</a>
+    </div>
+  `).join('');
+
+  const datasources = [
+    { label: 'פרויקטים', path: 'assets/data/projects.json', editPath: '#projects', editLabel: 'ערוך באדמין' },
+    { label: 'סדנאות', path: 'assets/data/workshops.json', editPath: '#workshops', editLabel: 'ערוך באדמין' },
+    { label: 'שירותים', path: 'assets/data/services.json', editPath: '#services', editLabel: 'ערוך באדמין' },
+    { label: 'טסטימוניאלים', path: 'assets/data/testimonials.json', editPath: '#testimonials', editLabel: 'ערוך באדמין' },
+    { label: 'שאלות נפוצות', path: 'assets/data/faq.json', editPath: '#faq', editLabel: 'ערוך באדמין' },
+    { label: 'הגדרות אתר', path: 'assets/data/settings.json', editPath: '#settings', editLabel: 'ערוך באדמין' },
+    { label: 'פניות', path: 'assets/data/inquiries.json', editPath: '#inquiries', editLabel: 'צפה באדמין' },
+    { label: 'מדריכים (HTML)', path: 'guides/*.html', editPath: 'https://github.com/Yarin-ops/yarinmalka-site/tree/main/guides', editLabel: 'ערוך ב-GitHub ↗', external: true },
+    { label: 'תמונות', path: 'assets/*.jpg/png', editPath: 'https://github.com/Yarin-ops/yarinmalka-site/tree/main/assets', editLabel: 'ערוך ב-GitHub ↗', external: true },
+  ];
+  document.getElementById('sysDatasources').innerHTML = datasources.map(d => `
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--glass-border);">
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;">${d.label}</div>
+        <div style="font-size:11px;color:var(--text3);font-family:Inter;direction:ltr;text-align:right;">${d.path}</div>
+      </div>
+      <a href="${d.editPath}" ${d.external ? 'target="_blank" rel="noopener"' : ''} style="font-size:12px;color:var(--accent-light);text-decoration:none;white-space:nowrap;">${d.editLabel}</a>
+    </div>
+  `).join('');
+
+  const howto = [
+    { q: 'איך אני משנה תמונה של פרויקט?', a: 'פרויקטים → פתח את הפרויקט → גרור תמונה לתוך השדה "תמונה" או לחץ "העלה". התמונה תועלה אוטומטית ל-GitHub והקישור יושלם.' },
+    { q: 'איך מוסיפים שאלה ל-FAQ?', a: 'שאלות נפוצות → "שאלה חדשה" → ממלאים → שמור. תופיע בעמוד הבית תוך 30 שניות.' },
+    { q: 'איך משנים מספר טלפון/אימייל בכל האתר?', a: 'הגדרות אתר → עורכים את הטלפון/אימייל → שמור. מתעדכן בפוטר וכל מקום באתר אוטומטית.' },
+    { q: 'איך מסמנים פנייה כנענתה?', a: 'פניות אחרונות → לוחצים על הסימן ✓ בכרטיס הפנייה. סטטוס יעבור ל"נענה".' },
+    { q: 'איך אני מתנתק?', a: 'הכפתור "התנתק" בתחתית הסיידבר (אדום). מוחק את ה-session וצריך להזין סיסמה שוב.' },
+    { q: 'איך מחליפים סיסמת אדמין?', a: 'דרך Cloudflare Pages → Settings → Environment Variables → שנה את ADMIN_PASSWORD → trigger redeploy.' },
+    { q: 'איך מקבלים התראה על פנייה חדשה?', a: 'אוטומטי. כל פנייה שולחת trigger ל-Make.com שמשגר לך מייל עם פרטי הפנייה.' },
+    { q: 'איך משנים את התמונה הראשית בעמוד הבית?', a: 'כרגע ידנית - עורכים ב-GitHub את קובץ assets/yarin-photo.png. בהמשך נוסיף לאדמין.' },
+  ];
+  document.getElementById('sysHowto').innerHTML = howto.map(h => `
+    <details style="padding:10px 12px;border:1px solid var(--glass-border);border-radius:10px;margin-bottom:6px;cursor:pointer;">
+      <summary style="font-size:13px;font-weight:500;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">
+        <span>${h.q}</span><span style="color:var(--accent-light);">+</span>
+      </summary>
+      <p style="margin-top:8px;font-size:13px;color:var(--text2);line-height:1.7;">${h.a}</p>
+    </details>
+  `).join('');
+
+  const troubleshoot = [
+    { q: 'שמירה באדמין נכשלת', a: 'בדוק: 1. ה-token של GitHub עדיין תקף (90 ימים מהיצירה). 2. ל-token יש הרשאת Contents:Read+Write. 3. ה-GITHUB_TOKEN env var ב-Cloudflare Pages מוגדר.' },
+    { q: 'שינוי באדמין לא מופיע באתר', a: 'המתן 30-60 שניות (זמן deploy). אם עדיין לא - בדוק ב-Cloudflare Pages Deployments שאין deploy שכשל.' },
+    { q: 'אנליטיקס מציג שגיאה', a: 'הטוקן CF_ANALYTICS_TOKEN חסר או פג תוקף. צור חדש ב-Cloudflare Profile → API Tokens (Zone Analytics:Read + Account Analytics:Read).' },
+    { q: 'רשימת תפוצה לא נטענת', a: 'בדוק שה-MAILERLITE_TOKEN ב-Cloudflare env vars תקין. כניסה ל-MailerLite Dashboard → Integrations → API → ודא שהמפתח פעיל.' },
+    { q: 'לא מקבלים מיילים על פניות', a: 'בדוק ב-Make.com שה-scenario "Yarinmalka Contact Email Notification" פעיל (ירוק). בדוק היסטוריית הרצות.' },
+    { q: 'האדמין לא נטען בכלל', a: 'בדוק: 1. שאתה ב-/admin (אותיות קטנות). 2. שיש Cookie של אימות (התנתק והתחבר שוב). 3. בדוק Console בדפדפן לשגיאות JS.' },
+  ];
+  document.getElementById('sysTroubleshoot').innerHTML = troubleshoot.map(t => `
+    <details style="padding:10px 12px;border:1px solid var(--glass-border);border-radius:10px;margin-bottom:6px;cursor:pointer;">
+      <summary style="font-size:13px;font-weight:500;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">
+        <span>${t.q}</span><span style="color:var(--accent-light);">+</span>
+      </summary>
+      <p style="margin-top:8px;font-size:13px;color:var(--text2);line-height:1.7;">${t.a}</p>
+    </details>
+  `).join('');
 }
 
 // === AUTH FLOW ===
