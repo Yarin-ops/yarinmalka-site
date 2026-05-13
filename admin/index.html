@@ -434,6 +434,11 @@ main { padding: 28px 36px; max-width: 1240px; }
         <span>טסטימוניאלים</span>
         <span class="badge" id="navCountTesti">-</span>
       </button>
+      <button class="nav-item" data-view="faq">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span>שאלות נפוצות</span>
+        <span class="badge" id="navCountFaq">-</span>
+      </button>
 
       <div class="nav-label">נתונים</div>
       <button class="nav-item" data-view="analytics">
@@ -658,6 +663,23 @@ main { padding: 28px 36px; max-width: 1240px; }
       </div>
     </div>
 
+    <!-- FAQ VIEW -->
+    <div id="view-faq" class="view" style="display:none">
+      <div class="topbar">
+        <div>
+          <h1>שאלות נפוצות</h1>
+          <div class="sub">השאלות שמופיעות בעמוד הבית. שינויים יופיעו תוך 30 שניות</div>
+        </div>
+        <button class="btn btn-p" onclick="openFaq()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          שאלה חדשה
+        </button>
+      </div>
+      <div class="card">
+        <div id="faqList"><div class="empty"><div class="loading"></div></div></div>
+      </div>
+    </div>
+
     <!-- WORKSHOPS VIEW -->
     <div id="view-workshops" class="view" style="display:none">
       <div class="topbar">
@@ -755,6 +777,7 @@ function navigate(view) {
   if (view === 'testimonials') loadTestimonials();
   if (view === 'analytics') loadAnalytics();
   if (view === 'workshops') loadWorkshops();
+  if (view === 'faq') loadFaqs();
 }
 document.querySelectorAll('.nav-item[data-view]').forEach(b => b.addEventListener('click', () => navigate(b.dataset.view)));
 
@@ -1250,6 +1273,131 @@ function renderTopList(items, dimKey, fallback) {
     const pct = (i.count / max) * 100;
     return `<div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span style="color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:75%;">${escapeHtml(label)}</span><span style="color:var(--text3);font-family:Inter;font-size:12px;">${i.count.toLocaleString()}</span></div><div style="height:5px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--accent-light),var(--accent));"></div></div></div>`;
   }).join('');
+}
+
+// === FAQ ===
+state.faqs = [];
+state.editingFaqId = null;
+
+async function loadFaqs() {
+  try {
+    const r = await fetch('/api/admin/faq');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
+    state.faqs = d.faqs || [];
+    document.getElementById('navCountFaq').textContent = state.faqs.length;
+    renderFaqs();
+  } catch (e) {
+    document.getElementById('faqList').innerHTML = '<div class="empty"><h3>שגיאה</h3><p>' + e.message + '</p></div>';
+  }
+}
+
+function renderFaqs() {
+  const list = document.getElementById('faqList');
+  if (!state.faqs.length) {
+    list.innerHTML = '<div class="empty"><h3>אין שאלות</h3></div>';
+    return;
+  }
+  list.innerHTML = state.faqs.map((f, idx) => `
+    <div class="proj-row" style="grid-template-columns:30px 1fr auto;">
+      <div style="font-family:Inter;color:var(--text3);font-size:13px;">${idx+1}</div>
+      <div class="proj-info">
+        <h3>${escapeHtml(f.question)}</h3>
+        <p style="margin-top:4px;">${escapeHtml((f.answer || '').substring(0, 130))}${(f.answer || '').length > 130 ? '...' : ''}</p>
+      </div>
+      <button class="btn btn-s btn-icon" onclick="openFaq('${f.id}')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </button>
+    </div>
+  `).join('');
+}
+
+function openFaq(id) {
+  state.editingFaqId = id || null;
+  const f = id ? state.faqs.find(x => x.id === id) : { id: '', question: '', answer: '' };
+  if (!f) return;
+  const html = `
+    <div class="modal-bg open" id="faqModalBg" onclick="if(event.target.id==='faqModalBg')closeFaqModal()">
+      <div class="modal">
+        <h2>${id ? 'עריכת שאלה' : 'שאלה חדשה'}</h2>
+        <form id="faqForm">
+          <div class="field"><label>מזהה</label><input name="id" required pattern="[a-z0-9-]+" value="${escapeHtml(f.id)}" ${id?'readonly':''}></div>
+          <div class="field"><label>השאלה</label><input name="question" required value="${escapeHtml(f.question)}"></div>
+          <div class="field"><label>התשובה (פסקאות מופרדות בשורה ריקה)</label><textarea name="answer" required rows="8">${escapeHtml(f.answer||'')}</textarea></div>
+          <div class="modal-actions">
+            ${id ? '<button type="button" class="btn btn-d" onclick="deleteFaq()">מחק</button>' : ''}
+            <div style="display:flex;gap:8px;margin-inline-start:auto;">
+              <button type="button" class="btn btn-s" onclick="closeFaqModal()">ביטול</button>
+              <button type="submit" class="btn btn-p" id="faqSaveBtn">שמור</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  `;
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  document.body.appendChild(div.firstElementChild);
+  document.getElementById('faqForm').addEventListener('submit', saveFaq);
+}
+
+function closeFaqModal() {
+  const el = document.getElementById('faqModalBg');
+  if (el) el.remove();
+  state.editingFaqId = null;
+}
+
+async function saveFaq(e) {
+  e.preventDefault();
+  const btn = document.getElementById('faqSaveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading"></span>';
+  try {
+    const fd = new FormData(e.target);
+    const data = {};
+    fd.forEach((v, k) => { data[k] = v; });
+    let newFaqs;
+    if (state.editingFaqId) {
+      newFaqs = state.faqs.map(f => f.id === state.editingFaqId ? { ...f, ...data } : f);
+    } else {
+      if (state.faqs.find(f => f.id === data.id)) throw new Error('מזהה כבר קיים');
+      newFaqs = [...state.faqs, data];
+    }
+    const r = await fetch('/api/admin/faq', {
+      method: 'PUT', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ faqs: newFaqs, message: state.editingFaqId ? `Update FAQ: ${data.id}` : `Add FAQ: ${data.id}` }),
+    });
+    if (!r.ok) { const er = await r.json(); throw new Error(er.error); }
+    state.faqs = newFaqs;
+    renderFaqs();
+    document.getElementById('navCountFaq').textContent = state.faqs.length;
+    closeFaqModal();
+    toast('נשמר!');
+  } catch (e) {
+    toast(e.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'שמור';
+  }
+}
+
+async function deleteFaq() {
+  if (!state.editingFaqId) return;
+  if (!confirm('למחוק את השאלה?')) return;
+  try {
+    const newFaqs = state.faqs.filter(f => f.id !== state.editingFaqId);
+    const r = await fetch('/api/admin/faq', {
+      method: 'PUT', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ faqs: newFaqs, message: `Delete FAQ: ${state.editingFaqId}` }),
+    });
+    if (!r.ok) { const er = await r.json(); throw new Error(er.error); }
+    state.faqs = newFaqs;
+    renderFaqs();
+    document.getElementById('navCountFaq').textContent = state.faqs.length;
+    closeFaqModal();
+    toast('נמחק');
+  } catch (e) { toast(e.message, true); }
 }
 
 // === WORKSHOPS ===

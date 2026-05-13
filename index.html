@@ -400,44 +400,39 @@
             <div class="sec-label">המלצות</div>
             <h2 class="sec-title">מה הלקוחות <span class="accent">אומרים.</span></h2>
         </div>
-        <div class="testi-grid">
-            <div class="glass testi-card reveal">
-                <div class="testi-quote">"</div>
-                <div class="testi-stars">
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                </div>
-                <blockquote>כעסק בתחילת הדרך, כל נושא הטכנולוגיה היה זר לי לגמרי. במקומות אחרים שפניתי אליהם ניסו לדחוף לי דברים שלא רציתי, אבל ירין ניגש לעבודה בשמחה ובסבלנות מהרגע הראשון. הוא לא הפסיק לשאול את השאלות הנכונות כדי לדייק את האתר בדיוק למה שמתאים לי ומה שהכי יעזור לקליניקה שלי. ממליץ על ירין בחום לכל מי שמחפש איש מקצוע הגון וקשוב.</blockquote>
-                <div class="testi-author">
-                    <div class="testi-avatar"><img src="assets/adiel-avatar.jpg" alt="עדיאל"></div>
-                    <div>
-                        <div class="testi-name">עדיאל</div>
-                        <a href="https://merkaz-shalem.base44.app" target="_blank" rel="noopener" class="testi-role" style="color:var(--accent-light);text-decoration:none;">מטפל ברפואה משלימה · מרכז שלם ←</a>
-                    </div>
-                </div>
-            </div>
-            <div class="glass testi-card reveal reveal-delay-1">
-                <div class="testi-quote">"</div>
-                <div class="testi-stars">
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                </div>
-                <blockquote>הגעתי לירין עם תוכן מבולגן ורעיון לא ממוקד. הוא ידע לשאול את השאלות הנכונות, לחדד את המסר, ולתת לאתר צורה שאני בעצמי לא הצלחתי לתאר. מעבר לעיצוב, אני מצליחה היום לערוך ולהוסיף תכנים לבד - וזה משחרר אותי לעבוד על העסק במקום על הטכנולוגיה.</blockquote>
-                <div class="testi-author">
-                    <div class="testi-avatar"><img src="assets/moriya-avatar.jpg" alt="מוריה"></div>
-                    <div>
-                        <div class="testi-name">מוריה</div>
-                        <a href="https://educake.co.il" target="_blank" rel="noopener" class="testi-role" style="color:var(--accent-light);text-decoration:none;">יזמת ואשת חינוך · EduCake ←</a>
-                    </div>
-                </div>
-            </div>
+        <div class="testi-grid" id="testiGrid">
+            <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3);">טוען המלצות...</div>
         </div>
+
+<script>
+function escTesti(s) { return (s || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
+function renderTesti(t) {
+  const stars = Array(t.rating || 5).fill('<svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>').join('');
+  const roleHtml = t.link
+    ? `<a href="${escTesti(t.link)}" target="_blank" rel="noopener" class="testi-role" style="color:var(--accent-light);text-decoration:none;">${escTesti(t.role || "")} →</a>`
+    : `<div class="testi-role">${escTesti(t.role || "")}</div>`;
+  return `<div class="glass testi-card reveal visible">
+    <div class="testi-quote">"</div>
+    <div class="testi-stars">${stars}</div>
+    <blockquote>${escTesti(t.quote)}</blockquote>
+    <div class="testi-author">
+      <div class="testi-avatar"><img src="/${escTesti(t.avatar)}" alt="${escTesti(t.name)}"></div>
+      <div>
+        <div class="testi-name">${escTesti(t.name)}</div>
+        ${roleHtml}
+      </div>
+    </div>
+  </div>`;
+}
+fetch("/assets/data/testimonials.json").then(r => r.json()).then(d => {
+  const items = d.testimonials || [];
+  document.getElementById("testiGrid").innerHTML = items.length
+    ? items.map(renderTesti).join("")
+    : '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3);">אין המלצות עדיין</div>';
+}).catch(() => {
+  document.getElementById("testiGrid").innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3);">שגיאה בטעינה</div>';
+});
+</script>
     </div>
 </section>
 
@@ -537,68 +532,29 @@
             <h2 class="sec-title">לפני שמתחילים <span class="accent">לעבוד.</span></h2>
             <p class="sec-desc">השאלות שאני מקבל הכי הרבה - ותשובות ישרות. אם משהו עדיין לא ברור, פשוט תפנה.</p>
         </div>
-        <div class="faq-list reveal">
-            <details class="faq-item">
-                <summary>
-                    <span>כמה עולה לבנות אתר?</span>
-                    <svg class="faq-chev" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-                </summary>
-                <div class="faq-body">
-                    <p>תלוי במורכבות. דף נחיתה אישי - מ-2,500 ₪. אתר תדמית עם כמה דפים - מ-6,000 ₪. אתר עם מערכת ניהול תוכן או חנות - מ-12,000 ₪. אתר עם מערכת מותאמת (CRM, חיבורים, ממשקים) - הצעת מחיר אישית.</p>
-                    <p>לפני כל פרויקט יש שיחת היכרות חינמית של 30 דקות, ובסוף שלה אתה מקבל הצעת מחיר ברורה - לא אחוזים, לא הפתעות.</p>
-                </div>
-            </details>
-            <details class="faq-item">
-                <summary>
-                    <span>כמה זמן לוקח?</span>
-                    <svg class="faq-chev" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-                </summary>
-                <div class="faq-body">
-                    <p>דף נחיתה - 5-7 ימי עבודה. אתר תדמית - 2-4 שבועות. מערכת מותאמת - 4-12 שבועות תלוי בהיקף.</p>
-                    <p>השלב הראשון תמיד אפיון משותף - גם אם דחוף לך, נבזבז יומיים על אפיון נכון. זה חוסך שבועיים תיקונים אחר כך.</p>
-                </div>
-            </details>
-            <details class="faq-item">
-                <summary>
-                    <span>הסדנאות פרונטליות או אונליין?</span>
-                    <svg class="faq-chev" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-                </summary>
-                <div class="faq-body">
-                    <p>שתי האופציות. כל הסדנאות זמינות בפורמט פרונטלי (במקום שלך או במשרדים שלי), אונליין דרך Zoom, או היברידי.</p>
-                    <p>פרונטלי עובד טוב יותר לקבוצות של 8+ אנשים ולתכנים שדורשים תרגול. אונליין מצוין לסדנאות 1-on-1 או קבוצות קטנות.</p>
-                </div>
-            </details>
-            <details class="faq-item">
-                <summary>
-                    <span>מה כולל ייעוץ פיננסי?</span>
-                    <svg class="faq-chev" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-                </summary>
-                <div class="faq-body">
-                    <p>פגישת אבחון של 90 דקות שבה אנחנו עוברים על המצב הנוכחי - הכנסות, הוצאות, חסכונות, פנסיה, ביטוחים. בסוף הפגישה אתה מקבל מסמך עם 3-5 המלצות פעולה ברורות.</p>
-                    <p>אני <strong>לא סוכן ולא מקבל עמלה</strong> מאף חברה - שכר טרחה ישיר ממך בלבד. זה אומר שההמלצות שלי הן רק לטובתך, לא לכיסי.</p>
-                </div>
-            </details>
-            <details class="faq-item">
-                <summary>
-                    <span>למה לבחור בך ולא בסוכנות גדולה?</span>
-                    <svg class="faq-chev" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-                </summary>
-                <div class="faq-body">
-                    <p>אם אתה צריך אגף שיווק שלם או אתר ענק עם 50 דפים והרבה אינטגרציות - סוכנות. אני לא מתחרה על זה.</p>
-                    <p>אבל אם אתה עסק קטן/בינוני שצריך תוצאה מקצועית, יחס אישי ובעלים שמטפל בך באופן ישיר - זה החוזק שלי. אתה מדבר איתי ישירות, אני בונה לך, ואני זה שעונה לך כשמשהו לא עובד. בלי שכבות תיווך.</p>
-                </div>
-            </details>
-            <details class="faq-item">
-                <summary>
-                    <span>איך מתחילים?</span>
-                    <svg class="faq-chev" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-                </summary>
-                <div class="faq-body">
-                    <p>שיחת היכרות של 30 דקות - חינם, בלי התחייבות. אנחנו מבינים מה אתה צריך, ואני אומר לך אם אני האדם הנכון לעבודה.</p>
-                    <p>אם כן - אתה מקבל תוך 24 שעות הצעת מחיר עם תיאור מפורט של מה שתקבל. אם לא - אני שולח אותך לאיש מקצוע אחר שיתאים יותר. <a href="/contact.html" rel="noopener">לתאום שיחה</a>.</p>
-                </div>
-            </details>
+        <div class="faq-list reveal" id="faqList">
+            <div style="text-align:center;padding:40px;color:var(--text3);">טוען...</div>
         </div>
+
+<script>
+function escFaq(s) { return (s || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
+function renderFaq(f) {
+  const paras = (f.answer || "").split(/\n\n+/).map(p => `<p>${escFaq(p)}</p>`).join("");
+  return `<details class="faq-item">
+    <summary>
+      <span>${escFaq(f.question)}</span>
+      <svg class="faq-chev" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </summary>
+    <div class="faq-body">${paras}</div>
+  </details>`;
+}
+fetch("/assets/data/faq.json").then(r => r.json()).then(d => {
+  const items = d.faqs || [];
+  document.getElementById("faqList").innerHTML = items.length ? items.map(renderFaq).join("") : '<div style="text-align:center;padding:40px;color:var(--text3);">אין שאלות</div>';
+}).catch(() => {
+  document.getElementById("faqList").innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3);">שגיאה</div>';
+});
+</script>
     </div>
 </section>
 
