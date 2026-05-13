@@ -82,6 +82,25 @@ export async function onRequestPost({ request, env }) {
     const trimmed = list.slice(0, 500);
     await putFile(env, { inquiries: trimmed }, sha, `New inquiry from ${name}`);
 
+    // Fire Make webhook for email notification (non-blocking, ignore failures)
+    if (env.MAKE_WEBHOOK_URL) {
+      try {
+        await fetch(env.MAKE_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            name,
+            email,
+            phone: phone || '—',
+            topic: topic || 'כללי',
+            message,
+            country: ipCountry,
+            ts: inquiry.ts,
+          }),
+        });
+      } catch (_) { /* don't fail the user's submission if notification fails */ }
+    }
+
     return new Response(JSON.stringify({ ok: true, id: inquiry.id }), { headers: { 'content-type': 'application/json' } });
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: { 'content-type': 'application/json' } });
