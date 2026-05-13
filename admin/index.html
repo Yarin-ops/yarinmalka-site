@@ -339,6 +339,64 @@ main { padding: 28px 36px; max-width: 1240px; }
 .toast.show { opacity: 1; transform: translateX(50%) translateY(8px); }
 .toast.err { background: var(--red); }
 .empty { padding: 36px 20px; text-align: center; color: var(--text3); }
+
+/* === DRAG & DROP === */
+.image-drop {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  border: 2px dashed transparent;
+  border-radius: 10px;
+  padding: 2px;
+  transition: all 0.2s;
+}
+.image-drop.dragover {
+  border-color: var(--accent);
+  background: rgba(108,60,225,0.06);
+}
+.image-drop.dragover::after {
+  content: 'שחרר לעלות תמונה';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(108,60,225,0.12);
+  color: var(--accent-light);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* === MOBILE HAMBURGER === */
+.admin-burger {
+  display: none;
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 99;
+  width: 40px;
+  height: 40px;
+  background: rgba(10,10,22,0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--text);
+  align-items: center;
+  justify-content: center;
+}
+.admin-burger svg { width: 18px; height: 18px; }
+@media (max-width: 900px) {
+  aside { display: none !important; position: fixed; inset: 0; right: 0; width: 280px; left: auto; z-index: 95; }
+  aside.open { display: flex !important; }
+  .admin-burger { display: flex; }
+  .app { display: block; }
+  main { padding: 60px 18px 20px; }
+}
 .empty .ico { width: 44px; height: 44px; border-radius: 12px; background: rgba(108,60,225,0.1); color: var(--accent-light); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; }
 .empty .ico svg { width: 22px; height: 22px; }
 .empty h3 { font-size: 14px; color: var(--text2); margin-bottom: 4px; font-weight: 500; }
@@ -398,6 +456,10 @@ main { padding: 28px 36px; max-width: 1240px; }
     </div>
   </div>
 </div>
+
+<button class="admin-burger" id="adminBurger" onclick="document.querySelector('aside').classList.toggle('open')" aria-label="תפריט">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
 
 <div class="app" id="appWrap" style="display:none">
 
@@ -759,8 +821,8 @@ main { padding: 28px 36px; max-width: 1240px; }
       <div class="field"><label>שם הפרויקט</label><input name="title" required placeholder="שם בעברית או באנגלית"></div>
       <div class="field"><label>קישור</label><input name="url" type="url" required placeholder="https://..."></div>
       <div class="field">
-        <label>תמונה</label>
-        <div style="display:flex;gap:8px;">
+        <label>תמונה (גרור לכאן או הדבק נתיב)</label>
+        <div class="image-drop" data-target="projImagePath">
           <input name="image" id="projImagePath" placeholder="assets/project-name.jpg" style="flex:1;">
           <input type="file" id="projImageFile" accept="image/*" hidden onchange="handleImageSelect(this, 'projImagePath')">
           <button type="button" class="btn btn-s" style="white-space:nowrap;padding:9px 14px;" onclick="document.getElementById('projImageFile').click()">
@@ -1806,6 +1868,50 @@ async function uploadImage(file, folder) {
   if (!r.ok) throw new Error(d.error || 'upload failed');
   return d.path;
 }
+
+// Set up drag&drop on .image-drop containers
+document.addEventListener('dragover', e => {
+  const zone = e.target.closest('.image-drop');
+  if (!zone) return;
+  e.preventDefault();
+  zone.classList.add('dragover');
+});
+document.addEventListener('dragleave', e => {
+  const zone = e.target.closest('.image-drop');
+  if (zone && !zone.contains(e.relatedTarget)) zone.classList.remove('dragover');
+});
+document.addEventListener('drop', async e => {
+  const zone = e.target.closest('.image-drop');
+  if (!zone) return;
+  e.preventDefault();
+  zone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (!file || !file.type.startsWith('image/')) {
+    toast('זה לא קובץ תמונה', true);
+    return;
+  }
+  const targetId = zone.getAttribute('data-target');
+  const target = document.getElementById(targetId);
+  if (!target) return;
+  target.placeholder = 'מעלה...';
+  target.disabled = true;
+  try {
+    const path = await uploadImage(file, 'uploads');
+    target.value = path;
+    target.disabled = false;
+    toast('התמונה הועלתה!');
+  } catch (ex) {
+    toast('שגיאה: ' + ex.message, true);
+    target.disabled = false;
+  }
+});
+
+// Close mobile sidebar on nav item click
+document.addEventListener('click', e => {
+  if (window.innerWidth <= 900 && e.target.closest('.nav-item[data-view]')) {
+    document.querySelector('aside').classList.remove('open');
+  }
+});
 
 async function handleImageSelect(inputEl, targetFieldId) {
   if (!inputEl.files || !inputEl.files[0]) return;
