@@ -165,7 +165,6 @@ nav#mainNav, main, section, footer, .marquee, .guide-grid, .guide-page, .signup-
 }
 
 /* === CTA AMBIENT VIDEO === */
-.cta-sec { position: relative; overflow: hidden; }
 .cta-video {
   position: absolute;
   inset: 0;
@@ -173,14 +172,14 @@ nav#mainNav, main, section, footer, .marquee, .guide-grid, .guide-page, .signup-
   height: 100%;
   object-fit: cover;
   pointer-events: none;
-  z-index: 1;
-  opacity: 0.55;
+  z-index: 0;
+  opacity: 0.6;
   -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
           mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
 }
 [data-theme="light"] .cta-video { opacity: 0.22; }
 @media (max-width: 768px) {
-  .cta-video { opacity: 0.40; }
+  .cta-video { opacity: 0.45; }
 }
 @media (prefers-reduced-motion: reduce) {
   .cta-video { display: none; }
