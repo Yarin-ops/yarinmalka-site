@@ -173,13 +173,20 @@ nav#mainNav, main, section, footer, .marquee, .guide-grid, .guide-page, .signup-
   object-fit: cover;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.6;
-  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
-          mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
+  opacity: 0.22;
+  filter: blur(1px);
 }
-[data-theme="light"] .cta-video { opacity: 0.22; }
-@media (max-width: 768px) {
-  .cta-video { opacity: 0.45; }
+.cta-sec::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(10,10,22,0.55) 0%, rgba(10,10,22,0.85) 80%);
+  z-index: 1;
+  pointer-events: none;
+}
+[data-theme="light"] .cta-video { opacity: 0.12; }
+[data-theme="light"] .cta-sec::after {
+  background: radial-gradient(ellipse at center, rgba(250,250,247,0.65) 0%, rgba(250,250,247,0.92) 80%);
 }
 @media (prefers-reduced-motion: reduce) {
   .cta-video { display: none; }
