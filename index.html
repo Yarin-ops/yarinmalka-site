@@ -166,9 +166,6 @@
 
 <!-- HERO -->
 <section class="hero" id="hero">
-    <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/videos/hero-poster.jpg" aria-hidden="true">
-        <source src="assets/videos/hero-loop.mp4" type="video/mp4">
-    </video>
     <div class="bg-grid"></div>
     <div class="orb orb-purple orb-float-1" style="top:5%;right:5%;width:340px;height:340px;"></div>
     <div class="orb orb-blue orb-float-2" style="bottom:10%;left:8%;width:280px;height:280px;opacity:0.4;"></div>
@@ -221,9 +218,12 @@
 </div>
 
 <!-- STATS -->
-<section style="position:relative;">
-    <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(108,60,225,0.03),transparent);pointer-events:none"></div>
-    <div class="container">
+<section class="stats-sec">
+    <video class="stats-video" autoplay muted loop playsinline preload="metadata" poster="assets/videos/hero-poster.jpg" aria-hidden="true">
+        <source src="assets/videos/hero-loop.mp4" type="video/mp4">
+    </video>
+    <div class="stats-overlay"></div>
+    <div class="container" style="position:relative;z-index:2;">
         <div class="stats reveal">
             <div><div class="stat-n purple" data-count="50" data-suffix="+">0</div><div class="stat-l">פרויקטים שהושלמו</div></div>
             <div class="stat-div"></div>
