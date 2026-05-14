@@ -164,40 +164,26 @@ nav#mainNav, main, section, footer, .marquee, .guide-grid, .guide-page, .signup-
     linear-gradient(90deg, rgba(31,41,55,0.04) 1px, transparent 1px);
 }
 
-/* === STATS AMBIENT VIDEO === */
-.stats-sec {
-  position: relative;
-  overflow: hidden;
-  padding: 60px 0;
-}
-.stats-video {
+/* === CTA AMBIENT VIDEO === */
+.cta-sec { position: relative; overflow: hidden; }
+.cta-video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   pointer-events: none;
-  z-index: 0;
-  opacity: 0.55;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, black 25%, black 75%, transparent 100%);
-          mask-image: linear-gradient(180deg, transparent 0%, black 25%, black 75%, transparent 100%);
-}
-.stats-overlay {
-  position: absolute;
-  inset: 0;
   z-index: 1;
-  background: radial-gradient(ellipse at center, transparent 0%, rgba(10,10,22,0.55) 70%);
-  pointer-events: none;
+  opacity: 0.55;
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
+          mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
 }
-[data-theme="light"] .stats-video { opacity: 0.22; }
-[data-theme="light"] .stats-overlay {
-  background: radial-gradient(ellipse at center, transparent 0%, rgba(250,250,247,0.55) 70%);
-}
+[data-theme="light"] .cta-video { opacity: 0.22; }
 @media (max-width: 768px) {
-  .stats-video { opacity: 0.35; }
+  .cta-video { opacity: 0.40; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .stats-video { display: none; }
+  .cta-video { display: none; }
 }
 
 /* === SECTION COLOR THEMES === */
