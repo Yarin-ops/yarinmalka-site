@@ -112,13 +112,31 @@ body { line-height: 1.5; max-width: 100vw; }
   overflow: hidden;
   display: flex; align-items: center; justify-content: center;
 }
+canvas#orbBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(60px) saturate(1.3);
+  opacity: 0.7;
+  z-index: 0;
+  pointer-events: none;
+}
 canvas#orb {
   display: block;
+  position: relative;
+  z-index: 1;
   max-width: 100%;
   max-height: 100%;
   width: auto;
   height: 100%;
   object-fit: contain;
+  border-radius: 4px;
+}
+@media (max-width: 700px) {
+  /* On mobile the canvas already fills the screen, no need for blur background */
+  canvas#orbBg { display: none; }
 }
 
 /* Story overlays */
@@ -316,6 +334,7 @@ canvas#orb {
 <!-- Sticky scroll experience -->
 <section class="scroller">
   <div class="sticky-stage">
+    <canvas id="orbBg" width="540" height="960" aria-hidden="true"></canvas>
     <canvas id="orb" width="540" height="960"></canvas>
 
     <div class="story" aria-hidden="true">
@@ -363,6 +382,8 @@ canvas#orb {
 
   const canvas = document.getElementById('orb');
   const ctx = canvas.getContext('2d');
+  const canvasBg = document.getElementById('orbBg');
+  const ctxBg = canvasBg.getContext('2d');
   const loader = document.getElementById('loader');
   const loaderBar = document.getElementById('loaderBar');
   const loaderPct = document.getElementById('loaderPct');
@@ -370,13 +391,16 @@ canvas#orb {
   const scrollHint = document.getElementById('scrollHint');
   const slots = Array.from(document.querySelectorAll('.story__slot'));
 
-  // High-DPI canvas
+  // High-DPI canvas (main)
   function setupCanvas() {
     const dpr = window.devicePixelRatio || 1;
     canvas.width = FRAME_W * dpr;
     canvas.height = FRAME_H * dpr;
     canvas.style.aspectRatio = `${FRAME_W} / ${FRAME_H}`;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // Background canvas can be lower res - we'll blur it anyway
+    canvasBg.width = FRAME_W;
+    canvasBg.height = FRAME_H;
   }
   setupCanvas();
 
@@ -406,7 +430,7 @@ canvas#orb {
     });
   }
 
-  // Draw a single frame
+  // Draw a single frame to both main and bg canvases
   let currentFrame = -1;
   function drawFrame(idx) {
     idx = Math.max(0, Math.min(TOTAL_FRAMES - 1, idx | 0));
@@ -414,6 +438,7 @@ canvas#orb {
     const img = frames[idx];
     if (!img) return;
     ctx.drawImage(img, 0, 0, FRAME_W, FRAME_H);
+    ctxBg.drawImage(img, 0, 0, FRAME_W, FRAME_H);
     currentFrame = idx;
   }
 
