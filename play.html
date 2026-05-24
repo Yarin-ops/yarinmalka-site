@@ -121,12 +121,8 @@ canvas#orb {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* desktop 16:9 fills 16:9 viewport edge-to-edge */
+  object-fit: cover; /* fills viewport on both desktop (16:9) and mobile (9:16) — minimal edge crop on tall phones */
   object-position: 50% 50%;
-}
-/* Mobile: contain so the whole 9:16 frame stays visible; thin black bars on tall screens */
-@media (max-width: 700px) {
-  canvas#orb { object-fit: contain; }
 }
 
 /* Cinematic side gradient to give text room on right (where YARIN appears) */
