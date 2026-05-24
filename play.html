@@ -112,23 +112,26 @@ body { line-height: 1.5; max-width: 100vw; }
   overflow: hidden;
   display: flex; align-items: center; justify-content: center;
 }
-canvas#orbBg { display: none; } /* not used; main canvas fills viewport via cover */
+canvas#orbBg { display: none; }
 
 canvas#orb {
   display: block;
-  position: relative;
-  z-index: 1;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* fills viewport, crops top/bottom on wide screens */
+  object-fit: cover; /* 16:9 source fills 16:9 viewport edge-to-edge */
 }
-@media (max-width: 700px) {
-  /* On mobile, preserve the full 9:16 frame */
-  canvas#orb {
-    object-fit: contain;
-    width: auto;
-    max-width: 100%;
-  }
+
+/* Cinematic side gradient to give text room on right (where YARIN appears) */
+.sticky-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background:
+    linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 25%, transparent 50%);
 }
 
 /* Story overlays */
@@ -326,8 +329,8 @@ canvas#orb {
 <!-- Sticky scroll experience -->
 <section class="scroller">
   <div class="sticky-stage">
-    <canvas id="orbBg" width="540" height="960" aria-hidden="true"></canvas>
-    <canvas id="orb" width="540" height="960"></canvas>
+    <canvas id="orbBg" width="960" height="540" aria-hidden="true"></canvas>
+    <canvas id="orb" width="960" height="540"></canvas>
 
     <div class="story" aria-hidden="true">
       <div class="story__slot" data-from="0.03" data-to="0.22">
@@ -369,8 +372,8 @@ canvas#orb {
   const TOTAL_FRAMES = 120;
   const FRAME_BASE = '/assets/orb/frame_';
   const FRAME_EXT = '.jpg';
-  const FRAME_W = 540;
-  const FRAME_H = 960;
+  const FRAME_W = 960;
+  const FRAME_H = 540;
 
   const canvas = document.getElementById('orb');
   const ctx = canvas.getContext('2d');
