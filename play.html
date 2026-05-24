@@ -18,11 +18,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;700&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="/assets/orb/frame_0001.jpg">
-<link rel="preload" as="image" href="/assets/orb/frame_0030.jpg">
-<link rel="preload" as="image" href="/assets/orb/frame_0060.jpg">
-<link rel="preload" as="image" href="/assets/orb/frame_0090.jpg">
-<link rel="preload" as="image" href="/assets/orb/frame_0120.jpg">
+<link rel="preload" as="image" href="/assets/orb/frame_0001.jpg" media="(min-width: 701px)">
+<link rel="preload" as="image" href="/assets/orb/frame_0060.jpg" media="(min-width: 701px)">
+<link rel="preload" as="image" href="/assets/orb/frame_0120.jpg" media="(min-width: 701px)">
+<link rel="preload" as="image" href="/assets/orb-mobile/frame_0001.jpg" media="(max-width: 700px)">
+<link rel="preload" as="image" href="/assets/orb-mobile/frame_0060.jpg" media="(max-width: 700px)">
+<link rel="preload" as="image" href="/assets/orb-mobile/frame_0120.jpg" media="(max-width: 700px)">
 <style>
 :root {
   --purple: #6C3CE1;
@@ -120,14 +121,8 @@ canvas#orb {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* desktop: fills viewport edge-to-edge */
+  object-fit: cover; /* matched aspect per device: 16:9 desktop, 9:16 mobile — fills viewport */
   object-position: 50% 50%;
-}
-/* Mobile / narrow screens: keep full 16:9 frame visible, letterboxed top/bottom */
-@media (max-width: 700px) {
-  canvas#orb {
-    object-fit: contain;
-  }
 }
 
 /* Cinematic side gradient to give text room on right (where YARIN appears) */
@@ -336,8 +331,8 @@ canvas#orb {
 <!-- Sticky scroll experience -->
 <section class="scroller">
   <div class="sticky-stage">
-    <canvas id="orbBg" width="960" height="540" aria-hidden="true"></canvas>
-    <canvas id="orb" width="960" height="540"></canvas>
+    <canvas id="orbBg" aria-hidden="true"></canvas>
+    <canvas id="orb"></canvas>
 
     <div class="story" aria-hidden="true">
       <div class="story__slot" data-from="0.03" data-to="0.22">
@@ -377,10 +372,12 @@ canvas#orb {
 <script>
 (() => {
   const TOTAL_FRAMES = 120;
-  const FRAME_BASE = '/assets/orb/frame_';
   const FRAME_EXT = '.jpg';
-  const FRAME_W = 960;
-  const FRAME_H = 540;
+  // Mobile gets the vertical 9:16 frames; desktop the horizontal 16:9 frames
+  const isMobile = window.matchMedia('(max-width: 700px)').matches;
+  const FRAME_BASE = isMobile ? '/assets/orb-mobile/frame_' : '/assets/orb/frame_';
+  const FRAME_W = isMobile ? 540 : 960;
+  const FRAME_H = isMobile ? 960 : 540;
 
   const canvas = document.getElementById('orb');
   const ctx = canvas.getContext('2d');
