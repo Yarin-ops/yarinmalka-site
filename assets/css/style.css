@@ -1858,6 +1858,17 @@ footer {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+.guide-card .card-art .card-icon {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.85;
+  transition: transform .4s ease, opacity .4s ease;
+}
+.guide-card:hover .card-art .card-icon {
+  transform: translate(-50%, -50%) scale(1.12);
+  opacity: 1;
+}
 .guide-card.theme-purple { color: var(--accent-light); }
 .guide-card.theme-purple .card-art { background: linear-gradient(135deg, rgba(108,60,225,0.25), rgba(108,60,225,0.05)); }
 .guide-card.theme-blue   { color: var(--blue-light); }
