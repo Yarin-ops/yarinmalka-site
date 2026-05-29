@@ -1869,6 +1869,15 @@ footer {
   transform: translate(-50%, -50%) scale(1.12);
   opacity: 1;
 }
+.guide-card .card-art.card-art-img {
+  background-size: cover;
+  background-position: center;
+  transition: transform .5s ease;
+}
+.guide-card .card-art.card-art-img::before { display: none; }
+.guide-card:hover .card-art.card-art-img {
+  transform: scale(1.06);
+}
 .guide-card.theme-purple { color: var(--accent-light); }
 .guide-card.theme-purple .card-art { background: linear-gradient(135deg, rgba(108,60,225,0.25), rgba(108,60,225,0.05)); }
 .guide-card.theme-blue   { color: var(--blue-light); }
