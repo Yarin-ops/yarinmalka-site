@@ -2924,22 +2924,22 @@ figure.screenshot { margin-inline-start: 0; margin-inline-end: 0; }
 
 .a11y-btn {
   position: relative;
-  width: 52px;
-  height: 52px;
+  width: 42px;
+  height: 42px;
   background: linear-gradient(135deg, var(--accent), var(--accent-dark));
   border: none;
-  border-radius: 16px 0 0 16px;
+  border-radius: 14px 0 0 14px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  box-shadow: -3px 4px 18px rgba(108,60,225,0.45);
+  box-shadow: -3px 4px 16px rgba(108,60,225,0.40);
   transition: width 0.25s, box-shadow 0.25s, padding 0.25s;
-  padding: 0 4px 0 0;
+  padding: 0 3px 0 0;
 }
-.a11y-btn:hover { width: 60px; box-shadow: -4px 6px 22px rgba(108,60,225,0.6); }
-.a11y-btn svg { width: 30px; height: 30px; }
+.a11y-btn:hover { width: 48px; box-shadow: -4px 6px 20px rgba(108,60,225,0.55); }
+.a11y-btn svg { width: 22px; height: 22px; }
 
 .a11y-dismiss {
   position: absolute;
