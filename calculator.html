@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מחשבון הזמן ש-AI יחזיר לך | YARIN.MALKA</title>
+<meta name="description" content="כמה שעות AI יכול לחסוך לך בשבוע? סמן את המשימות החוזרות שלך וגלה כמה זמן וכסף AI יחזיר לך - עם המלצה לכלי המתאים לכל משימה.">
+<meta name="author" content="Yarin Malka">
+<meta name="theme-color" content="#0a0a16">
+<link rel="canonical" href="https://yarinmalka.co.il/calculator">
+<meta property="og:title" content="מחשבון הזמן ש-AI יחזיר לך · YARIN.MALKA">
+<meta property="og:description" content="כמה שעות AI יכול לחסוך לך בשבוע? גלה תוך דקה.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yarinmalka.co.il/calculator">
+<meta property="og:image" content="https://yarinmalka.co.il/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="YARIN.MALKA">
+<meta property="og:locale" content="he_IL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="מחשבון הזמן ש-AI יחזיר לך · YARIN.MALKA">
+<meta name="twitter:description" content="כמה שעות AI יכול לחסוך לך בשבוע? גלה תוך דקה.">
+<meta name="twitter:image" content="https://yarinmalka.co.il/assets/og-image.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+<style>
+/* ===== Calculator ===== */
+.calc-wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+.calc-grid { display: grid; grid-template-columns: 1fr 380px; gap: 32px; align-items: start; }
+@media (max-width: 940px){ .calc-grid { grid-template-columns: 1fr; } }
+
+/* hourly value control */
+.calc-block { margin-bottom: 28px; }
+.calc-block-label { font-size: 14px; color: var(--text2); margin-bottom: 12px; display:flex; align-items:center; gap:8px; }
+.calc-block-label .step-n { width:24px;height:24px;border-radius:50%;background:rgba(108,60,225,0.18);color:var(--accent-light);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Inter'; }
+.hourly-row { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+.hourly-presets { display:flex; gap:8px; flex-wrap:wrap; }
+.hourly-presets button { padding:8px 14px; border-radius:10px; border:1px solid var(--glass-border); background:var(--glass); color:var(--text); cursor:pointer; font-family:'Heebo'; font-size:14px; transition:.2s; }
+.hourly-presets button.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+.hourly-input { display:flex; align-items:center; gap:8px; }
+.hourly-input input { width:90px; padding:10px 12px; border-radius:10px; border:1px solid var(--glass-border); background:var(--glass); color:var(--text); font-family:'Heebo'; font-size:16px; text-align:center; }
+
+/* task cards */
+.task-grid { display:grid; grid-template-columns: repeat(2,1fr); gap:12px; }
+@media (max-width:560px){ .task-grid { grid-template-columns:1fr; } }
+.task { position:relative; border:1px solid var(--glass-border); background:var(--glass); border-radius:14px; padding:16px; cursor:pointer; transition:.25s; overflow:hidden; }
+.task:hover { border-color:rgba(108,60,225,0.5); }
+.task.on { border-color:var(--accent); background:linear-gradient(135deg, rgba(108,60,225,0.12), rgba(108,60,225,0.03)); }
+.task-head { display:flex; align-items:center; gap:12px; }
+.task-ico { width:38px;height:38px;border-radius:10px;background:rgba(108,60,225,0.15);color:var(--accent-light);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.task.on .task-ico { background:var(--accent); color:#fff; }
+.task-name { font-weight:500; font-size:15.5px; }
+.task-check { margin-right:auto; width:22px;height:22px;border-radius:6px;border:1.5px solid var(--glass-border); display:flex;align-items:center;justify-content:center; transition:.2s; flex-shrink:0;}
+.task.on .task-check { background:var(--accent); border-color:var(--accent); }
+.task-check svg { width:14px;height:14px;stroke:#fff;opacity:0; transition:.2s; }
+.task.on .task-check svg { opacity:1; }
+.task-hours { max-height:0; opacity:0; overflow:hidden; transition:.3s ease; margin-top:0; }
+.task.on .task-hours { max-height:80px; opacity:1; margin-top:14px; }
+.task-hours-label { font-size:12.5px; color:var(--text2); display:flex; justify-content:space-between; margin-bottom:6px; }
+.task-hours-label b { color:var(--accent-light); }
+.task-hours input[type=range]{ width:100%; accent-color:var(--accent); cursor:pointer; }
+
+/* results panel */
+.results { position:sticky; top:90px; border:1px solid var(--glass-border); background:linear-gradient(160deg, rgba(108,60,225,0.10), rgba(10,10,22,0.4)); border-radius:20px; padding:28px; backdrop-filter:blur(12px); }
+.results-hero { text-align:center; padding:8px 0 20px; border-bottom:1px solid var(--glass-border); margin-bottom:20px; }
+.results-hours { font-family:'Karantina'; font-weight:700; font-size:84px; line-height:.9; color:#fff; }
+.results-hours .unit { font-family:'Heebo'; font-weight:300; font-size:20px; color:var(--text2); display:block; margin-top:6px; }
+.results-row { display:flex; justify-content:space-between; align-items:center; padding:11px 0; font-size:15px; }
+.results-row .lbl { color:var(--text2); }
+.results-row .val { font-weight:700; color:#fff; }
+.results-row .val.accent { color:var(--accent-light); }
+.results-weeks { margin-top:18px; padding:16px; border-radius:14px; background:rgba(108,60,225,0.12); text-align:center; font-size:15px; line-height:1.5; }
+.results-weeks b { color:var(--accent-light); font-size:18px; }
+.results-empty { text-align:center; color:var(--text3); font-size:14px; padding:30px 10px; }
+
+/* recommendations */
+.recs { margin-top:36px; }
+.rec { display:flex; gap:14px; align-items:flex-start; padding:16px; border:1px solid var(--glass-border); border-radius:14px; background:var(--glass); margin-bottom:10px; }
+.rec-ico { width:36px;height:36px;border-radius:10px;background:rgba(108,60,225,0.15);color:var(--accent-light);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.rec-body h4 { font-size:15px; margin:0 0 3px; }
+.rec-body h4 .tool { color:var(--accent-light); font-weight:500; }
+.rec-body p { font-size:13.5px; color:var(--text2); margin:0; line-height:1.5; }
+
+/* AI analysis */
+.ai-box { margin-top:40px; border:1px solid rgba(108,60,225,0.35); border-radius:20px; padding:28px; background:linear-gradient(160deg, rgba(108,60,225,0.08), transparent); }
+.ai-box h3 { font-size:22px; margin:0 0 6px; }
+.ai-box .sub { color:var(--text2); font-size:14.5px; margin-bottom:18px; }
+.ai-box textarea { width:100%; min-height:90px; resize:vertical; padding:14px; border-radius:12px; border:1px solid var(--glass-border); background:var(--glass); color:var(--text); font-family:'Heebo'; font-size:15px; line-height:1.5; }
+.ai-box textarea:focus { outline:none; border-color:var(--accent); }
+.ai-out { margin-top:18px; display:none; }
+.ai-out.show { display:block; }
+.ai-rec { padding:16px; border-radius:12px; background:var(--glass); border:1px solid var(--glass-border); margin-bottom:10px; }
+.ai-rec h4 { margin:0 0 4px; font-size:15.5px; color:var(--accent-light); }
+.ai-rec p { margin:0; font-size:14px; color:var(--text2); line-height:1.55; }
+.ai-loading { display:flex; align-items:center; gap:12px; color:var(--text2); font-size:14px; padding:10px 0; }
+.ai-spin { width:18px;height:18px;border:2px solid rgba(255,255,255,0.15);border-top-color:var(--accent-light);border-radius:50%;animation:aispin .8s linear infinite; }
+@keyframes aispin { to { transform:rotate(360deg); } }
+
+.calc-disclaimer { text-align:center; color:var(--text3); font-size:12.5px; margin-top:24px; line-height:1.6; }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+        <div class="nav-links">
+            <a href="/">בית</a>
+            <a href="/#services">שירותים</a>
+            <a href="/workshops">סדנאות</a>
+            <a href="/guides">מדריכים</a>
+            <a href="/about">אודות</a>
+            <a href="/projects/">פרויקטים</a>
+            <button class="theme-toggle-nav" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+            </button>
+            <a href="/contact" class="nav-cta">בואו נדבר</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="/" onclick="closeMenu()">בית</a>
+    <a href="/#services" onclick="closeMenu()">שירותים</a>
+    <a href="/workshops" onclick="closeMenu()">סדנאות</a>
+    <a href="/guides" onclick="closeMenu()">מדריכים</a>
+    <a href="/about" onclick="closeMenu()">אודות</a>
+    <a href="/projects/" onclick="closeMenu()">פרויקטים</a>
+    <a href="/contact" onclick="closeMenu()">בואו נדבר</a>
+    <a href="/play" onclick="closeMenu()">חוויה</a>
+</div>
+
+<!-- HERO -->
+<section class="page-hero reveal" style="max-width:1100px;">
+    <div class="bg-grid"></div>
+    <div class="orb orb-purple orb-float-1" style="top:0;right:5%;width:380px;height:380px;opacity:0.30;"></div>
+    <div class="orb orb-blue orb-float-2" style="bottom:0;left:5%;width:340px;height:340px;opacity:0.22;"></div>
+    <span class="badge" style="color:var(--accent-light);border-color:rgba(108,60,225,0.3)">כלי חינמי</span>
+    <h1>כמה זמן <em>AI יחזיר לך?</em></h1>
+    <p class="page-hero-sub">סמן את המשימות החוזרות שאתה עושה כל שבוע, ותגלה תוך דקה כמה שעות - וכמה כסף - AI יכול להחזיר לך. בלי הרשמה.</p>
+</section>
+
+<!-- CALCULATOR -->
+<section class="sec" style="padding-top:20px">
+    <div class="calc-wrap">
+        <div class="calc-grid">
+            <!-- LEFT: inputs -->
+            <div>
+                <div class="calc-block">
+                    <div class="calc-block-label"><span class="step-n">1</span> כמה שווה לך שעת עבודה?</div>
+                    <div class="hourly-row">
+                        <div class="hourly-presets" id="presets">
+                            <button data-v="80">₪80</button>
+                            <button data-v="150" class="active">₪150</button>
+                            <button data-v="250">₪250</button>
+                            <button data-v="400">₪400</button>
+                        </div>
+                        <div class="hourly-input">
+                            <span style="color:var(--text2);font-size:14px">או</span>
+                            <input type="number" id="hourlyInput" value="150" min="0" max="2000" aria-label="שווי שעה מותאם">
+                            <span style="color:var(--text2);font-size:14px">₪ לשעה</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calc-block">
+                    <div class="calc-block-label"><span class="step-n">2</span> אילו משימות חוזרות אתה עושה? (סמן + כוונן שעות בשבוע)</div>
+                    <div class="task-grid" id="taskGrid"></div>
+                </div>
+            </div>
+
+            <!-- RIGHT: results -->
+            <div>
+                <div class="results" id="results">
+                    <div class="results-hero">
+                        <div class="results-hours" id="rHours">0<span class="unit">שעות בשבוע</span></div>
+                    </div>
+                    <div id="rDetails">
+                        <div class="results-empty">סמן משימות כדי לראות כמה זמן וכסף AI יכול להחזיר לך.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RECOMMENDATIONS -->
+        <div class="recs" id="recs"></div>
+
+        <!-- AI ANALYSIS -->
+        <div class="ai-box">
+            <h3>רוצה ניתוח אישי מ-AI?</h3>
+            <p class="sub">תאר את העסק שלך במשפט-שניים, ו-AI יחזיר לך 3 רעיונות ספציפיים לאוטומציה שמתאימים בדיוק לך.</p>
+            <textarea id="aiInput" placeholder="לדוגמה: יש לי קליניקה לרפואה משלימה, אני מתאמת תורים בטלפון ושולחת תזכורות ידנית, וכותבת תוכן לאינסטגרם..."></textarea>
+            <div style="margin-top:14px">
+                <button class="btn btn-p" id="aiBtn" onclick="runAI()">קבל ניתוח אישי <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right:6px"><path d="M5 3l14 9-14 9V3z"/></svg></button>
+            </div>
+            <div class="ai-out" id="aiOut"></div>
+        </div>
+
+        <p class="calc-disclaimer">המספרים הם הערכה המבוססת על טווחי חיסכון מקובלים לכל סוג משימה - לא הבטחה. החיסכון בפועל תלוי בהטמעה נכונה של הכלים. בדיוק בזה אני עוזר.</p>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="contact">
+    <div class="container" style="text-align:center;position:relative;z-index:1">
+        <div class="orb orb-purple orb-float-1" style="top:0;left:50%;transform:translateX(-50%);width:420px;height:420px;opacity:0.25;"></div>
+        <h2 class="sec-title" style="position:relative">ראית כמה זמן יש לך <span class="accent">להחזיר?</span></h2>
+        <p class="sec-desc" style="margin:0 auto 28px;position:relative">אני עוזר לעסקים להטמיע בדיוק את הכלים האלה - בלי ללמוד הכל לבד, בלי לטעות. שיחת היכרות קצרה וחינמית.</p>
+        <div style="position:relative"><a href="/contact" class="btn btn-p">בואו נדבר <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></a></div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+                <p class="footer-tagline">AI · TECH · TOOLS</p>
+                <p class="footer-blurb">פיתוח אתרים, ייעוץ פיננסי וסדנאות. שלוש מומחיות, מותג אחד, ערך פרקטי.</p>
+                <div class="footer-social-strip">
+                    <a href="https://www.linkedin.com/in/yarin-malka-baa541228" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0H5a5 5 0 00-5 5v14a5 5 0 005 5h14a5 5 0 005-5V5a5 5 0 00-5-5zM8 19H5V8h3v11zM6.5 6.7a1.7 1.7 0 110-3.4 1.7 1.7 0 010 3.4zM20 19h-3v-5.6c0-3.4-4-3.1-4 0V19h-3V8h3v1.8c1.4-2.6 7-2.8 7 2.5V19z"/></svg></a>
+                    <a href="https://x.com/YarinMalka6" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                    <a href="https://www.instagram.com/yarin_malka7/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                    <a href="https://www.facebook.com/yarin.malka.47197" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 10-11.56 9.88V14.9H7.9V12h2.54V9.8c0-2.51 1.49-3.89 3.77-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.9h-2.33v6.98A10 10 0 0022 12z"/></svg></a>
+                    <a href="mailto:yarinmalka7@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+                </div>
+            </div>
+            <nav class="footer-nav" aria-label="ניווט תחתון">
+                <a href="/#services">שירותים</a>
+                <a href="/workshops">סדנאות</a>
+                <a href="/guides">מדריכים</a>
+                <a href="/projects/">פרויקטים</a>
+                <a href="/about">אודות</a>
+                <a href="/calculator">מחשבון AI</a>
+                <a href="/contact">צור קשר</a>
+            </nav>
+        </div>
+        <div class="footer-bottom">
+            <div class="fb-copy">&copy; 2026 YARIN.MALKA</div>
+            <div class="fb-legal">
+                <a href="/privacy">פרטיות</a><span class="sep">·</span><a href="/terms">תנאים</a><span class="sep">·</span><a href="/accessibility">נגישות</a>
+            </div>
+            <div class="fb-contact">
+                <a href="tel:0536805136">053-680-5136</a><span class="sep">·</span><a href="mailto:yarinmalka7@gmail.com">yarinmalka7@gmail.com</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+// ---- nav ----
+const hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobileMenu');
+hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');mobileMenu.classList.toggle('open')});
+function closeMenu(){hamburger.classList.remove('active');mobileMenu.classList.remove('open')}
+function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark';var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('theme',n);}
+
+// ---- calculator data ----
+const I = {
+  mail:'<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>',
+  pen:'<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+  mic:'<path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/>',
+  search:'<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+  file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',
+  cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+  grid:'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/>',
+  msg:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+  share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/>',
+  globe:'<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>'
+};
+const TASKS = [
+  {id:'email',  name:'מענה למיילים',      ic:'mail',  save:.50, def:4, tool:'Claude / Gemini',      how:'ניסוח תשובות וסיכום תכתובות ארוכות'},
+  {id:'content',name:'כתיבת תוכן',         ic:'pen',   save:.65, def:3, tool:'Claude / ChatGPT',     how:'טיוטות, רעיונות ועריכה'},
+  {id:'meet',   name:'סיכום פגישות ושיחות',ic:'mic',   save:.70, def:2, tool:'Granola / Fireflies',  how:'תמלול וסיכום אוטומטי בזמן אמת'},
+  {id:'research',name:'מחקר ואיסוף מידע',  ic:'search',save:.55, def:3, tool:'Perplexity',           how:'תשובות מהירות עם מקורות'},
+  {id:'docs',   name:'מצגות ודוחות',       ic:'file',  save:.50, def:2, tool:'Gamma / Claude',       how:'מבנה, ניסוח ועיצוב ראשוני'},
+  {id:'sched',  name:'תיאום ותזמון',       ic:'cal',   save:.60, def:2, tool:'Reclaim / Motion',     how:'תזמון חכם אוטומטי של היומן'},
+  {id:'data',   name:'נתונים ואקסל',       ic:'grid',  save:.60, def:2, tool:'Claude for Excel',     how:'נוסחאות, ניתוח ודשבורדים'},
+  {id:'support',name:'מענה חוזר ללקוחות',  ic:'msg',   save:.55, def:3, tool:'צ׳אטבוט מותאם',         how:'תשובות אוטומטיות לשאלות נפוצות'},
+  {id:'social', name:'רשתות חברתיות',      ic:'share', save:.55, def:2, tool:'Buffer + AI',          how:'יצירת תוכן ותזמון פוסטים'},
+  {id:'trans',  name:'תרגום',              ic:'globe', save:.75, def:1, tool:'DeepL / Claude',       how:'תרגום איכותי מיידי'}
+];
+
+let hourly = 150;
+const state = {}; // id -> hours (only when on)
+
+const fmt = n => Math.round(n).toLocaleString('he-IL');
+const checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+// build task cards
+const grid = document.getElementById('taskGrid');
+grid.innerHTML = TASKS.map(t => `
+  <div class="task" data-id="${t.id}" role="button" tabindex="0" aria-pressed="false">
+    <div class="task-head">
+      <div class="task-ico"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">${I[t.ic]}</svg></div>
+      <div class="task-name">${t.name}</div>
+      <div class="task-check">${checkSvg}</div>
+    </div>
+    <div class="task-hours">
+      <div class="task-hours-label"><span>שעות בשבוע</span><b><span data-h="${t.id}">${t.def}</span> שעות</b></div>
+      <input type="range" min="1" max="20" value="${t.def}" data-range="${t.id}" aria-label="שעות בשבוע ל${t.name}">
+    </div>
+  </div>`).join('');
+
+function toggleTask(id){
+  const el = grid.querySelector(`[data-id="${id}"]`);
+  if (state[id] != null){ delete state[id]; el.classList.remove('on'); el.setAttribute('aria-pressed','false'); }
+  else { const t = TASKS.find(x=>x.id===id); state[id] = t.def; el.classList.add('on'); el.setAttribute('aria-pressed','true'); }
+  render();
+}
+grid.querySelectorAll('.task').forEach(el=>{
+  el.addEventListener('click', e=>{ if(e.target.closest('input[type=range]')) return; toggleTask(el.dataset.id); });
+  el.addEventListener('keydown', e=>{ if(e.key===' '||e.key==='Enter'){ e.preventDefault(); toggleTask(el.dataset.id);} });
+});
+grid.querySelectorAll('input[type=range]').forEach(r=>{
+  r.addEventListener('input', ()=>{ const id=r.dataset.range; state[id]=+r.value; grid.querySelector(`[data-h="${id}"]`).textContent=r.value; render(); });
+  r.addEventListener('click', e=>e.stopPropagation());
+});
+
+// hourly controls
+const presets = document.getElementById('presets'), hInput = document.getElementById('hourlyInput');
+presets.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+  presets.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active'); hourly=+b.dataset.v; hInput.value=hourly; render();
+}));
+hInput.addEventListener('input',()=>{ hourly=+hInput.value||0; presets.querySelectorAll('button').forEach(x=>x.classList.remove('active')); render(); });
+
+function render(){
+  let weekly=0;
+  const sel=[];
+  TASKS.forEach(t=>{ if(state[t.id]!=null){ const s=state[t.id]*t.save; weekly+=s; sel.push(t); } });
+  const yearly=weekly*52, monthly=weekly*4.33, shek=yearly*hourly, weeks=yearly/40;
+
+  document.getElementById('rHours').innerHTML = `${weekly%1?weekly.toFixed(1):fmt(weekly)}<span class="unit">שעות בשבוע נחסכות</span>`;
+  const d=document.getElementById('rDetails');
+  if(!sel.length){ d.innerHTML='<div class="results-empty">סמן משימות כדי לראות כמה זמן וכסף AI יכול להחזיר לך.</div>'; document.getElementById('recs').innerHTML=''; return; }
+  d.innerHTML = `
+    <div class="results-row"><span class="lbl">בחודש</span><span class="val">${fmt(monthly)} שעות</span></div>
+    <div class="results-row"><span class="lbl">בשנה</span><span class="val">${fmt(yearly)} שעות</span></div>
+    <div class="results-row"><span class="lbl">שווי בכסף (לשנה)</span><span class="val accent">₪${fmt(shek)}</span></div>
+    <div class="results-weeks">זה כמו לקבל בחזרה <b>${weeks.toFixed(1)} שבועות עבודה</b> בשנה. תאר לעצמך מה תעשה איתם.</div>`;
+
+  document.getElementById('recs').innerHTML =
+    '<div class="sec-label" style="margin-bottom:14px">הכלים שיעשו את זה</div>' +
+    sel.map(t=>`
+      <div class="rec">
+        <div class="rec-ico"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">${I[t.ic]}</svg></div>
+        <div class="rec-body"><h4>${t.name} → <span class="tool">${t.tool}</span></h4><p>${t.how}</p></div>
+      </div>`).join('');
+}
+render();
+
+// ---- AI analysis ----
+async function runAI(){
+  const txt=document.getElementById('aiInput').value.trim();
+  const out=document.getElementById('aiOut'), btn=document.getElementById('aiBtn');
+  if(txt.length<15){ out.className='ai-out show'; out.innerHTML='<div class="ai-rec"><p>כתוב קצת יותר על העסק שלך (משפט-שניים) כדי שאוכל לתת ניתוח מדויק.</p></div>'; return; }
+  btn.disabled=true;
+  out.className='ai-out show';
+  out.innerHTML='<div class="ai-loading"><div class="ai-spin"></div> Claude מנתח את העסק שלך...</div>';
+  const sel=TASKS.filter(t=>state[t.id]!=null).map(t=>t.name);
+  try{
+    const r=await fetch('/api/ai-analysis',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({business:txt,tasks:sel})});
+    const data=await r.json();
+    if(!r.ok||!data.ok){
+      out.innerHTML=`<div class="ai-rec"><h4>הניתוח האישי עוד לא פעיל</h4><p>${data.message||'הפיצ׳ר בהקמה. בינתיים המחשבון למעלה נותן לך תמונה מלאה - ואם תרצה ניתוח אישי אמיתי, '}<a href="/contact" style="color:var(--accent-light)">בואו נדבר</a>.</p></div>`;
+      btn.disabled=false; return;
+    }
+    out.innerHTML = (data.recommendations||[]).map(rec=>`<div class="ai-rec"><h4>${rec.title}</h4><p>${rec.body}</p></div>`).join('')
+      + '<div style="margin-top:16px"><a href="/contact" class="btn btn-p">רוצה שאקים לך את זה? בואו נדבר <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></a></div>';
+  }catch(e){
+    out.innerHTML='<div class="ai-rec"><p>משהו השתבש. נסה שוב, או <a href="/contact" style="color:var(--accent-light)">דבר איתי ישירות</a>.</p></div>';
+  }
+  btn.disabled=false;
+}
+
+// scroll progress
+window.addEventListener('scroll',()=>{const h=document.documentElement;const s=h.scrollTop/(h.scrollHeight-h.clientHeight);const p=document.getElementById('scrollProgress');if(p)p.style.transform=`scaleX(${s})`;});
+</script>
+<script defer src="/assets/js/a11y.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "9105c6491cdc412ba8510ee4615553c5"}'></script>
+</body>
+</html>
