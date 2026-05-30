@@ -105,6 +105,23 @@
 @keyframes aispin { to { transform:rotate(360deg); } }
 
 .calc-disclaimer { text-align:center; color:var(--text3); font-size:12.5px; margin-top:24px; line-height:1.6; }
+
+/* mobile sticky summary - hidden on desktop, hidden until tasks chosen */
+.mobile-summary { display:none; }
+@media (max-width: 940px) {
+  .mobile-summary.show {
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    position:fixed; left:12px; right:12px; bottom:14px; z-index:60;
+    padding:14px 18px; border:1px solid var(--accent); border-radius:16px;
+    background:linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color:#fff; box-shadow:0 10px 30px rgba(108,60,225,0.45);
+    font-family:'Heebo'; font-size:14px; cursor:pointer;
+    animation:msUp .3s ease;
+  }
+  .mobile-summary .ms-hours b { font-family:'Karantina'; font-weight:700; font-size:24px; vertical-align:-2px; margin-left:4px; }
+  .mobile-summary .ms-cta { display:inline-flex; align-items:center; gap:5px; font-weight:500; white-space:nowrap; opacity:.95; }
+}
+@keyframes msUp { from { transform:translateY(20px); opacity:0; } to { transform:translateY(0); opacity:1; } }
 </style>
 </head>
 <body>
@@ -215,6 +232,12 @@
         <p class="calc-disclaimer">המספרים הם הערכה המבוססת על טווחי חיסכון מקובלים לכל סוג משימה - לא הבטחה. החיסכון בפועל תלוי בהטמעה נכונה של הכלים. בדיוק בזה אני עוזר.</p>
     </div>
 </section>
+
+<!-- MOBILE STICKY SUMMARY (shows live total while picking tasks on small screens) -->
+<button class="mobile-summary" id="mobileSummary" type="button" aria-label="ראה תוצאות מלאות">
+    <span class="ms-hours"><b id="mHours">0</b> שעות בשבוע נחסכות</span>
+    <span class="ms-cta">ראה פירוט <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg></span>
+</button>
 
 <!-- CTA -->
 <section class="cta-sec" id="contact">
@@ -347,16 +370,21 @@ function render(){
   TASKS.forEach(t=>{ if(state[t.id]!=null){ const s=state[t.id]*t.save; weekly+=s; sel.push(t); } });
   const yearly=weekly*52, monthly=weekly*4.33, weeks=yearly/40;
 
-  document.getElementById('rHours').innerHTML = `${weekly%1?weekly.toFixed(1):fmt(weekly)}<span class="unit">שעות בשבוע נחסכות</span>`;
+  const hoursTxt = weekly%1?weekly.toFixed(1):fmt(weekly);
+  document.getElementById('rHours').innerHTML = `${hoursTxt}<span class="unit">שעות בשבוע נחסכות</span>`;
   const d=document.getElementById('rDetails');
   const moneyReveal=document.getElementById('moneyReveal'), moneyResult=document.getElementById('moneyResult');
+  const mSum=document.getElementById('mobileSummary');
 
   if(!sel.length){
     d.innerHTML='<div class="results-empty">סמן משימות כדי לראות כמה זמן AI יחזיר לך.</div>';
     moneyReveal.style.display='none';
     document.getElementById('recs').innerHTML='';
+    mSum.classList.remove('show');
     return;
   }
+  document.getElementById('mHours').textContent = hoursTxt;
+  mSum.classList.add('show');
 
   // STEP 1 payoff: hours
   d.innerHTML = `
@@ -408,6 +436,11 @@ async function runAI(){
   }
   btn.disabled=false;
 }
+
+// mobile summary -> scroll to results panel
+document.getElementById('mobileSummary').addEventListener('click',()=>{
+  document.getElementById('results').scrollIntoView({behavior:'smooth',block:'center'});
+});
 
 // reveal-on-scroll (so the hero + sections fade in instead of staying invisible)
 const revObserver=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible')}})},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
