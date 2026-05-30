@@ -140,6 +140,7 @@
             <a href="/workshops">סדנאות</a>            <a href="/guides">מדריכים</a>
             <a href="/about">אודות</a>
             <a href="/projects/">פרויקטים</a>
+            <a href="/calculator">מחשבון</a>
             <button class="theme-toggle-nav" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
                 <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                 <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -155,6 +156,7 @@
     <a href="/workshops" onclick="closeMenu()">סדנאות</a>    <a href="/guides" onclick="closeMenu()">מדריכים</a>
     <a href="/about" onclick="closeMenu()">אודות</a>
     <a href="/projects/" onclick="closeMenu()">פרויקטים</a>
+    <a href="/calculator" onclick="closeMenu()">מחשבון</a>
     <a href="/contact" onclick="closeMenu()">בואו נדבר</a>
     <a href="/play" onclick="closeMenu()">חוויה</a>
     <button class="mobile-theme-toggle" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
@@ -247,6 +249,29 @@
         </div>
 
 
+    </div>
+</section>
+
+<!-- CALCULATOR TEASER -->
+<section class="sec" id="calc-teaser" style="position:relative;overflow:hidden">
+    <div class="orb orb-purple orb-float-2" style="top:0;left:8%;width:420px;height:420px;opacity:0.22;"></div>
+    <div class="orb orb-blue orb-float-1" style="bottom:0;right:8%;width:360px;height:360px;opacity:0.18;"></div>
+    <div class="container" style="position:relative;z-index:1">
+        <a href="/calculator" class="glass reveal" style="display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center;padding:40px;text-decoration:none;color:inherit;border-radius:24px;">
+            <div>
+                <div class="sec-label" style="margin-bottom:14px">כלי חינמי · אינטראקטיבי</div>
+                <h2 style="font-size:clamp(28px,4vw,42px);line-height:1.15;margin:0 0 14px">כמה זמן <span class="accent">AI יחזיר לך?</span></h2>
+                <p style="color:var(--text2);font-size:16px;line-height:1.6;margin:0 0 24px;max-width:460px">סמן את המשימות החוזרות שאתה עושה כל שבוע, וגלה תוך דקה כמה שעות - וכמה כסף - AI יכול להחזיר לך. בלי הרשמה.</p>
+                <span class="btn btn-p">נסה את המחשבון <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></span>
+            </div>
+            <div style="text-align:center;padding:24px;border-radius:18px;background:linear-gradient(160deg,rgba(108,60,225,0.14),rgba(10,10,22,0.3));border:1px solid var(--glass-border)">
+                <div style="font-family:'Karantina';font-weight:700;font-size:88px;line-height:.9;color:#fff">12</div>
+                <div style="color:var(--text2);font-size:15px;margin-top:4px">שעות בשבוע בממוצע</div>
+                <div style="height:1px;background:var(--glass-border);margin:18px 0"></div>
+                <div style="font-family:'Karantina';font-weight:700;font-size:44px;line-height:1;color:var(--accent-light)">₪93,600</div>
+                <div style="color:var(--text2);font-size:13.5px;margin-top:4px">שווי בשנה · גלה את המספר שלך</div>
+            </div>
+        </a>
     </div>
 </section>
 
@@ -550,6 +575,7 @@
                 <a href="/workshops">סדנאות</a>
                 <a href="/guides">מדריכים</a>
                 <a href="/projects/">פרויקטים</a>
+            <a href="/calculator">מחשבון</a>
                 <a href="/about">אודות</a>
                 <a href="/signup">רשימת תפוצה</a>
                 <a href="/contact">צור קשר</a>

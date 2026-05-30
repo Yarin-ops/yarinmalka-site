@@ -3492,3 +3492,8 @@ html.a11y-high-contrast .cta-btn {
 .skip-link:focus {
   top: 16px;
 }
+
+/* Calculator teaser card - stack on mobile */
+@media (max-width: 768px) {
+  #calc-teaser .glass { grid-template-columns: 1fr !important; gap: 24px !important; padding: 28px !important; }
+}
