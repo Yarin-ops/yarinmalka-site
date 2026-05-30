@@ -69,13 +69,13 @@
 .task-hours input[type=range]{ width:100%; accent-color:var(--accent); cursor:pointer; }
 
 /* results panel */
-.results { position:sticky; top:90px; border:1px solid var(--glass-border); background:linear-gradient(160deg, rgba(108,60,225,0.10), rgba(10,10,22,0.4)); border-radius:20px; padding:28px; backdrop-filter:blur(12px); }
+.results { position:sticky; top:90px; border:1px solid var(--glass-border); background:linear-gradient(160deg, rgba(108,60,225,0.12), var(--glass)); border-radius:20px; padding:28px; backdrop-filter:blur(12px); }
 .results-hero { text-align:center; padding:8px 0 20px; border-bottom:1px solid var(--glass-border); margin-bottom:20px; }
-.results-hours { font-family:'Karantina'; font-weight:700; font-size:84px; line-height:.9; color:#fff; }
+.results-hours { font-family:'Karantina'; font-weight:700; font-size:84px; line-height:.9; color:var(--text); }
 .results-hours .unit { font-family:'Heebo'; font-weight:300; font-size:20px; color:var(--text2); display:block; margin-top:6px; }
 .results-row { display:flex; justify-content:space-between; align-items:center; padding:11px 0; font-size:15px; }
 .results-row .lbl { color:var(--text2); }
-.results-row .val { font-weight:700; color:#fff; }
+.results-row .val { font-weight:700; color:var(--text); }
 .results-row .val.accent { color:var(--accent-light); }
 .results-weeks { margin-top:18px; padding:16px; border-radius:14px; background:rgba(108,60,225,0.12); text-align:center; font-size:15px; line-height:1.5; }
 .results-weeks b { color:var(--accent-light); font-size:18px; }
@@ -408,6 +408,10 @@ async function runAI(){
   }
   btn.disabled=false;
 }
+
+// reveal-on-scroll (so the hero + sections fade in instead of staying invisible)
+const revObserver=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible')}})},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el=>revObserver.observe(el));
 
 // scroll progress
 window.addEventListener('scroll',()=>{const h=document.documentElement;const s=h.scrollTop/(h.scrollHeight-h.clientHeight);const p=document.getElementById('scrollProgress');if(p)p.style.transform=`scaleX(${s})`;});
