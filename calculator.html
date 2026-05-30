@@ -156,27 +156,10 @@
 <section class="sec" style="padding-top:20px">
     <div class="calc-wrap">
         <div class="calc-grid">
-            <!-- LEFT: inputs -->
+            <!-- LEFT: tasks (step 1) -->
             <div>
                 <div class="calc-block">
-                    <div class="calc-block-label"><span class="step-n">1</span> כמה שווה לך שעת עבודה?</div>
-                    <div class="hourly-row">
-                        <div class="hourly-presets" id="presets">
-                            <button data-v="80">₪80</button>
-                            <button data-v="150" class="active">₪150</button>
-                            <button data-v="250">₪250</button>
-                            <button data-v="400">₪400</button>
-                        </div>
-                        <div class="hourly-input">
-                            <span style="color:var(--text2);font-size:14px">או</span>
-                            <input type="number" id="hourlyInput" value="150" min="0" max="2000" aria-label="שווי שעה מותאם">
-                            <span style="color:var(--text2);font-size:14px">₪ לשעה</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="calc-block">
-                    <div class="calc-block-label"><span class="step-n">2</span> אילו משימות חוזרות אתה עושה? (סמן + כוונן שעות בשבוע)</div>
+                    <div class="calc-block-label"><span class="step-n">1</span> אילו משימות חוזרות אתה עושה כל שבוע? <span style="color:var(--text3);font-weight:400">(סמן + כוונן שעות)</span></div>
                     <div class="task-grid" id="taskGrid"></div>
                 </div>
             </div>
@@ -188,7 +171,28 @@
                         <div class="results-hours" id="rHours">0<span class="unit">שעות בשבוע</span></div>
                     </div>
                     <div id="rDetails">
-                        <div class="results-empty">סמן משימות כדי לראות כמה זמן וכסף AI יכול להחזיר לך.</div>
+                        <div class="results-empty">סמן משימות כדי לראות כמה זמן AI יחזיר לך.</div>
+                    </div>
+
+                    <!-- STEP 2: money reveal (appears once tasks selected) -->
+                    <div id="moneyReveal" style="display:none">
+                        <div style="height:1px;background:var(--glass-border);margin:20px 0"></div>
+                        <div class="calc-block-label" style="justify-content:center;margin-bottom:14px"><span class="step-n">2</span> רוצה לראות בכמה כסף?</div>
+                        <div class="hourly-presets" id="presets" style="justify-content:center">
+                            <button data-v="80">₪80</button>
+                            <button data-v="150">₪150</button>
+                            <button data-v="250">₪250</button>
+                            <button data-v="400">₪400</button>
+                        </div>
+                        <div class="hourly-input" style="justify-content:center;margin-top:12px">
+                            <span style="color:var(--text2);font-size:13px">או</span>
+                            <input type="number" id="hourlyInput" placeholder="150" min="0" max="2000" aria-label="שווי שעה מותאם">
+                            <span style="color:var(--text2);font-size:13px">₪ לשעה</span>
+                        </div>
+                        <div id="moneyResult" style="display:none;margin-top:18px">
+                            <div class="results-row"><span class="lbl">שווי הזמן בשנה</span><span class="val accent" id="rShek">₪0</span></div>
+                            <div class="results-weeks" id="rWeeks"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -293,7 +297,7 @@ const TASKS = [
   {id:'trans',  name:'תרגום',              ic:'globe', save:.75, def:1, tool:'DeepL / Claude',       how:'תרגום איכותי מיידי'}
 ];
 
-let hourly = 150;
+let hourly = null; // unset until user reveals money (step 2)
 const state = {}; // id -> hours (only when on)
 
 const fmt = n => Math.round(n).toLocaleString('he-IL');
@@ -329,28 +333,47 @@ grid.querySelectorAll('input[type=range]').forEach(r=>{
   r.addEventListener('click', e=>e.stopPropagation());
 });
 
-// hourly controls
+// hourly controls (step 2 - money reveal)
 const presets = document.getElementById('presets'), hInput = document.getElementById('hourlyInput');
 presets.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
   presets.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active'); hourly=+b.dataset.v; hInput.value=hourly; render();
+  b.classList.add('active'); hourly=+b.dataset.v; hInput.value=''; render();
 }));
-hInput.addEventListener('input',()=>{ hourly=+hInput.value||0; presets.querySelectorAll('button').forEach(x=>x.classList.remove('active')); render(); });
+hInput.addEventListener('input',()=>{ hourly=hInput.value===''?null:(+hInput.value||0); presets.querySelectorAll('button').forEach(x=>x.classList.remove('active')); render(); });
 
 function render(){
   let weekly=0;
   const sel=[];
   TASKS.forEach(t=>{ if(state[t.id]!=null){ const s=state[t.id]*t.save; weekly+=s; sel.push(t); } });
-  const yearly=weekly*52, monthly=weekly*4.33, shek=yearly*hourly, weeks=yearly/40;
+  const yearly=weekly*52, monthly=weekly*4.33, weeks=yearly/40;
 
   document.getElementById('rHours').innerHTML = `${weekly%1?weekly.toFixed(1):fmt(weekly)}<span class="unit">שעות בשבוע נחסכות</span>`;
   const d=document.getElementById('rDetails');
-  if(!sel.length){ d.innerHTML='<div class="results-empty">סמן משימות כדי לראות כמה זמן וכסף AI יכול להחזיר לך.</div>'; document.getElementById('recs').innerHTML=''; return; }
+  const moneyReveal=document.getElementById('moneyReveal'), moneyResult=document.getElementById('moneyResult');
+
+  if(!sel.length){
+    d.innerHTML='<div class="results-empty">סמן משימות כדי לראות כמה זמן AI יחזיר לך.</div>';
+    moneyReveal.style.display='none';
+    document.getElementById('recs').innerHTML='';
+    return;
+  }
+
+  // STEP 1 payoff: hours
   d.innerHTML = `
     <div class="results-row"><span class="lbl">בחודש</span><span class="val">${fmt(monthly)} שעות</span></div>
     <div class="results-row"><span class="lbl">בשנה</span><span class="val">${fmt(yearly)} שעות</span></div>
-    <div class="results-row"><span class="lbl">שווי בכסף (לשנה)</span><span class="val accent">₪${fmt(shek)}</span></div>
-    <div class="results-weeks">זה כמו לקבל בחזרה <b>${weeks.toFixed(1)} שבועות עבודה</b> בשנה. תאר לעצמך מה תעשה איתם.</div>`;
+    <div class="results-weeks">זה כמו לקבל בחזרה <b>${weeks.toFixed(1)} שבועות עבודה</b> בשנה.</div>`;
+
+  // STEP 2: money reveal
+  moneyReveal.style.display='block';
+  if(hourly!=null && hourly>0){
+    const shek=yearly*hourly;
+    document.getElementById('rShek').textContent='₪'+fmt(shek);
+    document.getElementById('rWeeks').innerHTML=`לפי ₪${fmt(hourly)} לשעה - <b>זה הכסף שאתה משאיר על השולחן כל שנה.</b>`;
+    moneyResult.style.display='block';
+  } else {
+    moneyResult.style.display='none';
+  }
 
   document.getElementById('recs').innerHTML =
     '<div class="sec-label" style="margin-bottom:14px">הכלים שיעשו את זה</div>' +
