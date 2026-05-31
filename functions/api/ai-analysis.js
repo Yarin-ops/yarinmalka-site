@@ -38,7 +38,7 @@ export async function onRequestPost(context) {
     }, 503);
   }
 
-  const MODEL = env.GEMINI_MODEL || 'gemini-2.0-flash-lite';
+  const MODEL = env.GEMINI_MODEL || 'gemini-2.0-flash';
   const sys = `אתה יועץ AI מעשי לעסקים קטנים בישראל, מטעם ירין מלכה.
 המשתמש מתאר את העסק שלו. החזר בדיוק 3 רעיונות קונקרטיים לאוטומציה עם AI שמתאימים בדיוק לעסק שלו.
 לכל רעיון: כותרת קצרה (עד 6 מילים) וגוף של 1-2 משפטים שמסביר מה לעשות ואיזה כלי.
@@ -62,12 +62,11 @@ export async function onRequestPost(context) {
     });
 
     if (!resp.ok) {
-      const et = await resp.text();
-      return json({ ok: false, debug: true, gStatus: resp.status, gErr: et.slice(0, 400) }, 200);
+      return json({ ok: false, message: 'שירות ה-AI לא זמין כרגע. בינתיים המחשבון נותן תמונה מלאה - ולניתוח אישי, ' }, 502);
     }
     const data = await resp.json();
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    if (!text) return json({ ok: false, debug: true, note: 'empty text', raw: JSON.stringify(data).slice(0, 500) }, 200);
+    if (!text) return json({ ok: false, message: 'לא הצלחתי לנתח כרגע. נסה שוב, או ' }, 502);
     let recs = [];
     try {
       const parsed = JSON.parse(text);
