@@ -350,18 +350,17 @@ nav#mainNav {
   padding: 9px 16px;
   border-radius: 11px;
 }
-.nav-links a:hover,
-.nav-links a.active { color: var(--text); }
+.nav-links a:hover { color: var(--text); }
+.nav-links a.pill-on { color: #fff; }
 .nav-pill {
   position: absolute;
   top: 50%; left: 0;
-  height: 36px;
-  border-radius: 11px;
-  background: rgba(108,60,225,0.18);
-  border: 1px solid rgba(108,60,225,0.38);
-  box-shadow: 0 4px 20px rgba(108,60,225,0.28), inset 0 1px 0 rgba(255,255,255,0.08);
-  transform: translate(0, -50%);
-  transition: transform 0.5s cubic-bezier(0.34, 1.45, 0.5, 1), width 0.42s cubic-bezier(0.34, 1.45, 0.5, 1);
+  height: 38px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), #8B5CF6);
+  box-shadow: 0 6px 22px rgba(108,60,225,0.55), inset 0 1px 0 rgba(255,255,255,0.22);
+  transform: translate(0, -50%) scale(0.6);
+  transition: transform 0.52s cubic-bezier(0.34, 1.56, 0.5, 1), width 0.4s cubic-bezier(0.34, 1.56, 0.5, 1), opacity 0.3s ease;
   pointer-events: none;
   z-index: 0;
   opacity: 0;
