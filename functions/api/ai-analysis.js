@@ -100,3 +100,5 @@ export async function onRequestPost(context) {
     return json({ ok: false, message: 'שגיאה זמנית. נסה שוב, או ' }, 500);
   }
 }
+
+// redeploy trigger 1cd4a57
