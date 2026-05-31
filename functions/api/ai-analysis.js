@@ -1,7 +1,7 @@
-// POST /api/ai-analysis — personalized AI automation ideas via Claude (Haiku).
+// POST /api/ai-analysis — personalized AI automation ideas via Google Gemini (free tier).
 // Body: { business: string, tasks?: string[] }
 // Returns: { ok: true, recommendations: [{title, body}, ...] }
-// Degrades gracefully to a friendly message if ANTHROPIC_API_KEY is not set.
+// Degrades gracefully to a friendly message if GEMINI_API_KEY is not set.
 
 export async function onRequestOptions() {
   return new Response(null, {
@@ -30,51 +30,67 @@ export async function onRequestPost(context) {
   if (business.length < 15) return json({ ok: false, message: 'כתוב קצת יותר על העסק שלך.' }, 400);
 
   // ---- graceful no-key path ----
-  if (!env.ANTHROPIC_API_KEY) {
+  const KEY = env.GEMINI_API_KEY;
+  if (!KEY) {
     return json({
       ok: false,
       message: 'הניתוח האישי מ-AI עוד לא הופעל באתר הזה. בינתיים המחשבון נותן תמונה מלאה - ולניתוח אישי אמיתי, ',
     }, 503);
   }
 
-  // ---- lightweight abuse guard: cap output, cheap model ----
-  const MODEL = env.AI_MODEL || 'claude-3-5-haiku-20241022';
+  const MODEL = env.GEMINI_MODEL || 'gemini-1.5-flash';
   const sys = `אתה יועץ AI מעשי לעסקים קטנים בישראל, מטעם ירין מלכה.
 המשתמש מתאר את העסק שלו. החזר בדיוק 3 רעיונות קונקרטיים לאוטומציה עם AI שמתאימים בדיוק לעסק שלו.
 לכל רעיון: כותרת קצרה (עד 6 מילים) וגוף של 1-2 משפטים שמסביר מה לעשות ואיזה כלי.
-עברית פשוטה, ישירה, בלי הייפ, בלי אימוג'י. אל תבטיח מספרים מדויקים.
-החזר אך ורק JSON תקין במבנה: {"recommendations":[{"title":"...","body":"..."},{...},{...}]}`;
+עברית פשוטה, ישירה, בלי הייפ, בלי אימוג'י. אל תבטיח מספרים מדויקים.`;
   const user = `העסק: ${business}\n${tasks.length ? 'משימות שסומנו: ' + tasks.join(', ') : ''}`;
 
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(KEY)}`;
+  const payload = {
+    system_instruction: { parts: [{ text: sys }] },
+    contents: [{ role: 'user', parts: [{ text: user }] }],
+    generationConfig: {
+      maxOutputTokens: 700,
+      temperature: 0.7,
+      responseMimeType: 'application/json',
+      responseSchema: {
+        type: 'OBJECT',
+        properties: {
+          recommendations: {
+            type: 'ARRAY',
+            items: {
+              type: 'OBJECT',
+              properties: { title: { type: 'STRING' }, body: { type: 'STRING' } },
+              required: ['title', 'body'],
+            },
+          },
+        },
+        required: ['recommendations'],
       },
-      body: JSON.stringify({
-        model: MODEL,
-        max_tokens: 600,
-        system: sys,
-        messages: [{ role: 'user', content: user }],
-      }),
+    },
+  };
+
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(payload),
     });
 
     if (!resp.ok) {
       return json({ ok: false, message: 'שירות ה-AI עמוס כרגע. נסה שוב בעוד רגע, או ' }, 502);
     }
     const data = await resp.json();
-    let text = (data.content && data.content[0] && data.content[0].text) || '';
-    // extract JSON object from the model output
-    const m = text.match(/\{[\s\S]*\}/);
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
     let recs = [];
-    if (m) {
-      try { recs = (JSON.parse(m[0]).recommendations || []).slice(0, 3); } catch { /* fall through */ }
+    try {
+      const parsed = JSON.parse(text);
+      recs = (parsed.recommendations || []).slice(0, 3);
+    } catch {
+      const m = text.match(/\{[\s\S]*\}/);
+      if (m) { try { recs = (JSON.parse(m[0]).recommendations || []).slice(0, 3); } catch {} }
     }
     if (!recs.length) return json({ ok: false, message: 'לא הצלחתי לנתח כרגע. נסה שוב, או ' }, 502);
-    // sanitize
     recs = recs.map(r => ({
       title: String(r.title || '').slice(0, 80),
       body: String(r.body || '').slice(0, 320),
