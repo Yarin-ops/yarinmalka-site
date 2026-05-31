@@ -38,6 +38,24 @@ export async function onRequestPost(context) {
     }, 503);
   }
 
+  // ---- rate limit: N analyses per IP per day (protects against abuse/cost) ----
+  const LIMIT = parseInt(env.AI_DAILY_LIMIT || '5', 10);
+  const ip = request.headers.get('cf-connecting-ip') || 'unknown';
+  const day = new Date().toISOString().slice(0, 10); // YYYY-MM-DD (UTC)
+  const cache = caches.default;
+  const rlKey = new Request(`https://rl.yarinmalka.co.il/ai/${day}/${ip}`);
+  let count = 0;
+  try {
+    const hit = await cache.match(rlKey);
+    if (hit) count = parseInt(await hit.text(), 10) || 0;
+  } catch {}
+  if (count >= LIMIT) {
+    return json({ ok: false, message: 'הגעת למכסת הניתוחים להיום (5). רוצה ניתוח מעמיק יותר? ' }, 200);
+  }
+  try {
+    await cache.put(rlKey, new Response(String(count + 1), { headers: { 'Cache-Control': 'max-age=86400' } }));
+  } catch {}
+
   const MODEL = env.GEMINI_MODEL || 'gemini-2.5-flash-lite';
   const sys = `אתה יועץ AI מעשי לעסקים קטנים בישראל, מטעם ירין מלכה.
 המשתמש מתאר את העסק שלו. החזר בדיוק 3 רעיונות קונקרטיים לאוטומציה עם AI שמתאימים בדיוק לעסק שלו.
