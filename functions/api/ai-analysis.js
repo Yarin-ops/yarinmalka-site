@@ -38,7 +38,7 @@ export async function onRequestPost(context) {
     }, 503);
   }
 
-  const MODEL = env.GEMINI_MODEL || 'gemini-2.0-flash';
+  const MODEL = env.GEMINI_MODEL || 'gemini-2.5-flash-lite';
   const sys = `אתה יועץ AI מעשי לעסקים קטנים בישראל, מטעם ירין מלכה.
 המשתמש מתאר את העסק שלו. החזר בדיוק 3 רעיונות קונקרטיים לאוטומציה עם AI שמתאימים בדיוק לעסק שלו.
 לכל רעיון: כותרת קצרה (עד 6 מילים) וגוף של 1-2 משפטים שמסביר מה לעשות ואיזה כלי.
