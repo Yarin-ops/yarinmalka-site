@@ -6,17 +6,17 @@ export async function onRequestGet(context) {
   if (!env.GEMINI_API_KEY) return J({ step: 'key', ok: false, msg: 'no GEMINI_API_KEY' });
   const keyInfo = { len: env.GEMINI_API_KEY.length, prefix: env.GEMINI_API_KEY.slice(0, 4) };
 
-  const MODEL = env.GEMINI_MODEL || 'gemini-1.5-flash';
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(env.GEMINI_API_KEY)}`;
+  // List available models for this key (also validates the key)
   try {
-    const r = await fetch(url, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ contents: [{ parts: [{ text: 'Say hi in Hebrew, one word.' }] }] }),
-    });
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(env.GEMINI_API_KEY)}`);
     const txt = await r.text();
-    return J({ step: 'fetch', ok: r.ok, status: r.status, keyInfo, model: MODEL, body: txt.slice(0, 600) });
+    let models = null;
+    try {
+      const d = JSON.parse(txt);
+      if (d.models) models = d.models.filter(m => (m.supportedGenerationMethods || []).includes('generateContent')).map(m => m.name.replace('models/', ''));
+    } catch {}
+    return J({ step: 'listModels', keyOk: r.ok, status: r.status, keyInfo, models: models || txt.slice(0, 400) });
   } catch (e) {
-    return J({ step: 'catch', ok: false, keyInfo, model: MODEL, err: String(e && e.message || e) });
+    return J({ step: 'catch', ok: false, keyInfo, err: String(e && e.message || e) });
   }
 }
