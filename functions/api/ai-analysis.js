@@ -61,12 +61,14 @@ export async function onRequestPost(context) {
       body: JSON.stringify(payload),
     });
 
+    // always consume the body (an unread fetch stream crashes the Worker)
+    const rawText = await resp.text();
     if (!resp.ok) {
-      return json({ ok: false, message: 'שירות ה-AI לא זמין כרגע. בינתיים המחשבון נותן תמונה מלאה - ולניתוח אישי, ' }, 502);
+      return json({ ok: false, message: 'שירות ה-AI לא זמין כרגע. בינתיים המחשבון נותן תמונה מלאה - ולניתוח אישי, ' }, 200);
     }
-    const data = await resp.json();
+    let data; try { data = JSON.parse(rawText); } catch { data = null; }
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    if (!text) return json({ ok: false, message: 'לא הצלחתי לנתח כרגע. נסה שוב, או ' }, 502);
+    if (!text) return json({ ok: false, message: 'לא הצלחתי לנתח כרגע. נסה שוב, או ' }, 200);
     let recs = [];
     try {
       const parsed = JSON.parse(text);
@@ -75,13 +77,13 @@ export async function onRequestPost(context) {
       const m = text.match(/\{[\s\S]*\}/);
       if (m) { try { recs = (JSON.parse(m[0]).recommendations || []).slice(0, 3); } catch {} }
     }
-    if (!recs.length) return json({ ok: false, message: 'לא הצלחתי לנתח כרגע. נסה שוב, או ' }, 502);
+    if (!recs.length) return json({ ok: false, message: 'לא הצלחתי לנתח כרגע. נסה שוב, או ' }, 200);
     recs = recs.map(r => ({
       title: String(r.title || '').slice(0, 80),
       body: String(r.body || '').slice(0, 320),
     }));
     return json({ ok: true, recommendations: recs });
   } catch (e) {
-    return json({ ok: false, message: 'שגיאה זמנית. נסה שוב, או ' }, 500);
+    return json({ ok: false, message: 'שגיאה זמנית. נסה שוב, או ' }, 200);
   }
 }
