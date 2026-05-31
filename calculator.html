@@ -420,7 +420,7 @@ async function runAI(){
   if(txt.length<15){ out.className='ai-out show'; out.innerHTML='<div class="ai-rec"><p>כתוב קצת יותר על העסק שלך (משפט-שניים) כדי שאוכל לתת ניתוח מדויק.</p></div>'; return; }
   btn.disabled=true;
   out.className='ai-out show';
-  out.innerHTML='<div class="ai-loading"><div class="ai-spin"></div> Claude מנתח את העסק שלך...</div>';
+  out.innerHTML='<div class="ai-loading"><div class="ai-spin"></div> מנתח את העסק שלך...</div>';
   const sel=TASKS.filter(t=>state[t.id]!=null).map(t=>t.name);
   try{
     const r=await fetch('/api/ai-analysis',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({business:txt,tasks:sel})});
