@@ -64,7 +64,8 @@ export async function onRequestPost(context) {
     // always consume the body (an unread fetch stream crashes the Worker)
     const rawText = await resp.text();
     if (!resp.ok) {
-      return json({ ok: false, message: 'שירות ה-AI לא זמין כרגע. בינתיים המחשבון נותן תמונה מלאה - ולניתוח אישי, ' }, 200);
+      return json({ ok:false, debug:true, gStatus: resp.status, gErr: rawText.slice(0,250) }, 200);
+      //       return json({ ok: false, message: 'שירות ה-AI לא זמין כרגע. בינתיים המחשבון נותן תמונה מלאה - ולניתוח אישי, ' }, 200);
     }
     let data; try { data = JSON.parse(rawText); } catch { data = null; }
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
