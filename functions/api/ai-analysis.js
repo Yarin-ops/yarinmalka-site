@@ -42,32 +42,16 @@ export async function onRequestPost(context) {
   const sys = `אתה יועץ AI מעשי לעסקים קטנים בישראל, מטעם ירין מלכה.
 המשתמש מתאר את העסק שלו. החזר בדיוק 3 רעיונות קונקרטיים לאוטומציה עם AI שמתאימים בדיוק לעסק שלו.
 לכל רעיון: כותרת קצרה (עד 6 מילים) וגוף של 1-2 משפטים שמסביר מה לעשות ואיזה כלי.
-עברית פשוטה, ישירה, בלי הייפ, בלי אימוג'י. אל תבטיח מספרים מדויקים.`;
+עברית פשוטה, ישירה, בלי הייפ, בלי אימוג'י. אל תבטיח מספרים מדויקים.
+החזר אך ורק JSON תקין במבנה הזה, בלי טקסט נוסף ובלי markdown:
+{"recommendations":[{"title":"...","body":"..."},{"title":"...","body":"..."},{"title":"...","body":"..."}]}`;
   const user = `העסק: ${business}\n${tasks.length ? 'משימות שסומנו: ' + tasks.join(', ') : ''}`;
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(KEY)}`;
   const payload = {
     system_instruction: { parts: [{ text: sys }] },
     contents: [{ role: 'user', parts: [{ text: user }] }],
-    generationConfig: {
-      maxOutputTokens: 700,
-      temperature: 0.7,
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: 'OBJECT',
-        properties: {
-          recommendations: {
-            type: 'ARRAY',
-            items: {
-              type: 'OBJECT',
-              properties: { title: { type: 'STRING' }, body: { type: 'STRING' } },
-              required: ['title', 'body'],
-            },
-          },
-        },
-        required: ['recommendations'],
-      },
-    },
+    generationConfig: { maxOutputTokens: 800, temperature: 0.7 },
   };
 
   try {
@@ -78,10 +62,12 @@ export async function onRequestPost(context) {
     });
 
     if (!resp.ok) {
-      return json({ ok: false, message: 'שירות ה-AI עמוס כרגע. נסה שוב בעוד רגע, או ' }, 502);
+      const et = await resp.text();
+      return json({ ok: false, debug: true, gStatus: resp.status, gErr: et.slice(0, 400) }, 200);
     }
     const data = await resp.json();
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    if (!text) return json({ ok: false, debug: true, note: 'empty text', raw: JSON.stringify(data).slice(0, 500) }, 200);
     let recs = [];
     try {
       const parsed = JSON.parse(text);
