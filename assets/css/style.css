@@ -72,7 +72,7 @@
 [data-theme="light"] .nav-cta { box-shadow: 0 4px 16px rgba(108,60,225,0.25); }
 [data-theme="light"] .port-badge { background: rgba(255,255,255,0.85); color: #1F2937; border-color: rgba(31,41,55,0.1); }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scrollbar-gutter: stable; }
 body {
   font-family: 'Heebo', sans-serif;
   font-weight: 300;
