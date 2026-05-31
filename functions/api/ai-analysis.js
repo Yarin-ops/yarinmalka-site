@@ -78,7 +78,9 @@ export async function onRequestPost(context) {
     });
 
     if (!resp.ok) {
-      return json({ ok: false, message: 'שירות ה-AI עמוס כרגע. נסה שוב בעוד רגע, או ' }, 502);
+      const errText = await resp.text();
+      // DEBUG: surface the real Gemini error
+      return json({ ok: false, debug: true, geminiStatus: resp.status, geminiError: errText.slice(0, 500), model: MODEL }, 200);
     }
     const data = await resp.json();
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
@@ -97,7 +99,8 @@ export async function onRequestPost(context) {
     }));
     return json({ ok: true, recommendations: recs });
   } catch (e) {
-    return json({ ok: false, message: 'שגיאה זמנית. נסה שוב, או ' }, 500);
+    // DEBUG: surface the real exception
+    return json({ ok: false, debug: true, exception: String(e && e.message || e), model: MODEL }, 200);
   }
 }
 
