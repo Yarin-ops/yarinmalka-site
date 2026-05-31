@@ -38,7 +38,7 @@ export async function onRequestPost(context) {
     }, 503);
   }
 
-  const MODEL = env.GEMINI_MODEL || 'gemini-1.5-flash';
+  const MODEL = env.GEMINI_MODEL || 'gemini-flash-latest';
   const sys = `אתה יועץ AI מעשי לעסקים קטנים בישראל, מטעם ירין מלכה.
 המשתמש מתאר את העסק שלו. החזר בדיוק 3 רעיונות קונקרטיים לאוטומציה עם AI שמתאימים בדיוק לעסק שלו.
 לכל רעיון: כותרת קצרה (עד 6 מילים) וגוף של 1-2 משפטים שמסביר מה לעשות ואיזה כלי.
@@ -78,9 +78,7 @@ export async function onRequestPost(context) {
     });
 
     if (!resp.ok) {
-      const errText = await resp.text();
-      // DEBUG: surface the real Gemini error
-      return json({ ok: false, debug: true, geminiStatus: resp.status, geminiError: errText.slice(0, 500), model: MODEL }, 200);
+      return json({ ok: false, message: 'שירות ה-AI עמוס כרגע. נסה שוב בעוד רגע, או ' }, 502);
     }
     const data = await resp.json();
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
@@ -99,9 +97,6 @@ export async function onRequestPost(context) {
     }));
     return json({ ok: true, recommendations: recs });
   } catch (e) {
-    // DEBUG: surface the real exception
-    return json({ ok: false, debug: true, exception: String(e && e.message || e), model: MODEL }, 200);
+    return json({ ok: false, message: 'שגיאה זמנית. נסה שוב, או ' }, 500);
   }
 }
-
-// redeploy trigger 1cd4a57
