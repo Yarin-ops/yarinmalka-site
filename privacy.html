@@ -35,6 +35,7 @@
     <div class="nav-inner">
         <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
         <div class="nav-links">
+            <span class="nav-pill" aria-hidden="true"></span>
             <a href="/">בית</a>
             <a href="/#services">שירותים</a>
             <a href="/workshops">סדנאות</a>
@@ -42,6 +43,8 @@
             <a href="/about">אודות</a>
             <a href="/projects/">פרויקטים</a>
             <a href="/calculator">מחשבון</a>
+        </div>
+        <div class="nav-actions">
             <button class="theme-toggle-nav" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
                 <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                 <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -189,5 +192,6 @@ function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')
 <script defer src="/assets/js/a11y.js"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "9105c6491cdc412ba8510ee4615553c5"}'></script>
 <script defer src="/assets/js/site-settings.js"></script>
+<script defer src="/assets/js/nav-pill.js"></script>
 </body>
 </html>
