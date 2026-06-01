@@ -1,8 +1,6 @@
 name: Weekly guide autopilot
 
 on:
-  schedule:
-    - cron: '0 6 * * 0'   # every Sunday ~08:00-09:00 Israel time
   workflow_dispatch: {}
 
 permissions:
