@@ -1,9 +1,9 @@
-name: Daily content autopilot
+name: Weekly guide autopilot
 
 on:
   schedule:
-    - cron: '0 6 * * *'   # daily ~08:00-09:00 Israel time
-  workflow_dispatch: {}    # allow manual run (for testing)
+    - cron: '0 6 * * 0'   # every Sunday ~08:00-09:00 Israel time
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -14,33 +14,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Generate daily content
+      - name: Generate weekly guide
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
-        run: node content-bot/generate-daily.js
+        run: node content-bot/generate-guide.js
 
       - name: Commit & push
         id: commit
         run: |
           git config user.name "content-bot"
           git config user.email "bot@yarinmalka.co.il"
-          git add assets/data/tips.json content-bot/backlog.md content-bot/output/
+          git add guides.html guides/ sitemap.xml content-bot/backlog.md content-bot/output/ assets/guide-covers/
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "No changes to commit."
           else
-            git commit -m "Daily content: $(date +%F)"
+            git commit -m "Weekly guide: $(date +%F)"
             git push
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      # GITHUB_TOKEN pushes don't trigger deploy.yml, so deploy here directly
       - name: Deploy to Cloudflare Pages
         if: steps.commit.outputs.changed == 'true'
         uses: cloudflare/wrangler-action@v3
