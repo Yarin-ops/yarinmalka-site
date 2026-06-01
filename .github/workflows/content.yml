@@ -21,6 +21,7 @@ jobs:
       - name: Generate daily content
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
         run: node content-bot/generate-daily.js
 
       - name: Commit & push
