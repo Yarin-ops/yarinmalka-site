@@ -1,0 +1,36 @@
+name: Daily content autopilot
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # daily ~08:00-09:00 Israel time
+  workflow_dispatch: {}    # allow manual run (for testing)
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate daily content
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node content-bot/generate-daily.js
+
+      - name: Commit & push
+        run: |
+          git config user.name "content-bot"
+          git config user.email "bot@yarinmalka.co.il"
+          git add assets/data/tips.json content-bot/backlog.md content-bot/output/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Daily content: $(date +%F)"
+            git push
+          fi
