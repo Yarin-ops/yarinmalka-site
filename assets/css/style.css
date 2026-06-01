@@ -352,6 +352,19 @@ nav#mainNav {
 }
 .nav-links a:hover { color: var(--text); }
 .nav-links a.pill-on { color: #fff; }
+/* subtle "you are here" indicator on the active page link */
+.nav-links a.active { color: var(--text); }
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 3px; left: 50%;
+  transform: translateX(-50%);
+  width: 36%; height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  opacity: 0.9;
+}
+.nav-links a.active.pill-on::after { opacity: 0; }
 .nav-pill {
   position: absolute;
   top: 50%; left: 0;
