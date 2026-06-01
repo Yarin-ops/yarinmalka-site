@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  deployments: write
 
 jobs:
   generate:
@@ -25,13 +26,25 @@ jobs:
         run: node content-bot/generate-daily.js
 
       - name: Commit & push
+        id: commit
         run: |
           git config user.name "content-bot"
           git config user.email "bot@yarinmalka.co.il"
           git add assets/data/tips.json content-bot/backlog.md content-bot/output/
           if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No changes to commit."
           else
             git commit -m "Daily content: $(date +%F)"
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      # GITHUB_TOKEN pushes don't trigger deploy.yml, so deploy here directly
+      - name: Deploy to Cloudflare Pages
+        if: steps.commit.outputs.changed == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy . --project-name=yarinmalka --branch=main --commit-dirty=true
