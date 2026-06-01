@@ -47,12 +47,29 @@ function markDone(backlog, i) {
   lines[i] = lines[i].replace('⬜', `✅ (${today()})`);
   return lines.join('\n');
 }
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 async function gemini(prompt) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(KEY)}`;
-  const r = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { maxOutputTokens: 2000, temperature: 0.85 } }) });
-  if (!r.ok) throw new Error(`Gemini ${r.status}: ${(await r.text()).slice(0, 300)}`);
-  return (await r.json())?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  // try the main model with retries, then fall back to flash-lite (less loaded)
+  const models = [MODEL, 'gemini-2.5-flash-lite'];
+  for (const model of models) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(KEY)}`;
+    for (let attempt = 1; attempt <= 4; attempt++) {
+      const r = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { maxOutputTokens: 2000, temperature: 0.85 } }) });
+      if (r.ok) return (await r.json())?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      const status = r.status;
+      const body = (await r.text()).slice(0, 200);
+      // retry on transient overload / rate limit
+      if ((status === 503 || status === 429 || status >= 500) && attempt < 4) {
+        console.log(`  ${model} ${status} (attempt ${attempt}) - retrying...`);
+        await sleep(attempt * 4000);
+        continue;
+      }
+      console.log(`  ${model} failed: ${status} ${body}`);
+      break; // move to fallback model
+    }
+  }
+  throw new Error('Gemini unavailable after retries + fallback');
 }
 function parseJson(t) { try { return JSON.parse(t); } catch {} const m = t.match(/\{[\s\S]*\}/); if (m) try { return JSON.parse(m[0]); } catch {} return null; }
 
