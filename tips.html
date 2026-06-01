@@ -136,13 +136,17 @@ fetch('/assets/data/tips.json').then(r=>r.json()).then(d=>{
   if(!tips.length){ feed.innerHTML='<div class="tips-empty">הטיפים בדרך. חוזרים מחר.</div>'; return; }
   feed.innerHTML = tips.map(t=>{
     const date = t.date ? new Date(t.date).toLocaleDateString('he-IL',{day:'numeric',month:'long'}) : '';
-    return `<article class="tip-card reveal">
+    return `<article class="tip-card">
       <div class="tip-meta">${t.pillar?`<span class="tip-pillar">${t.pillar}</span>`:''}<span class="tip-date">${date}</span></div>
       <h2>${t.title||''}</h2>
       <p>${t.body||''}</p>
     </article>`;
   }).join('');
 });
+
+// reveal-on-scroll (so the hero/sections fade in instead of staying invisible)
+const revObserver=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible')}})},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>revObserver.observe(el));
 
 window.addEventListener('scroll',()=>{const h=document.documentElement;const s=h.scrollTop/(h.scrollHeight-h.clientHeight);const p=document.getElementById('scrollProgress');if(p)p.style.transform=`scaleX(${s})`;});
 </script>
