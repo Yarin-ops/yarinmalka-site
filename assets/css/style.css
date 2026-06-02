@@ -1061,6 +1061,22 @@ nav#mainNav {
 .port-info .port-link svg { width: 12px; height: 12px; }
 .port-card:hover .port-info .port-link { color: var(--accent); }
 
+.port-card-internal { cursor: default; }
+.port-card-internal:hover { transform: none; }
+.port-card-internal:hover .port-thumb img { transform: none; }
+.port-info .port-internal {
+  color: var(--text3);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 4px 10px;
+  border-radius: 99px;
+}
+[data-theme="light"] .port-info .port-internal {
+  background: rgba(31,41,55,0.04);
+  border-color: rgba(31,41,55,0.08);
+}
+.port-card-internal:hover .port-info .port-internal { color: var(--text3); }
+
 /* === DEVICE MOCKUPS (Mac + iPhone) === */
 .device-mac {
   position: relative;

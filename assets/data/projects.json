@@ -1,6 +1,28 @@
 {
   "projects": [
     {
+      "id": "milo",
+      "title": "מיילו",
+      "internal": true,
+      "image": "assets/project-milo.jpg",
+      "imageStyle": "object-position:center",
+      "badge": "סוכן AI",
+      "description": "עוזר אישי וסוכן פעולה בוואטסאפ. מחובר ליומן, מייל ונוטיון. 38 כלים, זיכרון לטווח ארוך, קולי וטקסטואלי.",
+      "featured": true,
+      "year": "2026"
+    },
+    {
+      "id": "fireberry-accounting",
+      "title": "Fireberry CRM · משרד רואי חשבון",
+      "internal": true,
+      "image": "assets/project-fireberry.jpg",
+      "imageStyle": "",
+      "badge": "מערכת CRM",
+      "description": "הטמעה מלאה של מערכת CRM למשרד רואי חשבון. בניית תהליכי לקוח, אוטומציות, דשבורדים ולוחות בקרה.",
+      "featured": true,
+      "year": "2026"
+    },
+    {
       "id": "merkaz-shalem",
       "title": "מרכז שלם",
       "url": "https://merkaz-shalem.base44.app",
