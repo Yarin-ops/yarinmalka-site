@@ -1,6 +1,18 @@
 {
   "projects": [
     {
+      "id": "claude-usage-dashboard",
+      "title": "Claude Usage Dashboard",
+      "url": "https://github.com/Yarin-ops/claude-usage-dashboard",
+      "linkType": "github",
+      "image": "assets/project-claude-usage.jpg",
+      "imageStyle": "",
+      "badge": "כלי Open Source",
+      "description": "דשבורד מקומי לעקיבה אחרי שימוש ב-Claude Code: בלוק 5 שעות, heatmap פעילות, פירוט כלים, ומה שאתה משלם מול מה שאתה באמת משתמש.",
+      "featured": true,
+      "year": "2026"
+    },
+    {
       "id": "milo",
       "title": "מיילו",
       "internal": true,
