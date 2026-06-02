@@ -7,18 +7,18 @@
       "image": "assets/project-milo.jpg",
       "imageStyle": "object-position:center",
       "badge": "סוכן AI",
-      "description": "עוזר אישי וסוכן פעולה בוואטסאפ. מחובר ליומן, מייל ונוטיון. 38 כלים, זיכרון לטווח ארוך, קולי וטקסטואלי.",
+      "description": "עוזר אישי וסוכן פעולה בוואטסאפ. מחובר ליומן, מייל ו-Notion. 38 כלים, זיכרון לטווח ארוך, קולי וטקסטואלי.",
       "featured": true,
       "year": "2026"
     },
     {
       "id": "fireberry-accounting",
-      "title": "Fireberry CRM · משרד רואי חשבון",
+      "title": "Fireberry CRM · משרד רו״ח",
       "internal": true,
       "image": "assets/project-fireberry.jpg",
       "imageStyle": "",
       "badge": "מערכת CRM",
-      "description": "הטמעה מלאה של מערכת CRM למשרד רואי חשבון. בניית תהליכי לקוח, אוטומציות, דשבורדים ולוחות בקרה.",
+      "description": "הטמעה מלאה של מערכת CRM למשרד רו״ח. בניית תהליכי לקוח, אוטומציות, דשבורדים ולוחות בקרה.",
       "featured": true,
       "year": "2026"
     },
