@@ -125,7 +125,7 @@ const PROJECTS = [
     title: 'ALAYAS',
     titleAccent: 'The System',
     badge: 'אתר + מערכת',
-    image: 'assets/project-alayas.png',
+    image: 'assets/project-alayas.jpg',
     oneliner: 'פלטפורמה לניהול והתפתחות אישית ועסקית.',
     challenge: 'רעיון למערכת שמלווה התפתחות אישית ועסקית במקום אחד: תכנים, מעקב והתקדמות. צריך היה להפוך חזון רחב למבנה ברור שאפשר לבנות ולהשיק.',
     solution: 'אפיון, עיצוב והקמה של הפלטפורמה: מבנה תכנים מודולרי, אזורים ברורים, ועיצוב כהה ייחודי שמבדל את המותג.',

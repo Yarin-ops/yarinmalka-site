@@ -113,7 +113,7 @@
     const num = String(i + 1).padStart(2, '0');
     const icon = SVC_ICONS[s.icon] || SVC_ICONS.web;
     const arrow = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>';
-    const inner = `<div class="srv-num">${num}</div><div class="srv-icon">${icon}</div><h3>${escape(s.title)}</h3><p>${escape(s.description)}</p><span class="srv-link">${escape(s.linkLabel || 'למידע נוסף')} ${arrow}</span>`;
+    const inner = `<div class="srv-num" aria-hidden="true">${num}</div><div class="srv-icon">${icon}</div><h3>${escape(s.title)}</h3><p>${escape(s.description)}</p><span class="srv-link">${escape(s.linkLabel || 'למידע נוסף')} ${arrow}</span>`;
     if (s.link) {
       return `<a href="${escape(s.link)}" data-tilt class="glass srv-card ${escape(s.color || 'web')} reveal visible" style="text-decoration:none;color:inherit">${inner}</a>`;
     }
