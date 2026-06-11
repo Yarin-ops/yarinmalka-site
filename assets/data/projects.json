@@ -10,7 +10,8 @@
       "badge": "כלי Open Source",
       "description": "דשבורד מקומי לעקיבה אחרי שימוש ב-Claude Code: בלוק 5 שעות, heatmap פעילות, פירוט כלים, ומה שאתה משלם מול מה שאתה באמת משתמש.",
       "featured": true,
-      "year": "2026"
+      "year": "2026",
+      "caseStudy": "/projects/claude-usage-dashboard"
     },
     {
       "id": "milo",
@@ -21,7 +22,8 @@
       "badge": "סוכן AI",
       "description": "עוזר אישי וסוכן פעולה בוואטסאפ. מחובר ליומן, מייל ו-Notion. 38 כלים, זיכרון לטווח ארוך, קולי וטקסטואלי.",
       "featured": true,
-      "year": "2026"
+      "year": "2026",
+      "caseStudy": "/projects/milo"
     },
     {
       "id": "fireberry-accounting",
@@ -32,7 +34,8 @@
       "badge": "מערכת CRM",
       "description": "הטמעה מלאה של מערכת CRM למשרד רו״ח. בניית תהליכי לקוח, אוטומציות, דשבורדים ולוחות בקרה.",
       "featured": true,
-      "year": "2026"
+      "year": "2026",
+      "caseStudy": "/projects/fireberry-accounting"
     },
     {
       "id": "merkaz-shalem",
@@ -43,7 +46,8 @@
       "badge": "אתר עסקי",
       "description": "אתר למטפל ברפואה משלימה - מיתוג, הזמנת תורים, מאמרים ואזור אישי.",
       "featured": true,
-      "year": "2026"
+      "year": "2026",
+      "caseStudy": "/projects/merkaz-shalem"
     },
     {
       "id": "alayas",
@@ -54,7 +58,8 @@
       "badge": "אתר + מערכת",
       "description": "פלטפורמה לניהול והתפתחות אישית ועסקית.",
       "featured": true,
-      "year": "2025"
+      "year": "2025",
+      "caseStudy": "/projects/alayas"
     },
     {
       "id": "educake",
@@ -65,7 +70,8 @@
       "badge": "אתר תוכן",
       "description": "תהליכי התפתחות רגשית וחברתית דרך חוויית אפייה.",
       "featured": true,
-      "year": "2025"
+      "year": "2025",
+      "caseStudy": "/projects/educake"
     },
     {
       "id": "hoppop",

@@ -1,0 +1,372 @@
+#!/usr/bin/env node
+/**
+ * Generates case-study pages for portfolio projects.
+ * Data embedded below. Output: projects/<slug>.html
+ * Run: node build/build-case-studies.js
+ */
+const fs = require('fs');
+const path = require('path');
+const REPO = path.resolve(__dirname, '..');
+
+const PROJECTS = [
+  {
+    slug: 'milo',
+    title: 'מיילו',
+    titleAccent: 'סוכן AI אישי',
+    badge: 'סוכן AI',
+    image: 'assets/project-milo.jpg',
+    oneliner: 'עוזר אישי אמיתי שחי בוואטסאפ: מנהל יומן, מייל, תזכורות וזיכרון. זמין 24/7.',
+    challenge: 'היום-יום מפוזר בין יומן, מייל, הודעות ורשימות. כל דבר באפליקציה אחרת, שום דבר לא מדבר עם שום דבר. רציתי עוזר אחד שמרכז הכל, במקום שבו אני ממילא נמצא כל היום: וואטסאפ.',
+    solution: 'בניתי סוכן AI מלא שרץ בענן 24/7 ומחובר לוואטסאפ. הוא מבין עברית חופשית, בהקלטה או בכתב, ומבצע פעולות אמיתיות: קובע פגישות, שולח מיילים, מנהל רשימות וזוכר מה חשוב לי.',
+    features: [
+      { title: '38 כלים אמיתיים', desc: 'יומן Google, Gmail, Notion, יצירת תמונות, תזכורות ועוד. לא צאט בוט, סוכן שעושה.' },
+      { title: 'זיכרון לטווח ארוך', desc: 'מסד נתונים עם מאות עובדות והעדפות. הוא זוכר מה אוהבים, מה קרה, ומה ביקשת לפני חודש.' },
+      { title: '9 תדריכים אוטומטיים', desc: 'סיכום בוקר, תזכורות שבועיות, התראות בזמן. מגיע לבד, בלי לבקש.' },
+      { title: 'תמיכה קולית מלאה', desc: 'שולחים הקלטה, הוא מבין. עונה בקול אם רוצים.' },
+      { title: 'מודעות לשבת וחגים', desc: 'יודע מתי שבת נכנסת ומתי יוצאת, ומתזמן את עצמו בהתאם.' },
+      { title: 'פרטיות מלאה', desc: 'רשימה סגורה של משתמשים מורשים בלבד. הנתונים בבסיס נתונים מאובטח באירופה.' },
+    ],
+    result: 'מיילו משרת את המשפחה כל יום, כבר חודשים, ברציפות. כ-6,000 שורות קוד שמתפקדות כעוזר אישי אמיתי.',
+    tech: ['Python', 'FastAPI', 'Claude API', 'Green API', 'Supabase', 'Render'],
+    meta: { year: '2026', type: 'סוכן AI אישי', scope: 'אפיון, פיתוח והפעלה' },
+    theme: 'green',
+  },
+  {
+    slug: 'fireberry-accounting',
+    title: 'Fireberry CRM',
+    titleAccent: 'למשרד רו״ח',
+    badge: 'מערכת CRM',
+    image: 'assets/project-fireberry.jpg',
+    oneliner: 'הטמעה מלאה של מערכת CRM: תהליכי לקוח, אוטומציות ולוחות בקרה.',
+    challenge: 'משרד רו״ח שמנהל מאות לקוחות בטבלאות, מיילים ופתקים. המידע מפוזר, משימות נופלות בין הכיסאות, ואין תמונת מצב אחת שאפשר לסמוך עליה.',
+    solution: 'הטמעתי את Fireberry מקצה לקצה: אפיון תהליכי העבודה של המשרד, בניית מסלול לקוח מסודר, אוטומציות שמורידות עבודה ידנית, ולוחות בקרה שנותנים תמונת מצב בזמן אמת.',
+    features: [
+      { title: 'מסלול לקוח מובנה', desc: 'מפנייה ראשונית ועד לקוח קבוע. כל שלב ברור, כל לקוח במקום הנכון.' },
+      { title: 'אוטומציות תפעוליות', desc: 'משימות, תזכורות ועדכונים שקורים לבד. פחות עבודה ידנית, פחות טעויות.' },
+      { title: 'לוחות בקרה', desc: 'מנהלים רואים בזמן אמת: לקוחות פעילים, משימות פתוחות, תהליכים תקועים.' },
+      { title: 'התאמה למשרד', desc: 'המערכת הותאמה לתהליכי העבודה הקיימים, לא להפך.' },
+      { title: 'הטמעה והדרכה', desc: 'ליווי הצוות עד שהמערכת הפכה לשגרה.' },
+    ],
+    result: 'המשרד עובד היום על מערכת אחת במקום עשרות טבלאות. פחות דברים נופלים, ויש תמונת מצב ברורה בכל רגע.',
+    tech: ['Fireberry', 'אפיון תהליכים', 'אוטומציות'],
+    meta: { year: '2026', type: 'מערכת CRM', scope: 'אפיון, הטמעה והדרכה' },
+    theme: 'orange',
+  },
+  {
+    slug: 'claude-usage-dashboard',
+    title: 'Claude Usage',
+    titleAccent: 'Dashboard',
+    badge: 'כלי Open Source',
+    image: 'assets/project-claude-usage.jpg',
+    oneliner: 'כלי open source שעונה על שאלה אחת: כמה אתה משלם מול כמה אתה באמת משתמש.',
+    challenge: 'כל הכלים הקיימים סופרים טוקנים. אף אחד לא עונה על השאלה האמיתית: האם המנוי משתלם לי. רציתי תשובה ברורה, בלי API, בלי חשבון, ובלי לשלוח נתונים לאף אחד.',
+    solution: 'דשבורד מקומי לגמרי: קובץ HTML אחד וסקריפט Python אחד. קורא את הלוגים ש-Claude Code כבר שומר במחשב והופך אותם לתמונה ברורה: מה אתה משלם מול מה אתה מקבל. נפתח בדאבל-קליק, עובד אופליין.',
+    features: [
+      { title: 'בלוק 5 שעות בזמן אמת', desc: 'טבעת התקדמות שמראה כמה נשאר בחלון הנוכחי, עם תקרה אישית.' },
+      { title: 'Heatmap פעילות', desc: '18 שבועות של שימוש בסגנון GitHub. רואים בדיוק מתי עבדת ומתי לא.' },
+      { title: 'Pay vs Use', desc: 'המנויים שלך מול השימוש בפועל, כולל שווי API. בלי ספינים שיווקיים.' },
+      { title: 'פירוט שימוש בכלים', desc: 'אילו כלים אתה באמת מפעיל, כל הזמנים.' },
+      { title: 'עברית מלאה + RTL', desc: 'תרגום מלא לעברית עם פריסה מימין לשמאל. גם מצב כהה.' },
+      { title: 'אפס תלות', desc: 'בלי build, בלי npm, בלי שרת. קובץ אחד שפשוט עובד.' },
+    ],
+    result: 'פורסם כ-open source ב-GitHub, זמין לכל קהילת Claude Code.',
+    tech: ['HTML', 'JavaScript', 'Python', 'Open Source'],
+    meta: { year: '2026', type: 'כלי למפתחים', scope: 'עיצוב, פיתוח ופרסום' },
+    liveUrl: 'https://github.com/Yarin-ops/claude-usage-dashboard',
+    liveLabel: 'לרפו ב-GitHub',
+    theme: 'purple',
+  },
+  {
+    slug: 'educake',
+    title: 'EduCake',
+    titleAccent: 'אתר תוכן ומותג',
+    badge: 'אתר תוכן',
+    image: 'assets/project-educake.jpg',
+    oneliner: 'בית דיגיטלי לתהליכי התפתחות רגשית וחברתית דרך חוויית אפייה.',
+    challenge: 'למוריה היה רעיון חזק והרבה תוכן, אבל בלי מיקוד ובלי בית דיגיטלי. צריך היה לחדד את המסר, לבנות מותג, ולהקים אתר שהיא תוכל לנהל לבד.',
+    solution: 'ליווי מלא משלב הרעיון: חידוד המסר, מיתוג, והקמת אתר תוכן שקל לתחזק. כולל דומיין, מייל עסקי ותשתית ניוזלטר. מוריה מעדכנת היום תכנים בעצמה, בלי תלות באיש טכני.',
+    features: [
+      { title: 'חידוד מסר ומיתוג', desc: 'מהרבה רעיונות מפוזרים לסיפור אחד ברור עם שפה עיצובית חמה.' },
+      { title: 'ניהול תוכן עצמאי', desc: 'מוריה מוסיפה ועורכת תכנים לבד. בלי קוד, בלי המתנה.' },
+      { title: 'דומיין ומייל עסקי', desc: 'educake.co.il עם תיבת מייל מקצועית על Google Workspace.' },
+      { title: 'תשתית ניוזלטר', desc: 'מערכת דיוור מחוברת ומוכנה לצמיחה.' },
+    ],
+    result: 'educake.co.il באוויר. מוריה מנהלת את התוכן בעצמה ומתפנה לעבוד על העסק במקום על הטכנולוגיה.',
+    tech: ['Lovable', 'Cloudflare', 'Google Workspace', 'MailerLite'],
+    meta: { year: '2025', type: 'אתר תוכן ומותג', scope: 'מיתוג, הקמה ותשתיות' },
+    liveUrl: 'https://educake.co.il',
+    liveLabel: 'לאתר החי',
+    theme: 'pink',
+  },
+  {
+    slug: 'merkaz-shalem',
+    title: 'מרכז שלם',
+    titleAccent: 'אתר עסקי למטפל',
+    badge: 'אתר עסקי',
+    image: 'assets/project-adiel.jpg',
+    oneliner: 'אתר עסקי למטפל ברפואה משלימה: מיתוג, הזמנת תורים, מאמרים ואזור אישי.',
+    challenge: 'עדיאל, מטפל ברפואה משלימה בתחילת הדרך, היה צריך נוכחות דיגיטלית מקצועית. הטכנולוגיה הייתה זרה לו, וגורמים אחרים ניסו למכור לו דברים שהוא לא צריך.',
+    solution: 'ישבנו על מה באמת משרת את הקליניקה. בנינו אתר שמסביר את הטיפולים בגובה העיניים, מאפשר הזמנת תור אונליין, ונותן לעדיאל במה לפרסם מאמרים. בלי באזוורדס, רק מה שעובד.',
+    features: [
+      { title: 'מיתוג מותאם', desc: 'שפה עיצובית רגועה שמשדרת את האופי של הקליניקה.' },
+      { title: 'הזמנת תורים אונליין', desc: 'מטופלים קובעים תור לבד, בלי טלפונים הלוך ושוב.' },
+      { title: 'אזור מאמרים', desc: 'במה לתוכן מקצועי שבונה אמון ומביא תנועה.' },
+      { title: 'אזור אישי', desc: 'מקום מסודר למטופלים קיימים.' },
+    ],
+    result: 'לעדיאל יש היום אתר חי ומקצועי שמשרת את הקליניקה, והוא בין הממליצים החמים ביותר שלי.',
+    tech: ['Base44', 'עיצוב ומיתוג'],
+    meta: { year: '2026', type: 'אתר עסקי', scope: 'אפיון, עיצוב והקמה' },
+    liveUrl: 'https://merkaz-shalem.base44.app',
+    liveLabel: 'לאתר החי',
+    theme: 'blue',
+  },
+  {
+    slug: 'alayas',
+    title: 'ALAYAS',
+    titleAccent: 'The System',
+    badge: 'אתר + מערכת',
+    image: 'assets/project-alayas.png',
+    oneliner: 'פלטפורמה לניהול והתפתחות אישית ועסקית.',
+    challenge: 'רעיון למערכת שמלווה התפתחות אישית ועסקית במקום אחד: תכנים, מעקב והתקדמות. צריך היה להפוך חזון רחב למבנה ברור שאפשר לבנות ולהשיק.',
+    solution: 'אפיון, עיצוב והקמה של הפלטפורמה: מבנה תכנים מודולרי, אזורים ברורים, ועיצוב כהה ייחודי שמבדל את המותג.',
+    features: [
+      { title: 'מערכת + אתר באחד', desc: 'שער כניסה שיווקי ומערכת תכנים תחת קורת גג אחת.' },
+      { title: 'מבנה מודולרי', desc: 'אזורי תוכן שמתרחבים בלי לשבור את המבנה.' },
+      { title: 'עיצוב מבדל', desc: 'שפה כהה ונקייה שנותנת לפלטפורמה אופי משלה.' },
+      { title: 'בסיס לצמיחה', desc: 'תשתית שמוכנה להוסיף תכנים ויכולות בהמשך.' },
+    ],
+    result: 'הפלטפורמה באוויר ומשמשת בסיס חי למותג ולתכנים שלו.',
+    tech: ['Base44', 'עיצוב ומיתוג'],
+    meta: { year: '2025', type: 'אתר + מערכת', scope: 'אפיון, עיצוב והקמה' },
+    liveUrl: 'https://alayas-system-72f20027.base44.app',
+    liveLabel: 'לאתר החי',
+    theme: 'purple',
+  },
+];
+
+const THEME_COLORS = {
+  purple: { main: '#6C3CE1', light: '#a78bfa' },
+  blue: { main: '#3B82F6', light: '#93c5fd' },
+  green: { main: '#10B981', light: '#6ee7b7' },
+  pink: { main: '#EC4899', light: '#f9a8d4' },
+  orange: { main: '#F59E0B', light: '#fcd34d' },
+};
+
+function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+function page(p) {
+  const c = THEME_COLORS[p.theme] || THEME_COLORS.purple;
+  const live = p.liveUrl
+    ? `<a href="${p.liveUrl}" target="_blank" rel="noopener" class="cs-live">${esc(p.liveLabel || 'לאתר החי')} <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg></a>`
+    : `<span class="cs-internal-tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> פרויקט פנימי</span>`;
+
+  return `<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(p.title)} ${esc(p.titleAccent)} | פרויקט של ירין מלכה</title>
+<meta name="description" content="${esc(p.oneliner)}">
+<link rel="canonical" href="https://yarinmalka.co.il/projects/${p.slug}">
+<meta property="og:title" content="${esc(p.title)} ${esc(p.titleAccent)} | ירין מלכה">
+<meta property="og:description" content="${esc(p.oneliner)}">
+<meta property="og:image" content="https://yarinmalka.co.il/${p.image}">
+<meta property="og:url" content="https://yarinmalka.co.il/projects/${p.slug}">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="YARIN.MALKA">
+<meta property="og:locale" content="he_IL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a0a16">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+<style>
+.cs-page { padding: 140px 0 80px; min-height: 100vh; position: relative; }
+.cs-page .container { max-width: 1080px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
+.cs-back { display: inline-flex; align-items: center; gap: 8px; color: var(--text3); text-decoration: none; font-family: 'Inter'; font-size: 13px; letter-spacing: 0.05em; margin-bottom: 28px; transition: color 0.2s; }
+.cs-back:hover { color: var(--accent-light); }
+.cs-badge { display: inline-block; font-family: 'Heebo'; font-size: 13px; font-weight: 600; color: ${c.light}; background: ${c.main}22; border: 1px solid ${c.main}55; padding: 6px 16px; border-radius: 999px; margin-bottom: 20px; }
+.cs-h1 { font-family: 'Karantina'; font-size: 88px; line-height: 0.95; color: var(--text); margin-bottom: 16px; }
+.cs-h1 .accent { background: linear-gradient(135deg, ${c.light}, ${c.main}); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.cs-oneliner { font-size: 20px; color: var(--text2); line-height: 1.6; max-width: 640px; margin-bottom: 24px; }
+.cs-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
+.cs-chip { font-family: 'Heebo'; font-size: 13px; color: var(--text2); background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 999px; }
+[data-theme="light"] .cs-chip { border-color: rgba(31,41,55,0.12); }
+.cs-hero-img { border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 30px 80px rgba(0,0,0,0.4); margin-bottom: 56px; }
+.cs-hero-img img { width: 100%; display: block; }
+.cs-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 56px; }
+.cs-block { background: var(--glass); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 32px; }
+[data-theme="light"] .cs-block { border-color: rgba(31,41,55,0.1); }
+.cs-block-label { font-family: 'Inter'; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: ${c.light}; margin-bottom: 14px; font-weight: 600; }
+.cs-block p { font-size: 16px; line-height: 1.75; color: var(--text2); }
+.cs-sec-title { font-family: 'Karantina'; font-size: 48px; color: var(--text); margin-bottom: 28px; }
+.cs-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 56px; }
+.cs-feature { background: var(--glass); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; }
+[data-theme="light"] .cs-feature { border-color: rgba(31,41,55,0.1); }
+.cs-feature h3 { font-family: 'Heebo'; font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.cs-feature p { font-size: 14px; line-height: 1.65; color: var(--text2); }
+.cs-result { background: linear-gradient(135deg, ${c.main}1a, transparent); border: 1px solid ${c.main}40; border-radius: 20px; padding: 36px; margin-bottom: 56px; }
+.cs-result p { font-size: 18px; line-height: 1.7; color: var(--text); font-weight: 500; }
+.cs-tech { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 64px; }
+.cs-tech span { font-family: 'Inter'; font-size: 13px; color: var(--text2); background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 7px 16px; border-radius: 999px; }
+[data-theme="light"] .cs-tech span { border-color: rgba(31,41,55,0.12); }
+.cs-cta { text-align: center; background: var(--glass); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 56px 32px; }
+[data-theme="light"] .cs-cta { border-color: rgba(31,41,55,0.1); }
+.cs-cta h2 { font-family: 'Karantina'; font-size: 56px; color: var(--text); margin-bottom: 12px; }
+.cs-cta p { font-size: 17px; color: var(--text2); margin-bottom: 28px; }
+.cs-cta-btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 36px; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #fff; text-decoration: none; border-radius: 12px; font-family: 'Heebo'; font-weight: 600; font-size: 16px; box-shadow: 0 8px 32px rgba(108,60,225,0.3); }
+.cs-live { display: inline-flex; align-items: center; gap: 8px; color: ${c.light}; text-decoration: none; font-family: 'Heebo'; font-size: 15px; font-weight: 600; margin-top: 4px; }
+.cs-live:hover { text-decoration: underline; }
+.cs-internal-tag { display: inline-flex; align-items: center; gap: 7px; color: var(--text3); font-family: 'Heebo'; font-size: 14px; background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 999px; }
+@media (max-width: 860px) {
+  .cs-h1 { font-size: 56px; }
+  .cs-grid2, .cs-features { grid-template-columns: 1fr; }
+  .cs-sec-title { font-size: 38px; }
+}
+</style>
+</head>
+<body>
+
+<nav id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
+        <div class="nav-links">
+            <span class="nav-pill" aria-hidden="true"></span>
+            <a href="/">בית</a>
+            <a href="/#services">שירותים</a>
+            <a href="/workshops">סדנאות</a>
+            <a href="/guides">מדריכים</a>
+            <a href="/about">אודות</a>
+            <a href="/projects/" class="active">פרויקטים</a>
+            <a href="/calculator">מחשבון</a>
+        </div>
+        <div class="nav-actions">
+            <button class="theme-toggle-nav" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+            </button>
+            <a href="/contact" class="nav-cta">בואו נדבר</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="/" onclick="closeMenu()">בית</a>
+    <a href="/#services" onclick="closeMenu()">שירותים</a>
+    <a href="/workshops" onclick="closeMenu()">סדנאות</a>
+    <a href="/guides" onclick="closeMenu()">מדריכים</a>
+    <a href="/about" onclick="closeMenu()">אודות</a>
+    <a href="/projects/" onclick="closeMenu()">פרויקטים</a>
+    <a href="/calculator" onclick="closeMenu()">מחשבון</a>
+    <a href="/contact" onclick="closeMenu()">בואו נדבר</a>
+    <button class="mobile-theme-toggle" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <span class="lbl-light">מצב בהיר</span>
+        <span class="lbl-dark">מצב כהה</span>
+    </button>
+</div>
+
+<div class="cs-page">
+    <div class="orb orb-${p.theme === 'orange' ? 'pink' : p.theme}" style="position:absolute;top:8%;left:5%;width:400px;height:400px;opacity:0.18;pointer-events:none;"></div>
+    <div class="container">
+        <a href="/projects/" class="cs-back">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            כל הפרויקטים
+        </a>
+        <div class="cs-badge">${esc(p.badge)}</div>
+        <h1 class="cs-h1">${esc(p.title)} <span class="accent">${esc(p.titleAccent)}.</span></h1>
+        <p class="cs-oneliner">${esc(p.oneliner)}</p>
+        <div class="cs-meta">
+            <span class="cs-chip">${esc(p.meta.year)}</span>
+            <span class="cs-chip">${esc(p.meta.type)}</span>
+            <span class="cs-chip">${esc(p.meta.scope)}</span>
+        </div>
+
+        <div class="cs-hero-img"><img src="/${p.image}" alt="${esc(p.title)}"></div>
+
+        <div class="cs-grid2">
+            <div class="cs-block">
+                <div class="cs-block-label">האתגר</div>
+                <p>${esc(p.challenge)}</p>
+            </div>
+            <div class="cs-block">
+                <div class="cs-block-label">הפתרון</div>
+                <p>${esc(p.solution)}</p>
+            </div>
+        </div>
+
+        <h2 class="cs-sec-title">מה נבנה.</h2>
+        <div class="cs-features">
+            ${p.features.map(f => `<div class="cs-feature"><h3>${esc(f.title)}</h3><p>${esc(f.desc)}</p></div>`).join('\n            ')}
+        </div>
+
+        <div class="cs-result">
+            <div class="cs-block-label">התוצאה</div>
+            <p>${esc(p.result)}</p>
+        </div>
+
+        <div class="cs-tech">
+            ${p.tech.map(t => `<span>${esc(t)}</span>`).join('\n            ')}
+            ${live}
+        </div>
+
+        <div class="cs-cta">
+            <h2>רוצה משהו כזה לעסק שלך?</h2>
+            <p>בוא נדבר על מה באמת ישרת אותך. בלי התחייבות, בגובה העיניים.</p>
+            <a href="/contact" class="cs-cta-btn">בואו נדבר
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            </a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="footer-bottom">
+            <div class="fb-copy">&copy; 2026 YARIN.MALKA</div>
+            <div class="fb-legal">
+                <a href="/privacy">פרטיות</a><span class="sep">·</span><a href="/terms">תנאים</a><span class="sep">·</span><a href="/accessibility">נגישות</a>
+            </div>
+            <div class="fb-contact">
+                <a data-setting-href="contact.phone:tel" href="tel:0536805136">053-680-5136</a><span class="sep">·</span><a data-setting-href="contact.email:mailto" href="mailto:yarinmalka7@gmail.com">yarinmalka7@gmail.com</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<a data-setting-href="contact.whatsapp:wa" href="https://wa.me/972536805136" target="_blank" class="wa-float" aria-label="WhatsApp">
+    <svg width="26" height="26" fill="#fff" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+window.addEventListener('scroll', () => document.getElementById('mainNav').classList.toggle('nav-bg', window.scrollY > 50));
+const hamburger = document.getElementById('hamburger'), mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); mobileMenu.classList.toggle('open'); });
+function closeMenu() { hamburger.classList.remove('active'); mobileMenu.classList.remove('open'); }
+function toggleTheme() { var c = document.documentElement.getAttribute('data-theme') || 'dark'; var n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('theme', n); }
+</script>
+<script defer src="/assets/js/a11y.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "9105c6491cdc412ba8510ee4615553c5"}'></script>
+<script defer src="/assets/js/site-settings.js"></script>
+<script defer src="/assets/js/nav-pill.js"></script>
+</body>
+</html>
+`;
+}
+
+let count = 0;
+for (const p of PROJECTS) {
+  const out = path.join(REPO, 'projects', `${p.slug}.html`);
+  fs.writeFileSync(out, page(p));
+  console.log(`+ projects/${p.slug}.html`);
+  count++;
+}
+console.log(`Done. ${count} case-study pages generated.`);
