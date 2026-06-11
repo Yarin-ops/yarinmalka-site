@@ -1,6 +1,17 @@
 {
   "inquiries": [
     {
+      "id": "5117434e-1f52-4e14-927a-3c7dba19bf22",
+      "ts": "2026-06-11T18:33:44.160Z",
+      "name": "Yarin Malka",
+      "email": "yarinmalka7@gmail.com",
+      "phone": "0536805136",
+      "topic": "project",
+      "message": "אשמח לקבוע שיחה",
+      "status": "new",
+      "country": "IL"
+    },
+    {
       "id": "9fcb329f-6f39-4520-8872-8a3ddb10d995",
       "ts": "2026-05-13T20:08:01.330Z",
       "name": "ירין מלכה",
