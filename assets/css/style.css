@@ -893,6 +893,7 @@ nav#mainNav {
   direction: ltr;
   line-height: 1;
 }
+.srv-num::before { content: attr(data-num); }
 .srv-icon {
   width: 52px; height: 52px;
   border-radius: 14px;
