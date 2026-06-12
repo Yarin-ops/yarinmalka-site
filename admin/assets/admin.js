@@ -88,7 +88,7 @@ async function loadDashboard() {
   // inquiries → stat + attention card
   const inqData = inq.status === 'fulfilled' ? inq.value : null;
   const items = (inqData && inqData.inquiries) || [];
-  const newItems = items.filter(x => !x.read && !x.handled);
+  const newItems = items.filter(x => x.status === 'new');
   const newCount = (inqData && inqData.newCount != null) ? inqData.newCount : newItems.length;
   set('statInquiries', newCount);
   set('navCountInq', newCount);
@@ -114,7 +114,7 @@ function renderAttention(newItems) {
     <div class="att-item" onclick="navigate('inquiries')">
       <div class="att-avatar">${escapeHtml((x.name || '?').trim().charAt(0))}</div>
       <div class="att-body">
-        <div class="att-top"><strong>${escapeHtml(x.name || 'ללא שם')}</strong><span class="att-time">${x.date ? fmtDate(x.date) : ''}</span></div>
+        <div class="att-top"><strong>${escapeHtml(x.name || 'ללא שם')}</strong><span class="att-time">${x.ts ? fmtDate(x.ts) : ''}</span></div>
         <div class="att-msg">${escapeHtml((x.message || x.subject || '').slice(0, 90))}</div>
       </div>
       <svg class="att-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
