@@ -95,6 +95,10 @@
         <span>רשימת תפוצה</span>
         <span class="badge" id="navCountSubs">-</span>
       </button>
+      <button class="nav-item" data-view="journey">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        <span>מסע לקוח</span>
+      </button>
       <button class="nav-item" data-view="inquiries">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span>פניות אחרונות</span>
@@ -304,6 +308,27 @@
       <div class="card">
         <div id="subsList"><div class="empty"><div class="loading"></div></div></div>
       </div>
+    </div>
+
+    <!-- JOURNEY VIEW -->
+    <div id="view-journey" class="view" style="display:none">
+      <div class="topbar">
+        <div>
+          <h1>מסע לקוח</h1>
+          <div class="sub">רצף המיילים שמקבל מי שנרשם לרשימת התפוצה</div>
+        </div>
+        <div class="action-row">
+          <button class="btn btn-s" onclick="loadJourney()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            רענן
+          </button>
+          <a href="https://dashboard.mailerlite.com/automations" target="_blank"><button class="btn btn-p">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14L21 3"/></svg>
+            נהל ב-MailerLite
+          </button></a>
+        </div>
+      </div>
+      <div id="journeyContent"><div class="empty" style="padding:40px"><div class="loading"></div></div></div>
     </div>
 
     <!-- TESTIMONIALS VIEW -->

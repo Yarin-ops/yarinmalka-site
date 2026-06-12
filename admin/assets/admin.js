@@ -15,6 +15,7 @@ function navigate(view) {
   if (view === 'projects') loadProjects();
   if (view === 'guides') loadGuides();
   if (view === 'subscribers') loadSubscribers();
+  if (view === 'journey') loadJourney();
   if (view === 'testimonials') loadTestimonials();
   if (view === 'analytics') loadAnalytics();
   if (view === 'workshops') loadWorkshops();
@@ -147,6 +148,88 @@ function renderDashTraffic(a) {
 
 async function loadStatsOnly() {
   if (!state.stats) await loadDashboard();
+}
+
+// The planned 4-email welcome sequence (source of truth for the visual).
+const WELCOME_SEQUENCE = [
+  { n: 0, title: 'מייל ברוכים הבאים', sub: 'מי אני ולמה אני כאן', delay: 'מיידי', theme: 'purple' },
+  { n: 1, title: 'הסיפור של AI', sub: 'איך הגענו לכאן', delay: 'אחרי יומיים', theme: 'blue' },
+  { n: 2, title: 'שלוש משפחות של AI', sub: 'איזה AI לאיזו משימה', delay: 'אחרי 5 ימים', theme: 'green' },
+  { n: 3, title: 'חמישה כלי AI חינמיים', sub: 'שווים זהב', delay: 'אחרי 8 ימים', theme: 'pink' },
+];
+
+async function loadJourney() {
+  const box = document.getElementById('journeyContent');
+  box.innerHTML = '<div class="empty" style="padding:40px"><div class="loading"></div></div>';
+  let j = null;
+  try {
+    const r = await fetch('/api/admin/journey');
+    if (r.ok) j = await r.json();
+  } catch (e) {}
+
+  const w = j && j.welcome;
+  const liveCount = w ? (w.emails || 0) : 0;
+  const active = w ? w.enabled : false;
+  const subs = j && j.subscribers != null ? j.subscribers : '—';
+
+  const statusBadge = active
+    ? '<span class="jr-status on"><span class="dot-live"></span>פעיל</span>'
+    : '<span class="jr-status off">מושהה</span>';
+
+  const stats = w ? `
+    <div class="jr-stats">
+      <div class="jr-stat"><div class="jr-stat-val">${subs}</div><div class="jr-stat-lbl">מנויים ברשימה</div></div>
+      <div class="jr-stat"><div class="jr-stat-val">${w.sent ?? 0}</div><div class="jr-stat-lbl">מיילים שנשלחו</div></div>
+      <div class="jr-stat"><div class="jr-stat-val">${w.subscribers_completed ?? 0}</div><div class="jr-stat-lbl">השלימו את המסע</div></div>
+      <div class="jr-stat"><div class="jr-stat-val">${w.open_rate ?? '—'}</div><div class="jr-stat-lbl">שיעור פתיחה</div></div>
+    </div>` : '';
+
+  const steps = WELCOME_SEQUENCE.map((s, i) => {
+    const isLive = i < liveCount;
+    const statusTxt = isLive ? 'חי במסע' : 'מוכן · טיוטה';
+    const statusCls = isLive ? 'live' : 'draft';
+    return `
+      ${i > 0 ? `<div class="jr-delay">${s.delay}</div>` : ''}
+      <div class="jr-step ${statusCls}">
+        <div class="jr-step-icon theme-${s.theme}">
+          ${isLive
+            ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'
+            : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>'}
+        </div>
+        <div class="jr-step-body">
+          <div class="jr-step-top"><strong>${escapeHtml(s.title)}</strong><span class="jr-tag ${statusCls}">${statusTxt}</span></div>
+          <div class="jr-step-sub">${escapeHtml(s.sub)} · ${s.delay}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  const draftsLeft = WELCOME_SEQUENCE.length - liveCount;
+  const note = draftsLeft > 0
+    ? `<div class="jr-note"><strong>${draftsLeft} מיילים מוכנים להוספה.</strong> הם כתובים ושמורים כטיוטות ב-MailerLite. כדי להוסיף למסע: בעורך האוטומציה לחץ "+", גרור Send email, ובחר את הטיוטה המתאימה.</div>`
+    : `<div class="jr-note ok">כל המסע מחובר ופעיל. כל נרשם חדש מקבל את הרצף המלא אוטומטית.</div>`;
+
+  box.innerHTML = `
+    <div class="card jr-head">
+      <div class="jr-head-row">
+        <div>
+          <div class="jr-head-title">רצף ברוכים הבאים ${statusBadge}</div>
+          <div class="jr-head-sub">מופעל כשמישהו נרשם לרשימת yarinmalka.co.il</div>
+        </div>
+        <div class="jr-live-count"><span>${liveCount}</span>/${WELCOME_SEQUENCE.length} מיילים חיים</div>
+      </div>
+      ${stats}
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="jr-flow">
+        <div class="jr-trigger">
+          <div class="jr-step-icon" style="background:rgba(245,158,11,0.16);color:#fcd34d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 11h-6M19 8v6"/></svg></div>
+          <div class="jr-step-body"><div class="jr-step-top"><strong>נרשם חדש</strong></div><div class="jr-step-sub">מצטרף לרשימת התפוצה</div></div>
+        </div>
+        ${steps}
+      </div>
+      ${note}
+    </div>`;
 }
 
 async function loadProjects() {
