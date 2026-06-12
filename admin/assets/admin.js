@@ -50,45 +50,99 @@ function fmtDate(s) {
   return d.toLocaleDateString('he-IL', { day: 'numeric', month: 'short' });
 }
 
+function set(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+
 async function loadDashboard() {
   const btn = document.getElementById('refreshBtn');
-  btn.disabled = true;
-  try {
-    const r = await fetch('/api/admin/stats');
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const d = await r.json();
-    state.stats = d;
-    document.getElementById('statTotal').textContent = d.projects?.total ?? '—';
-    document.getElementById('statFeatured').textContent = d.projects?.featured ?? '—';
-    document.getElementById('statGuides').textContent = d.guides?.total ?? '—';
-    document.getElementById('statSubs').textContent = d.subscribers?.total ?? '—';
-    document.getElementById('navCountProjects').textContent = d.projects?.total ?? '—';
-    document.getElementById('navCountGuides').textContent = d.guides?.total ?? '—';
-    document.getElementById('navCountSubs').textContent = d.subscribers?.total ?? '—';
-    document.getElementById('subsTotal').textContent = d.subscribers?.total ?? '—';
-    renderCommits(d.commits || []);
-  } catch (e) {
-    toast('שגיאה: ' + e.message, true);
-  } finally {
-    btn.disabled = false;
+  if (btn) btn.disabled = true;
+
+  // greeting + date
+  const h = new Date().getHours();
+  const greet = h < 12 ? 'בוקר טוב, ירין' : h < 18 ? 'צהריים טובים, ירין' : 'ערב טוב, ירין';
+  set('dashGreeting', greet);
+  set('dashDate', new Date().toLocaleDateString('he-IL', { weekday: 'long', day: 'numeric', month: 'long' }));
+
+  // fire all in parallel; none blocks the others
+  const [stats, inq, analytics] = await Promise.allSettled([
+    fetch('/api/admin/stats').then(r => r.ok ? r.json() : Promise.reject('HTTP ' + r.status)),
+    fetch('/api/admin/inquiries').then(r => r.ok ? r.json() : null).catch(() => null),
+    fetch('/api/admin/analytics?days=7').then(r => r.ok ? r.json() : null).catch(() => null),
+  ]);
+
+  // stats
+  if (stats.status === 'fulfilled') {
+    const d = stats.value; state.stats = d;
+    set('statTotal', d.projects?.total ?? '—');
+    set('statTotalSub', (d.projects?.featured ?? 0) + ' מוצגים בבית');
+    set('statFeatured', d.projects?.featured ?? '—');
+    set('statGuides', d.guides?.total ?? '—');
+    set('statSubs', d.subscribers?.total ?? '—');
+    set('navCountProjects', d.projects?.total ?? '—');
+    set('navCountGuides', d.guides?.total ?? '—');
+    set('navCountSubs', d.subscribers?.total ?? '—');
+    set('subsTotal', d.subscribers?.total ?? '—');
+  } else {
+    toast('שגיאה בטעינת נתונים', true);
   }
+
+  // inquiries → stat + attention card
+  const inqData = inq.status === 'fulfilled' ? inq.value : null;
+  const items = (inqData && inqData.inquiries) || [];
+  const newItems = items.filter(x => !x.read && !x.handled);
+  const newCount = (inqData && inqData.newCount != null) ? inqData.newCount : newItems.length;
+  set('statInquiries', newCount);
+  set('navCountInq', newCount);
+  const card = document.getElementById('cardInquiries');
+  if (card) card.classList.toggle('alert', newCount > 0);
+  set('statInquiriesSub', newCount > 0 ? 'ממתינות לתשובה' : 'הכל מטופל');
+  renderAttention(newItems);
+
+  // analytics → visitors stat + mini chart
+  const a = analytics.status === 'fulfilled' ? analytics.value : null;
+  renderDashTraffic(a);
+
+  if (btn) btn.disabled = false;
 }
 
-function renderCommits(commits) {
-  const list = document.getElementById('commitsList');
-  if (!commits.length) {
-    list.innerHTML = '<div class="empty"><h3>אין פעילות עדיין</h3></div>';
-    return;
-  }
-  list.innerHTML = commits.map(c => `
-    <div class="activity-item">
-      <div class="activity-dot"></div>
-      <div class="activity-content">
-        <div class="activity-msg">${escapeHtml(c.message)}</div>
-        <div class="activity-meta"><span class="sha">${c.sha}</span>${escapeHtml(c.author)} · ${fmtDate(c.date)}</div>
+function renderAttention(newItems) {
+  const card = document.getElementById('attentionCard');
+  const list = document.getElementById('attentionList');
+  if (!card || !list) return;
+  if (!newItems.length) { card.style.display = 'none'; return; }
+  card.style.display = '';
+  list.innerHTML = newItems.slice(0, 4).map(x => `
+    <div class="att-item" onclick="navigate('inquiries')">
+      <div class="att-avatar">${escapeHtml((x.name || '?').trim().charAt(0))}</div>
+      <div class="att-body">
+        <div class="att-top"><strong>${escapeHtml(x.name || 'ללא שם')}</strong><span class="att-time">${x.date ? fmtDate(x.date) : ''}</span></div>
+        <div class="att-msg">${escapeHtml((x.message || x.subject || '').slice(0, 90))}</div>
       </div>
+      <svg class="att-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     </div>
   `).join('');
+}
+
+function renderDashTraffic(a) {
+  const box = document.getElementById('dashTraffic');
+  if (!box) return;
+  if (!a || a.error || !a.byDay) {
+    set('statVisitors', '—');
+    set('statVisitorsSub', 'אנליטיקס לא מחובר');
+    box.innerHTML = `<div class="empty" style="padding:20px 12px"><p style="line-height:1.7">אנליטיקס עדיין לא מחובר.<br><a onclick="navigate('analytics')" style="color:var(--accent-light);cursor:pointer">הגדר עכשיו →</a></p></div>`;
+    return;
+  }
+  set('statVisitors', (a.pageViews || 0).toLocaleString());
+  set('statVisitorsSub', (a.visits || 0).toLocaleString() + ' ביקורים');
+  const byDay = a.byDay || [];
+  const max = Math.max(1, ...byDay.map(b => b.count || 0));
+  box.innerHTML = `
+    <div class="mini-bars">
+      ${byDay.map(b => {
+        const pct = Math.round(((b.count || 0) / max) * 100);
+        const lbl = b.date ? new Date(b.date).toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' }) : '';
+        return `<div class="mini-bar-col"><div class="mini-bar-track"><div class="mini-bar-fill" style="height:${Math.max(4, pct)}%"><span class="mini-bar-val">${b.count || 0}</span></div></div><span class="mini-bar-lbl">${lbl}</span></div>`;
+      }).join('')}
+    </div>`;
 }
 
 async function loadStatsOnly() {
@@ -1129,10 +1183,18 @@ document.addEventListener('drop', async e => {
   }
 });
 
+// Mobile sidebar drawer + scrim
+function toggleSidebar(force) {
+  const aside = document.querySelector('aside');
+  const scrim = document.getElementById('navScrim');
+  const open = force === undefined ? !aside.classList.contains('open') : force;
+  aside.classList.toggle('open', open);
+  if (scrim) scrim.classList.toggle('open', open);
+}
 // Close mobile sidebar on nav item click
 document.addEventListener('click', e => {
   if (window.innerWidth <= 900 && e.target.closest('.nav-item[data-view]')) {
-    document.querySelector('aside').classList.remove('open');
+    toggleSidebar(false);
   }
 });
 

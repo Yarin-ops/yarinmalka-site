@@ -34,9 +34,10 @@
   </div>
 </div>
 
-<button class="admin-burger" id="adminBurger" onclick="document.querySelector('aside').classList.toggle('open')" aria-label="תפריט">
+<button class="admin-burger" id="adminBurger" onclick="toggleSidebar()" aria-label="תפריט">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
 </button>
+<div class="scrim" id="navScrim" onclick="toggleSidebar(false)"></div>
 
 <div class="app" id="appWrap" style="display:none">
 
@@ -133,8 +134,8 @@
     <div id="view-dashboard" class="view">
       <div class="topbar">
         <div>
-          <h1>דשבורד</h1>
-          <div class="sub">סקירה כללית של האתר והפעילות</div>
+          <h1 id="dashGreeting">דשבורד</h1>
+          <div class="sub"><span class="site-status"><span class="dot-live"></span>האתר חי</span> · <span id="dashDate"></span></div>
         </div>
         <div class="action-row">
           <button class="btn btn-s" onclick="loadDashboard()" id="refreshBtn">
@@ -149,51 +150,65 @@
       </div>
 
       <div class="stat-grid">
-        <div class="stat-card">
-          <div class="stat-row">
-            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16M3 21h18M5 11h2v3H5zm6 0h2v3h-2zm6 0h2v3h-2z"/></svg></div>
-            <div class="stat-info">
-              <div class="stat-label">סה״כ פרויקטים</div>
-              <div class="stat-value" id="statTotal">-</div>
-            </div>
-          </div>
-        </div>
         <div class="stat-card blue">
           <div class="stat-row">
-            <div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
             <div class="stat-info">
-              <div class="stat-label">מוצגים בבית</div>
-              <div class="stat-value" id="statFeatured">-</div>
+              <div class="stat-label">מבקרים · 7 ימים</div>
+              <div class="stat-value" id="statVisitors">—</div>
+              <div class="stat-trend" id="statVisitorsSub">צפיות בעמודים</div>
             </div>
           </div>
         </div>
-        <div class="stat-card green">
+        <div class="stat-card orange" id="cardInquiries" onclick="navigate('inquiries')" style="cursor:pointer">
           <div class="stat-row">
-            <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+            <div class="stat-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
             <div class="stat-info">
-              <div class="stat-label">מדריכים</div>
-              <div class="stat-value" id="statGuides">-</div>
+              <div class="stat-label">פניות חדשות</div>
+              <div class="stat-value" id="statInquiries">—</div>
+              <div class="stat-trend" id="statInquiriesSub">ממתינות לתשובה</div>
             </div>
           </div>
         </div>
-        <div class="stat-card pink">
+        <div class="stat-card pink" onclick="navigate('subscribers')" style="cursor:pointer">
           <div class="stat-row">
             <div class="stat-icon pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
             <div class="stat-info">
               <div class="stat-label">מנויי תפוצה</div>
-              <div class="stat-value" id="statSubs">-</div>
+              <div class="stat-value" id="statSubs">—</div>
+              <div class="stat-trend">רשימת תפוצה</div>
             </div>
           </div>
         </div>
+        <div class="stat-card" onclick="navigate('projects')" style="cursor:pointer">
+          <div class="stat-row">
+            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16M3 21h18M5 11h2v3H5zm6 0h2v3h-2zm6 0h2v3h-2z"/></svg></div>
+            <div class="stat-info">
+              <div class="stat-label">פרויקטים</div>
+              <div class="stat-value" id="statTotal">—</div>
+              <div class="stat-trend" id="statTotalSub">בתיק העבודות</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span id="statFeatured" hidden></span><span id="statGuides" hidden></span>
+
+      <!-- NEEDS ATTENTION -->
+      <div class="card attention-card" id="attentionCard" style="display:none;margin-bottom:16px;">
+        <div class="card-header">
+          <h2><span class="pulse-dot"></span>דורש את תשומת ליבך</h2>
+          <a class="more" onclick="navigate('inquiries')" style="cursor:pointer">לכל הפניות →</a>
+        </div>
+        <div id="attentionList"></div>
       </div>
 
       <div class="grid-2">
         <div class="card">
           <div class="card-header">
-            <h2>פעילות אחרונה</h2>
-            <a href="https://github.com/Yarin-ops/yarinmalka-site/commits/main" target="_blank" class="more">צפה בכל →</a>
+            <h2>תנועה · 7 ימים אחרונים</h2>
+            <a class="more" onclick="navigate('analytics')" style="cursor:pointer">פירוט מלא →</a>
           </div>
-          <div id="commitsList"><div class="empty"><div class="ico"><div class="loading"></div></div>טוען...</div></div>
+          <div id="dashTraffic"><div class="empty" style="padding:24px"><div class="loading"></div></div></div>
         </div>
 
         <div class="card">
