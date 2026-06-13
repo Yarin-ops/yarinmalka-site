@@ -48,6 +48,27 @@ export async function onRequestPost(context) {
     return new Response(JSON.stringify({ ok: false, error: 'mailerlite_failed', detail: errText.slice(0, 200) }), { status: 502, headers: cors });
   }
 
+  // Notify Yarin of the new signup (reuses the contact-notification webhook → email).
+  // Non-blocking: a notification failure must never fail the signup itself.
+  if (env.MAKE_WEBHOOK_URL) {
+    try {
+      await fetch(env.MAKE_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          kind: 'subscriber',
+          name: name || 'ללא שם',
+          email,
+          phone: '—',
+          topic: 'הרשמה לניוזלטר',
+          message: 'נרשם/ה חדש/ה לרשימת התפוצה (ארגז הכלים) מהאתר.',
+          country: request.headers.get('cf-ipcountry') || '',
+          ts: new Date().toISOString(),
+        }),
+      });
+    } catch (_) { /* notification failure shouldn't block signup */ }
+  }
+
   return new Response(JSON.stringify({ ok: true }), { status: 200, headers: cors });
 }
 
