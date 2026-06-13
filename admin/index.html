@@ -9,8 +9,8 @@
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/admin/assets/admin.css">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/admin/assets/admin.css?v=3">
 </head>
 <body>
 
@@ -44,7 +44,7 @@
   <aside>
     <div class="brand">
       <div class="brand-logo">YARIN<span class="dot">.</span>MALKA</div>
-      <div class="brand-sub">Admin Console</div>
+      <div class="brand-sub">ניהול אתר</div>
     </div>
 
     <nav class="nav">
@@ -129,6 +129,7 @@
       </button>
       <div class="user-card">
         מחובר<strong id="userEmail">...</strong>
+        <div class="site-health"><span class="dot-live"></span>האתר פעיל</div>
       </div>
     </div>
   </aside>
@@ -138,6 +139,7 @@
     <div id="view-dashboard" class="view">
       <div class="topbar">
         <div>
+          <span class="label">לוח בקרה</span>
           <h1 id="dashGreeting">דשבורד</h1>
           <div class="sub"><span class="site-status"><span class="dot-live"></span>האתר חי</span> · <span id="dashDate"></span></div>
         </div>
@@ -247,8 +249,9 @@
     <div id="view-projects" class="view" style="display:none">
       <div class="topbar">
         <div>
-          <h1>פרויקטים</h1>
-          <div class="sub">עריכה, הוספה ומחיקה. כל שינוי נשמר לאתר תוך 30 שניות</div>
+          <span class="label">תוכן האתר</span>
+          <h1>תיק <span class="accent-text">העבודות</span></h1>
+          <div class="sub">עריכה, הוספה ומחיקה. שינויים עולים לאתר תוך ~30 שניות</div>
         </div>
         <button class="btn btn-p" onclick="openProject()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
@@ -265,7 +268,8 @@
     <div id="view-guides" class="view" style="display:none">
       <div class="topbar">
         <div>
-          <h1>מדריכים</h1>
+          <span class="label">תוכן האתר</span>
+          <h1>מדריכים <span class="accent-text">מפורסמים</span></h1>
           <div class="sub">צפייה במדריכים הקיימים. עריכה ישירה ב-GitHub</div>
         </div>
         <a href="https://github.com/Yarin-ops/yarinmalka-site/tree/main/guides" target="_blank">
@@ -284,7 +288,8 @@
     <div id="view-subscribers" class="view" style="display:none">
       <div class="topbar">
         <div>
-          <h1>רשימת תפוצה</h1>
+          <span class="label">נתונים</span>
+          <h1>רשימת <span class="accent-text">תפוצה</span></h1>
           <div class="sub">מנויים פעילים ב-MailerLite. מעודכן בזמן אמת</div>
         </div>
         <div class="action-row">
@@ -314,7 +319,8 @@
     <div id="view-journey" class="view" style="display:none">
       <div class="topbar">
         <div>
-          <h1>מסע לקוח</h1>
+          <span class="label">נתונים</span>
+          <h1>מסע <span class="accent-text">לקוח</span></h1>
           <div class="sub">רצף המיילים שמקבל מי שנרשם לרשימת התפוצה</div>
         </div>
         <div class="action-row">
@@ -335,8 +341,9 @@
     <div id="view-testimonials" class="view" style="display:none">
       <div class="topbar">
         <div>
-          <h1>טסטימוניאלים</h1>
-          <div class="sub">המלצות לקוחות שמופיעות בעמוד הבית</div>
+          <span class="label">תוכן האתר</span>
+          <h1>המלצות <span class="accent-text">לקוחות</span></h1>
+          <div class="sub">המלצות שמופיעות בעמוד הבית. שינויים עולים תוך ~30 שניות</div>
         </div>
         <button class="btn btn-p" onclick="openTesti()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
@@ -352,8 +359,9 @@
     <div id="view-faq" class="view" style="display:none">
       <div class="topbar">
         <div>
-          <h1>שאלות נפוצות</h1>
-          <div class="sub">השאלות שמופיעות בעמוד הבית. שינויים יופיעו תוך 30 שניות</div>
+          <span class="label">תוכן האתר</span>
+          <h1>שאלות <span class="accent-text">נפוצות</span></h1>
+          <div class="sub">השאלות שמופיעות בעמוד הבית. שינויים עולים תוך ~30 שניות</div>
         </div>
         <button class="btn btn-p" onclick="openFaq()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
@@ -369,8 +377,9 @@
     <div id="view-workshops" class="view" style="display:none">
       <div class="topbar">
         <div>
-          <h1>סדנאות</h1>
-          <div class="sub">הסדנאות שמופיעות בעמוד הסדנאות. שינויים יופיעו תוך 30 שניות</div>
+          <span class="label">תוכן האתר</span>
+          <h1>סדנאות <span class="accent-text">פעילות</span></h1>
+          <div class="sub">הסדנאות שמופיעות בעמוד הסדנאות. שינויים עולים תוך ~30 שניות</div>
         </div>
         <button class="btn btn-p" onclick="openWorkshop()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
@@ -386,8 +395,9 @@
     <div id="view-settings" class="view" style="display:none">
       <div class="topbar">
         <div>
-          <h1>הגדרות אתר</h1>
-          <div class="sub">פרטי קשר, רשתות חברתיות, ומותג. שינויים יופיעו תוך 30 שניות</div>
+          <span class="label">הגדרות</span>
+          <h1>הגדרות <span class="accent-text">האתר</span></h1>
+          <div class="sub">פרטי קשר, רשתות חברתיות, ומותג. שינויים עולים תוך ~30 שניות</div>
         </div>
         <button class="btn btn-p" onclick="saveSettings()" id="settingsSaveBtn">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8"/></svg>
@@ -401,7 +411,8 @@
     <div id="view-system" class="view" style="display:none">
       <div class="topbar">
         <div>
-          <h1>מערכת ועזרה</h1>
+          <span class="label">הגדרות</span>
+          <h1>מערכת <span class="accent-text">ועזרה</span></h1>
           <div class="sub">מפת השירותים, הקבצים והפעולות באתר</div>
         </div>
       </div>
@@ -431,7 +442,8 @@
     <div id="view-inquiries" class="view" style="display:none">
       <div class="topbar">
         <div>
-          <h1>פניות אחרונות</h1>
+          <span class="label">נתונים</span>
+          <h1>פניות <span class="accent-text">אחרונות</span></h1>
           <div class="sub">פניות שהגיעו דרך הטופס באתר</div>
         </div>
         <button class="btn btn-s" onclick="loadInquiries()">רענן</button>
@@ -445,8 +457,9 @@
     <div id="view-services" class="view" style="display:none">
       <div class="topbar">
         <div>
-          <h1>שירותים</h1>
-          <div class="sub">3 השירותים הראשיים שמופיעים בעמוד הבית</div>
+          <span class="label">תוכן האתר</span>
+          <h1>שירותים <span class="accent-text">ראשיים</span></h1>
+          <div class="sub">3 השירותים שמופיעים בעמוד הבית. שינויים עולים תוך ~30 שניות</div>
         </div>
         <button class="btn btn-p" onclick="openService()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
@@ -462,7 +475,8 @@
     <div id="view-analytics" class="view" style="display:none">
       <div class="topbar">
         <div>
-          <h1>אנליטיקס</h1>
+          <span class="label">נתונים</span>
+          <h1>תנועה <span class="accent-text">ומבקרים</span></h1>
           <div class="sub">נתוני תנועה ומבקרים מ-Cloudflare</div>
         </div>
         <div class="action-row">
@@ -480,30 +494,49 @@
 
 <!-- PROJECT MODAL -->
 <div class="modal-bg" id="modalBg">
-  <div class="modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button type="button" class="modal-x" onclick="closeModal()" aria-label="סגור">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
     <h2 id="modalTitle">פרויקט</h2>
     <form id="projForm">
-      <div class="field"><label>מזהה (slug באנגלית)</label><input name="id" required pattern="[a-z0-9-]+" placeholder="example-project"></div>
-      <div class="field"><label>שם הפרויקט</label><input name="title" required placeholder="שם בעברית או באנגלית"></div>
-      <div class="field"><label>קישור</label><input name="url" type="url" required placeholder="https://..."></div>
-      <div class="field">
-        <label>תמונה (גרור לכאן או הדבק נתיב)</label>
-        <div class="image-drop" data-target="projImagePath">
-          <input name="image" id="projImagePath" placeholder="assets/project-name.jpg" style="flex:1;">
-          <input type="file" id="projImageFile" accept="image/*" hidden onchange="handleImageSelect(this, 'projImagePath')">
-          <button type="button" class="btn btn-s" style="white-space:nowrap;padding:9px 14px;" onclick="document.getElementById('projImageFile').click()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-            העלה
-          </button>
+      <div class="fieldset">
+        <div class="fieldset-legend">זהות</div>
+        <div class="field">
+          <label>מזהה (slug באנגלית)</label>
+          <input name="id" required pattern="[a-z0-9-]+" placeholder="example-project">
+          <div class="field-helper">אותיות קטנות, מספרים ומקפים בלבד. לא ניתן לשינוי אחרי יצירה.</div>
         </div>
+        <div class="field"><label>שם הפרויקט</label><input name="title" required placeholder="שם בעברית או באנגלית"></div>
+        <div class="field"><label>קישור</label><input name="url" type="url" required placeholder="https://..."></div>
       </div>
-      <div class="field-row">
-        <div class="field"><label>תגית</label><input name="badge" placeholder="אתר עסקי"></div>
-        <div class="field"><label>שנה</label><input name="year" placeholder="2026"></div>
+
+      <div class="fieldset">
+        <div class="fieldset-legend">תצוגה</div>
+        <div class="field">
+          <label>תמונה (גרור לכאן או הדבק נתיב)</label>
+          <div class="image-drop" data-target="projImagePath">
+            <input name="image" id="projImagePath" placeholder="assets/project-name.jpg" style="flex:1;">
+            <input type="file" id="projImageFile" accept="image/*" hidden onchange="handleImageSelect(this, 'projImagePath')">
+            <button type="button" class="btn btn-s" style="white-space:nowrap;padding:9px 14px;" onclick="document.getElementById('projImageFile').click()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              העלה
+            </button>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>תגית</label><input name="badge" placeholder="אתר עסקי"></div>
+          <div class="field"><label>שנה</label><input name="year" placeholder="2026"></div>
+        </div>
+        <div class="field"><label>סגנון תמונה (אופציונלי)</label><input name="imageStyle" placeholder="object-position:top"></div>
+        <div class="field-check"><input type="checkbox" name="featured" id="featuredCheck"><label for="featuredCheck">הצג בעמוד הבית · כבוי = נשמר אבל לא מוצג</label></div>
       </div>
-      <div class="field"><label>תיאור</label><textarea name="description" required></textarea></div>
-      <div class="field"><label>סגנון תמונה (אופציונלי)</label><input name="imageStyle" placeholder="object-position:top"></div>
-      <div class="field-check"><input type="checkbox" name="featured" id="featuredCheck"><label for="featuredCheck">הצג בעמוד הבית</label></div>
+
+      <div class="fieldset">
+        <div class="fieldset-legend">תוכן</div>
+        <div class="field"><label>תיאור</label><textarea name="description" required></textarea></div>
+      </div>
+
       <div class="modal-actions">
         <button type="button" class="btn btn-d" id="deleteBtn" style="display:none" onclick="deleteProj()">מחק</button>
         <div style="display:flex; gap:8px; margin-inline-start:auto;">

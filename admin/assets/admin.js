@@ -7,6 +7,120 @@ function toast(msg, isError) {
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 
+// === UI PRIMITIVES: scroll-lock, focus trap, save-state, skeleton, error-card ===
+
+// Body scroll-lock — refcounted so nested overlays (drawer + modal) restore correctly.
+let _lockCount = 0;
+function lockScroll() {
+  if (_lockCount === 0) document.body.style.overflow = 'hidden';
+  _lockCount++;
+}
+function unlockScroll() {
+  _lockCount = Math.max(0, _lockCount - 1);
+  if (_lockCount === 0) document.body.style.overflow = '';
+}
+
+// Track the element to restore focus to when a modal closes.
+let _lastTrigger = null;
+
+// Focus-trap: keep Tab within the given container.
+function trapFocus(container) {
+  const focusables = () => [...container.querySelectorAll(
+    'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+  )].filter(el => el.offsetParent !== null);
+  container._trapHandler = (e) => {
+    if (e.key !== 'Tab') return;
+    const els = focusables();
+    if (!els.length) return;
+    const first = els[0], last = els[els.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  };
+  container.addEventListener('keydown', container._trapHandler);
+}
+
+// Move focus into a freshly opened modal + remember the trigger.
+function focusModal(modalEl) {
+  _lastTrigger = document.activeElement;
+  const target = modalEl.querySelector('input:not([type="hidden"]):not([readonly]), textarea, select, button');
+  if (target) setTimeout(() => target.focus(), 60);
+  trapFocus(modalEl);
+}
+function restoreTriggerFocus() {
+  if (_lastTrigger && typeof _lastTrigger.focus === 'function') { try { _lastTrigger.focus(); } catch (e) {} }
+  _lastTrigger = null;
+}
+
+// Wire a save button through is-saving → is-saved (~1.2s) / is-error (shake).
+function saveStateStart(btn) { if (btn) { btn.classList.add('is-saving'); btn.classList.remove('is-saved', 'is-error'); } }
+function saveStateOk(btn) {
+  if (!btn) return;
+  btn.classList.remove('is-saving', 'is-error', 'is-dirty');
+  btn.classList.add('is-saved');
+  setTimeout(() => btn.classList.remove('is-saved'), 1200);
+}
+function saveStateError(btn) {
+  if (!btn) return;
+  btn.classList.remove('is-saving', 'is-saved');
+  btn.classList.add('is-error');
+  setTimeout(() => btn.classList.remove('is-error'), 450);
+}
+
+// Mark a form dirty/clean — toggles the save button dot + active nav + burger dot.
+function markDirty(btn, on) {
+  if (btn) btn.classList.toggle('is-dirty', on);
+  const activeNav = document.querySelector('.nav-item.active[data-view]');
+  if (activeNav) activeNav.classList.toggle('has-dirty', on);
+  const burger = document.getElementById('adminBurger');
+  if (burger) burger.classList.toggle('has-dirty', on);
+}
+// Attach an input listener to a form that flips dirty state.
+// Removes any previous handler first so persistent forms don't stack listeners.
+function wireDirty(form, btn) {
+  if (!form) return;
+  if (form._dirtyHandler) form.removeEventListener('input', form._dirtyHandler);
+  const handler = () => markDirty(btn, true);
+  form.addEventListener('input', handler);
+  form._dirtyHandler = handler;
+}
+
+// Skeleton placeholder for list views (reads as content, not a lone spinner).
+function skelRows(n) {
+  let out = '';
+  for (let i = 0; i < (n || 4); i++) {
+    out += '<div class="skel-row"><div class="skeleton skel-chip"></div><div class="skel-lines"><div class="skeleton skel-bar long"></div><div class="skeleton skel-bar short"></div></div></div>';
+  }
+  return out;
+}
+
+// Retryable error card — calls the named loader fn again.
+function errorCard(message, retryFn) {
+  return `<div class="error-card">
+    <h3>שגיאה בטעינה</h3>
+    <p>${escapeHtml(message || '')}</p>
+    <button class="btn btn-p" onclick="${retryFn}()">נסה שוב</button>
+  </div>`;
+}
+
+// Close whichever dynamic modal is currently open (testi/svc/faq/ws).
+function closeAnyDynamicModal() {
+  if (document.getElementById('testiModalBg')) { closeTestiModal(); return true; }
+  if (document.getElementById('svcModalBg')) { closeSvcModal(); return true; }
+  if (document.getElementById('faqModalBg')) { closeFaqModal(); return true; }
+  if (document.getElementById('wsModalBg')) { closeWsModal(); return true; }
+  return false;
+}
+
+// Global ESC: close top-most overlay (modal first, then drawer).
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  const staticModal = document.getElementById('modalBg');
+  if (staticModal && staticModal.classList.contains('open')) { closeModal(); return; }
+  if (closeAnyDynamicModal()) return;
+  const aside = document.querySelector('aside');
+  if (aside && aside.classList.contains('open')) toggleSidebar(false);
+});
+
 function navigate(view) {
   document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
   document.querySelectorAll('.nav-item[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === view));
@@ -233,6 +347,7 @@ async function loadJourney() {
 }
 
 async function loadProjects() {
+  document.getElementById('projectList').innerHTML = skelRows(4);
   try {
     const r = await fetch('/api/admin/projects');
     if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -240,7 +355,7 @@ async function loadProjects() {
     state.projects = d.projects || [];
     renderProjects();
   } catch (e) {
-    document.getElementById('projectList').innerHTML = '<div class="empty"><h3>שגיאה בטעינה</h3><p>' + e.message + '</p></div>';
+    document.getElementById('projectList').innerHTML = errorCard(e.message, 'loadProjects');
   }
 }
 
@@ -309,11 +424,23 @@ function openProject(id) {
       });
     }
   }
-  document.getElementById('modalBg').classList.add('open');
+  const bg = document.getElementById('modalBg');
+  bg.classList.add('open');
+  lockScroll();
+  const modal = bg.querySelector('.modal');
+  if (modal) focusModal(modal);
+  const saveBtn = document.getElementById('saveBtn');
+  markDirty(saveBtn, false);
+  wireDirty(form, saveBtn);
 }
 
 function closeModal() {
-  document.getElementById('modalBg').classList.remove('open');
+  const bg = document.getElementById('modalBg');
+  if (!bg.classList.contains('open')) return;
+  bg.classList.remove('open');
+  unlockScroll();
+  markDirty(document.getElementById('saveBtn'), false);
+  restoreTriggerFocus();
   state.editingId = null;
 }
 
@@ -325,6 +452,7 @@ document.getElementById('projForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const btn = document.getElementById('saveBtn');
   btn.disabled = true;
+  saveStateStart(btn);
   btn.innerHTML = '<span class="loading"></span> שומר...';
   try {
     const fd = new FormData(e.target);
@@ -352,10 +480,12 @@ document.getElementById('projForm').addEventListener('submit', async (e) => {
     }
     state.projects = newProjects;
     renderProjects();
+    saveStateOk(btn);
     closeModal();
     toast('נשמר! האתר יעדכן תוך 30 שניות');
     loadDashboard();
   } catch (e) {
+    saveStateError(btn);
     toast(e.message, true);
   } finally {
     btn.disabled = false;
@@ -397,6 +527,7 @@ async function deleteProj() {
 state.subscribers = [];
 
 async function loadSubscribers() {
+  document.getElementById('subsList').innerHTML = skelRows(5);
   try {
     const r = await fetch('/api/admin/subscribers?limit=100');
     if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -409,7 +540,7 @@ async function loadSubscribers() {
     document.getElementById('subsWeek').textContent = state.subscribers.filter(s => new Date(s.subscribed_at).getTime() > weekAgo).length;
     renderSubscribers();
   } catch (e) {
-    document.getElementById('subsList').innerHTML = '<div class="empty"><h3>שגיאה בטעינה</h3><p>' + e.message + '</p></div>';
+    document.getElementById('subsList').innerHTML = errorCard(e.message, 'loadSubscribers');
   }
 }
 
@@ -451,6 +582,7 @@ state.testimonials = [];
 state.editingTestiId = null;
 
 async function loadTestimonials() {
+  document.getElementById('testiList').innerHTML = skelRows(3);
   try {
     const r = await fetch('/api/admin/testimonials');
     if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -460,7 +592,7 @@ async function loadTestimonials() {
     document.getElementById('navCountTesti').textContent = state.testimonials.length;
     renderTestimonials();
   } catch (e) {
-    document.getElementById('testiList').innerHTML = '<div class="empty"><h3>שגיאה</h3><p>' + e.message + '</p></div>';
+    document.getElementById('testiList').innerHTML = errorCard(e.message, 'loadTestimonials');
   }
 }
 
@@ -491,8 +623,9 @@ function openTesti(id) {
   if (!t) return;
   const html = `
     <div class="modal-bg open" id="testiModalBg" onclick="if(event.target.id==='testiModalBg')closeTestiModal()">
-      <div class="modal">
-        <h2>${id ? 'עריכת המלצה' : 'המלצה חדשה'}</h2>
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="testiModalTitle">
+        <button type="button" class="modal-x" onclick="closeTestiModal()" aria-label="סגור"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <h2 id="testiModalTitle">${id ? 'עריכת המלצה' : 'המלצה חדשה'}</h2>
         <form id="testiForm">
           <div class="field"><label>מזהה</label><input name="id" required pattern="[a-z0-9-]+" value="${escapeHtml(t.id)}" ${id?'readonly':''}></div>
           <div class="field-row">
@@ -519,12 +652,21 @@ function openTesti(id) {
   const div = document.createElement('div');
   div.innerHTML = html;
   document.body.appendChild(div.firstElementChild);
-  document.getElementById('testiForm').addEventListener('submit', saveTesti);
+  const form = document.getElementById('testiForm');
+  form.addEventListener('submit', saveTesti);
+  lockScroll();
+  focusModal(document.getElementById('testiModalBg').querySelector('.modal'));
+  wireDirty(form, document.getElementById('testiSaveBtn'));
+  markDirty(document.getElementById('testiSaveBtn'), false);
 }
 
 function closeTestiModal() {
   const el = document.getElementById('testiModalBg');
-  if (el) el.remove();
+  if (!el) return;
+  el.remove();
+  unlockScroll();
+  markDirty(null, false);
+  restoreTriggerFocus();
   state.editingTestiId = null;
 }
 
@@ -532,6 +674,7 @@ async function saveTesti(e) {
   e.preventDefault();
   const btn = document.getElementById('testiSaveBtn');
   btn.disabled = true;
+  saveStateStart(btn);
   btn.innerHTML = '<span class="loading"></span>';
   try {
     const fd = new FormData(e.target);
@@ -553,9 +696,11 @@ async function saveTesti(e) {
     state.testimonials = newTestis;
     renderTestimonials();
     document.getElementById('navCountTesti').textContent = state.testimonials.length;
+    saveStateOk(btn);
     closeTestiModal();
     toast('נשמר!');
   } catch (e) {
+    saveStateError(btn);
     toast(e.message, true);
   } finally {
     btn.disabled = false;
@@ -643,7 +788,7 @@ async function loadAnalytics() {
       </div>
     `;
   } catch (e) {
-    content.innerHTML = '<div class="card"><div class="empty"><h3>שגיאה</h3><p>' + e.message + '</p></div></div>';
+    content.innerHTML = errorCard(e.message, 'loadAnalytics');
   }
 }
 
@@ -664,6 +809,7 @@ const INQ_TOPIC = { project: 'פרויקט', workshop: 'סדנה', finance: 'י�
 const INQ_STATUS = { new: { label: 'חדש', color: '#10B981' }, read: { label: 'נקרא', color: '#a78bfa' }, replied: { label: 'נענה', color: '#7a7a88' } };
 
 async function loadInquiries() {
+  document.getElementById('inqList').innerHTML = skelRows(3);
   try {
     const r = await fetch('/api/admin/inquiries');
     if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -673,7 +819,7 @@ async function loadInquiries() {
     document.getElementById('navCountInq').textContent = d.newCount || 0;
     renderInquiries();
   } catch (e) {
-    document.getElementById('inqList').innerHTML = '<div class="empty"><h3>שגיאה</h3><p>' + e.message + '</p></div>';
+    document.getElementById('inqList').innerHTML = errorCard(e.message, 'loadInquiries');
   }
 }
 
@@ -744,7 +890,7 @@ async function loadSettings() {
     state.settings = d.settings || {};
     renderSettingsForm();
   } catch (e) {
-    document.getElementById('settingsContent').innerHTML = '<div class="empty"><h3>שגיאה</h3><p>' + e.message + '</p></div>';
+    document.getElementById('settingsContent').innerHTML = errorCard(e.message, 'loadSettings');
   }
 }
 
@@ -779,12 +925,30 @@ function renderSettingsForm() {
       <div class="field"><label>טאגליין</label><input data-setting="branding.tagline" value="${escapeHtml(br.tagline || '')}" placeholder="AI · TECH · TOOLS"></div>
       <div class="field"><label>תיאור קצר (פוטר)</label><textarea data-setting="branding.blurb" rows="3">${escapeHtml(br.blurb || '')}</textarea></div>
     </div>
+
+    <div class="save-bar" id="settingsSaveBar" style="display:none;">
+      <span class="dirty-dot"></span>
+      <span>יש שינויים שלא נשמרו</span>
+    </div>
   `;
+
+  // Reveal the save-bar + flag the save button dirty on first edit.
+  const content = document.getElementById('settingsContent');
+  const saveBtn = document.getElementById('settingsSaveBtn');
+  markDirty(saveBtn, false);
+  if (content._dirtyHandler) content.removeEventListener('input', content._dirtyHandler);
+  content._dirtyHandler = () => {
+    const bar = document.getElementById('settingsSaveBar');
+    if (bar) bar.style.display = 'flex';
+    markDirty(saveBtn, true);
+  };
+  content.addEventListener('input', content._dirtyHandler);
 }
 
 async function saveSettings() {
   const btn = document.getElementById('settingsSaveBtn');
   btn.disabled = true;
+  saveStateStart(btn);
   btn.innerHTML = '<span class="loading"></span> שומר...';
   try {
     const newSettings = {};
@@ -803,8 +967,13 @@ async function saveSettings() {
     });
     if (!r.ok) { const er = await r.json(); throw new Error(er.error); }
     state.settings = newSettings;
+    saveStateOk(btn);
+    markDirty(btn, false);
+    const bar = document.getElementById('settingsSaveBar');
+    if (bar) bar.style.display = 'none';
     toast('הגדרות נשמרו!');
   } catch (e) {
+    saveStateError(btn);
     toast(e.message, true);
   } finally {
     btn.disabled = false;
@@ -819,6 +988,7 @@ const SVC_COLORS = ['web','fin','aca'];
 const SVC_ICON_OPTS = ['web','finance','academy'];
 
 async function loadServices() {
+  document.getElementById('servicesList').innerHTML = skelRows(3);
   try {
     const r = await fetch('/api/admin/services');
     if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -828,7 +998,7 @@ async function loadServices() {
     document.getElementById('navCountServices').textContent = state.services.length;
     renderServices();
   } catch (e) {
-    document.getElementById('servicesList').innerHTML = '<div class="empty"><h3>שגיאה</h3><p>' + e.message + '</p></div>';
+    document.getElementById('servicesList').innerHTML = errorCard(e.message, 'loadServices');
   }
 }
 
@@ -858,8 +1028,9 @@ function openService(id) {
   if (!s) return;
   const html = `
     <div class="modal-bg open" id="svcModalBg" onclick="if(event.target.id==='svcModalBg')closeSvcModal()">
-      <div class="modal">
-        <h2>${id ? 'עריכת שירות' : 'שירות חדש'}</h2>
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="svcModalTitle">
+        <button type="button" class="modal-x" onclick="closeSvcModal()" aria-label="סגור"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <h2 id="svcModalTitle">${id ? 'עריכת שירות' : 'שירות חדש'}</h2>
         <form id="svcForm">
           <div class="field"><label>מזהה</label><input name="id" required pattern="[a-z0-9-]+" value="${escapeHtml(s.id)}" ${id?'readonly':''}></div>
           <div class="field"><label>כותרת</label><input name="title" required value="${escapeHtml(s.title)}"></div>
@@ -886,12 +1057,21 @@ function openService(id) {
   const div = document.createElement('div');
   div.innerHTML = html;
   document.body.appendChild(div.firstElementChild);
-  document.getElementById('svcForm').addEventListener('submit', saveService);
+  const form = document.getElementById('svcForm');
+  form.addEventListener('submit', saveService);
+  lockScroll();
+  focusModal(document.getElementById('svcModalBg').querySelector('.modal'));
+  wireDirty(form, document.getElementById('svcSaveBtn'));
+  markDirty(document.getElementById('svcSaveBtn'), false);
 }
 
 function closeSvcModal() {
   const el = document.getElementById('svcModalBg');
-  if (el) el.remove();
+  if (!el) return;
+  el.remove();
+  unlockScroll();
+  markDirty(null, false);
+  restoreTriggerFocus();
   state.editingServiceId = null;
 }
 
@@ -899,6 +1079,7 @@ async function saveService(e) {
   e.preventDefault();
   const btn = document.getElementById('svcSaveBtn');
   btn.disabled = true;
+  saveStateStart(btn);
   btn.innerHTML = '<span class="loading"></span>';
   try {
     const fd = new FormData(e.target);
@@ -919,9 +1100,11 @@ async function saveService(e) {
     state.services = newSvc;
     renderServices();
     document.getElementById('navCountServices').textContent = state.services.length;
+    saveStateOk(btn);
     closeSvcModal();
     toast('נשמר!');
   } catch (e) {
+    saveStateError(btn);
     toast(e.message, true);
   } finally {
     btn.disabled = false;
@@ -952,6 +1135,7 @@ state.faqs = [];
 state.editingFaqId = null;
 
 async function loadFaqs() {
+  document.getElementById('faqList').innerHTML = skelRows(4);
   try {
     const r = await fetch('/api/admin/faq');
     if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -961,7 +1145,7 @@ async function loadFaqs() {
     document.getElementById('navCountFaq').textContent = state.faqs.length;
     renderFaqs();
   } catch (e) {
-    document.getElementById('faqList').innerHTML = '<div class="empty"><h3>שגיאה</h3><p>' + e.message + '</p></div>';
+    document.getElementById('faqList').innerHTML = errorCard(e.message, 'loadFaqs');
   }
 }
 
@@ -991,8 +1175,9 @@ function openFaq(id) {
   if (!f) return;
   const html = `
     <div class="modal-bg open" id="faqModalBg" onclick="if(event.target.id==='faqModalBg')closeFaqModal()">
-      <div class="modal">
-        <h2>${id ? 'עריכת שאלה' : 'שאלה חדשה'}</h2>
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="faqModalTitle">
+        <button type="button" class="modal-x" onclick="closeFaqModal()" aria-label="סגור"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <h2 id="faqModalTitle">${id ? 'עריכת שאלה' : 'שאלה חדשה'}</h2>
         <form id="faqForm">
           <div class="field"><label>מזהה</label><input name="id" required pattern="[a-z0-9-]+" value="${escapeHtml(f.id)}" ${id?'readonly':''}></div>
           <div class="field"><label>השאלה</label><input name="question" required value="${escapeHtml(f.question)}"></div>
@@ -1011,12 +1196,21 @@ function openFaq(id) {
   const div = document.createElement('div');
   div.innerHTML = html;
   document.body.appendChild(div.firstElementChild);
-  document.getElementById('faqForm').addEventListener('submit', saveFaq);
+  const form = document.getElementById('faqForm');
+  form.addEventListener('submit', saveFaq);
+  lockScroll();
+  focusModal(document.getElementById('faqModalBg').querySelector('.modal'));
+  wireDirty(form, document.getElementById('faqSaveBtn'));
+  markDirty(document.getElementById('faqSaveBtn'), false);
 }
 
 function closeFaqModal() {
   const el = document.getElementById('faqModalBg');
-  if (el) el.remove();
+  if (!el) return;
+  el.remove();
+  unlockScroll();
+  markDirty(null, false);
+  restoreTriggerFocus();
   state.editingFaqId = null;
 }
 
@@ -1024,6 +1218,7 @@ async function saveFaq(e) {
   e.preventDefault();
   const btn = document.getElementById('faqSaveBtn');
   btn.disabled = true;
+  saveStateStart(btn);
   btn.innerHTML = '<span class="loading"></span>';
   try {
     const fd = new FormData(e.target);
@@ -1044,9 +1239,11 @@ async function saveFaq(e) {
     state.faqs = newFaqs;
     renderFaqs();
     document.getElementById('navCountFaq').textContent = state.faqs.length;
+    saveStateOk(btn);
     closeFaqModal();
     toast('נשמר!');
   } catch (e) {
+    saveStateError(btn);
     toast(e.message, true);
   } finally {
     btn.disabled = false;
@@ -1077,6 +1274,7 @@ state.workshops = [];
 state.editingWorkshopId = null;
 
 async function loadWorkshops() {
+  document.getElementById('workshopsList').innerHTML = skelRows(3);
   try {
     const r = await fetch('/api/admin/workshops');
     if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -1086,7 +1284,7 @@ async function loadWorkshops() {
     document.getElementById('navCountWorkshops').textContent = state.workshops.length;
     renderWorkshops();
   } catch (e) {
-    document.getElementById('workshopsList').innerHTML = '<div class="empty"><h3>שגיאה</h3><p>' + e.message + '</p></div>';
+    document.getElementById('workshopsList').innerHTML = errorCard(e.message, 'loadWorkshops');
   }
 }
 
@@ -1122,8 +1320,9 @@ function openWorkshop(id) {
   const bulletsStr = (w.bullets || []).join('\n');
   const html = `
     <div class="modal-bg open" id="wsModalBg" onclick="if(event.target.id==='wsModalBg')closeWsModal()">
-      <div class="modal">
-        <h2>${id ? 'עריכת סדנה' : 'סדנה חדשה'}</h2>
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="wsModalTitle">
+        <button type="button" class="modal-x" onclick="closeWsModal()" aria-label="סגור"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <h2 id="wsModalTitle">${id ? 'עריכת סדנה' : 'סדנה חדשה'}</h2>
         <form id="wsForm">
           <div class="field-row">
             <div class="field"><label>מזהה</label><input name="id" required pattern="[a-z0-9-]+" value="${escapeHtml(w.id)}" ${id?'readonly':''}></div>
@@ -1154,12 +1353,21 @@ function openWorkshop(id) {
   const div = document.createElement('div');
   div.innerHTML = html;
   document.body.appendChild(div.firstElementChild);
-  document.getElementById('wsForm').addEventListener('submit', saveWs);
+  const form = document.getElementById('wsForm');
+  form.addEventListener('submit', saveWs);
+  lockScroll();
+  focusModal(document.getElementById('wsModalBg').querySelector('.modal'));
+  wireDirty(form, document.getElementById('wsSaveBtn'));
+  markDirty(document.getElementById('wsSaveBtn'), false);
 }
 
 function closeWsModal() {
   const el = document.getElementById('wsModalBg');
-  if (el) el.remove();
+  if (!el) return;
+  el.remove();
+  unlockScroll();
+  markDirty(null, false);
+  restoreTriggerFocus();
   state.editingWorkshopId = null;
 }
 
@@ -1167,6 +1375,7 @@ async function saveWs(e) {
   e.preventDefault();
   const btn = document.getElementById('wsSaveBtn');
   btn.disabled = true;
+  saveStateStart(btn);
   btn.innerHTML = '<span class="loading"></span>';
   try {
     const fd = new FormData(e.target);
@@ -1190,9 +1399,11 @@ async function saveWs(e) {
     state.workshops = newWs;
     renderWorkshops();
     document.getElementById('navCountWorkshops').textContent = state.workshops.length;
+    saveStateOk(btn);
     closeWsModal();
     toast('נשמר!');
   } catch (e) {
+    saveStateError(btn);
     toast(e.message, true);
   } finally {
     btn.disabled = false;
@@ -1270,9 +1481,12 @@ document.addEventListener('drop', async e => {
 function toggleSidebar(force) {
   const aside = document.querySelector('aside');
   const scrim = document.getElementById('navScrim');
-  const open = force === undefined ? !aside.classList.contains('open') : force;
+  const wasOpen = aside.classList.contains('open');
+  const open = force === undefined ? !wasOpen : force;
+  if (open === wasOpen) return;
   aside.classList.toggle('open', open);
   if (scrim) scrim.classList.toggle('open', open);
+  if (open) lockScroll(); else unlockScroll();
 }
 // Close mobile sidebar on nav item click
 document.addEventListener('click', e => {
