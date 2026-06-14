@@ -29,7 +29,23 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/style.css?v=20260612c">
+<link rel="stylesheet" href="/assets/css/style.css?v=20260614a">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "מחשבון הזמן ש-AI יחזיר לך",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "he-IL",
+  "url": "https://yarinmalka.co.il/calculator",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "ILS"
+  }
+}
+</script>
 <script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
 <style>
 /* ===== Calculator ===== */
@@ -91,7 +107,7 @@
 
 /* AI analysis */
 .ai-box { margin-top:40px; border:1px solid rgba(108,60,225,0.35); border-radius:20px; padding:28px; background:linear-gradient(160deg, rgba(108,60,225,0.08), transparent); }
-.ai-box h3 { font-size:22px; margin:0 0 6px; }
+.ai-box h3, .ai-box .h3-look { font-size:22px; margin:0 0 6px; }
 .ai-box .sub { color:var(--text2); font-size:14.5px; margin-bottom:18px; }
 .ai-box textarea { width:100%; min-height:90px; resize:vertical; padding:14px; border-radius:12px; border:1px solid var(--glass-border); background:var(--glass); color:var(--text); font-family:'Heebo'; font-size:15px; line-height:1.5; }
 .ai-box textarea:focus { outline:none; border-color:var(--accent); }
@@ -225,7 +241,7 @@
 
         <!-- AI ANALYSIS -->
         <div class="ai-box">
-            <h3>רוצה ניתוח אישי מ-AI?</h3>
+            <h2 class="h3-look">רוצה ניתוח אישי מ-AI?</h2>
             <p class="sub">תאר את העסק שלך במשפט-שניים, ו-AI יחזיר לך 3 רעיונות ספציפיים לאוטומציה שמתאימים בדיוק לך.</p>
             <textarea id="aiInput" placeholder="לדוגמה: יש לי קליניקה לרפואה משלימה, אני מתאמת תורים בטלפון ושולחת תזכורות ידנית, וכותבת תוכן לאינסטגרם..."></textarea>
             <div style="margin-top:14px">
@@ -261,7 +277,7 @@
             <div class="footer-brand">
                 <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
                 <p class="footer-tagline">AI · TECH · TOOLS</p>
-                <p class="footer-blurb">פיתוח אתרים, ייעוץ פיננסי וסדנאות. שלוש מומחיות, מותג אחד, ערך פרקטי.</p>
+                <p class="footer-blurb">פיתוח אתרים, ליווי פיננסי וסדנאות. שלוש מומחיות, מותג אחד, ערך פרקטי.</p>
                 <div class="footer-social-strip">
                     <a href="https://www.linkedin.com/in/yarin-malka-baa541228" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0H5a5 5 0 00-5 5v14a5 5 0 005 5h14a5 5 0 005-5V5a5 5 0 00-5-5zM8 19H5V8h3v11zM6.5 6.7a1.7 1.7 0 110-3.4 1.7 1.7 0 010 3.4zM20 19h-3v-5.6c0-3.4-4-3.1-4 0V19h-3V8h3v1.8c1.4-2.6 7-2.8 7 2.5V19z"/></svg></a>
                     <a href="https://x.com/YarinMalka6" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>

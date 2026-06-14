@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/style.css?v=20260612c">
+<link rel="stylesheet" href="/assets/css/style.css?v=20260614a">
 <script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 <body>
@@ -90,8 +90,10 @@
 <div class="signup-block reveal">
     <div class="signup-form">
         <form id="signupForm" novalidate>
-            <input type="text" name="name" placeholder="שם פרטי" required>
-            <input type="email" name="email" placeholder="האימייל שלך" required>
+            <label for="signupName" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">שם פרטי</label>
+            <input type="text" id="signupName" name="name" placeholder="שם פרטי" required>
+            <label for="signupEmail" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">האימייל שלך</label>
+            <input type="email" id="signupEmail" name="email" placeholder="האימייל שלך" required>
             <button type="submit" id="signupBtn">הירשם חינם</button>
             <div id="signupMsg" style="display:none;font-size:14px;padding:12px 16px;border-radius:10px;margin-top:6px;text-align:center;font-family:Heebo"></div>
         </form>
@@ -149,7 +151,7 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
             <div class="footer-brand">
                 <a href="/" class="logo">YARIN<span class="dot">.</span>MALKA</a>
                 <p class="footer-tagline">AI · TECH · TOOLS</p>
-                <p class="footer-blurb">פיתוח אתרים, ייעוץ פיננסי וסדנאות. שלוש מומחיות, מותג אחד, ערך פרקטי.</p>
+                <p class="footer-blurb">פיתוח אתרים, ליווי פיננסי וסדנאות. שלוש מומחיות, מותג אחד, ערך פרקטי.</p>
                 <div class="footer-social-strip">
                     <a data-setting-href="social.linkedin:url" href="https://www.linkedin.com/in/yarin-malka-baa541228" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0H5a5 5 0 00-5 5v14a5 5 0 005 5h14a5 5 0 005-5V5a5 5 0 00-5-5zM8 19H5V8h3v11zM6.5 6.7a1.7 1.7 0 110-3.4 1.7 1.7 0 010 3.4zM20 19h-3v-5.6c0-3.4-4-3.1-4 0V19h-3V8h3v1.8c1.4-2.6 7-2.8 7 2.5V19z"/></svg></a>
                     <a data-setting-href="social.twitter:url" href="https://x.com/YarinMalka6" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>

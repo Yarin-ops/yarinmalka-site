@@ -1516,7 +1516,7 @@ nav#mainNav {
 [data-theme="light"] .cta-content .sub { color: #4B5563; }
 .cta-content .sub2 {
   font-size: 0.85rem;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.62);
   margin-bottom: 36px;
 }
 [data-theme="light"] .cta-content .sub2 { color: #6B7280; }
