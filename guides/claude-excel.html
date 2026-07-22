@@ -77,6 +77,8 @@
             <a href="/workshops">סדנאות</a>            <a href="/guides">מדריכים</a>
             <a href="/about">אודות</a>
             <a href="/projects/">פרויקטים</a>
+            </div>
+        <div class="nav-actions">
             <button class="theme-toggle-nav" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
                 <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                 <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -170,7 +172,7 @@
       <p class="ph-hint" style="color:var(--text3);font-size:13px;font-family:Heebo">💡 <strong>טבלת סיכום (Pivot)</strong> = דרך לסכם הרבה שורות נתונים לטבלה קטנה לפי קטגוריות שאתה בוחר.</p>
 
       <h3>4. למצוא ולתקן נוסחאות שבורות</h3>
-      <p>"למה התא Z47 מציג <code>#REF!</code>?"</p>
+      <p>"למה התא Z47 מציג <code dir="ltr">#REF!</code>?"</p>
       <p>Claude עוקב אחרי הנוסחה, מוצא איפה הבעיה, מסביר למה זה קרה (לרוב - מחקת שורה שהנוסחה הסתמכה עליה), ומציע תיקון. אפשר לבקש שיתקן בעצמו או רק יראה לך את התיקון לפני.</p>
 
       <h3>5. עדכון ערכי בסיס בלי לשבור הכל</h3>
@@ -186,14 +188,14 @@
       <p>חשוב לדעת מראש מה לא עובד:</p>
       <p><strong>1. לא תומך ב-Macros (קוד VBA).</strong> אם הקובץ שלך משתמש במקרואים - Claude לא יראה אותם ולא יוכל להריץ אותם.</p>
       <p><strong>2. לא תומך ב-Data Tables.</strong> זה מנגנון מובנה של אקסל לתרחישי "מה אם". Claude עובד רק על טווחי תאים רגילים.</p>
-      <p><strong>3. רק קבצי <code>.xlsx</code> ו-<code>.xlsm</code>.</strong> CSV, ODS, ופורמטים אחרים - לא.</p>
+      <p><strong>3. רק קבצי <code dir="ltr">.xlsx</code> ו-<code dir="ltr">.xlsm</code>.</strong> CSV, ODS, ופורמטים אחרים - לא.</p>
       <p><strong>4. לא תחליף לאקסל ידני בכל מצב.</strong> משימות פשוטות וחוזרות תעשה מהר יותר לבד.</p>
 
       <h2 id="install">איך מתקינים - 3 צעדים פשוטים</h2>
       <p>זמן כולל: כ-3 דקות. אין צורך בידע טכני.</p>
 
       <h3>צעד 1: פותחים את חנות התוספים</h3>
-      <p>בתוך אקסל, בתפריט העליון: לוחצים <code>Insert</code> ← <code>Get Add-ins</code> (או <code>Add-ins</code> בגרסאות חדשות). נפתח חלון של חנות התוספים. בשורת החיפוש: כותבים <strong>Claude</strong>.</p>
+      <p>בתוך אקסל, בתפריט העליון: לוחצים <code dir="ltr">Insert</code> ← <code dir="ltr">Get Add-ins</code> (או <code dir="ltr">Add-ins</code> בגרסאות חדשות). נפתח חלון של חנות התוספים. בשורת החיפוש: כותבים <strong>Claude</strong>.</p>
 
       <figure class="screenshot">
         <img loading="lazy" src="/assets/screenshots/install-step-1-menu.png" alt="תפריט Insert באקסל עם Get Add-ins מסומן">
@@ -201,7 +203,7 @@
       </figure>
 
       <h3>צעד 2: התקנה</h3>
-      <p>בתוצאות החיפוש מופיע <strong>Claude for Excel</strong> של Anthropic. לוחצים <code>Get it now</code>. אקסל ישאל אישור הרשאות (גישה לקובץ הפתוח) - מאשרים. ההתקנה לוקחת כמה שניות.</p>
+      <p>בתוצאות החיפוש מופיע <strong>Claude for Excel</strong> של Anthropic. לוחצים <code dir="ltr">Get it now</code>. אקסל ישאל אישור הרשאות (גישה לקובץ הפתוח) - מאשרים. ההתקנה לוקחת כמה שניות.</p>
       <p style="color:var(--text3);font-size:14px;font-family:Heebo">💰 התוסף עצמו <strong>חינם</strong> להתקנה. נדרש מנוי Claude בנפרד (Pro ומעלה) כדי להשתמש בו.</p>
 
       <figure class="screenshot">
@@ -210,7 +212,7 @@
       </figure>
 
       <h3>צעד 3: התחברות לחשבון</h3>
-      <p>פאנל קטן יופיע בצד של אקסל. לוחצים <code>Sign in</code> ומתחברים עם חשבון Claude שלך. זהו - Claude מוכן.</p>
+      <p>פאנל קטן יופיע בצד של אקסל. לוחצים <code dir="ltr">Sign in</code> ומתחברים עם חשבון Claude שלך. זהו - Claude מוכן.</p>
 
       <figure class="screenshot">
         <img loading="lazy" src="/assets/screenshots/install-step-3-signin.png" alt="פאנל Claude בצד של Excel עם כפתור Sign in">

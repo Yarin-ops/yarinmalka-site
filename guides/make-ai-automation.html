@@ -67,6 +67,8 @@
             <a href="/guides">מדריכים</a>
             <a href="/about">אודות</a>
             <a href="/projects/">פרויקטים</a>
+            </div>
+        <div class="nav-actions">
             <button class="theme-toggle-nav" onclick="toggleTheme()" aria-label="החלף מצב תאורה">
                 <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                 <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -188,7 +190,7 @@
       <ol>
         <li><strong>לוחצים על העיגול</strong> → מחפשים "<strong>Webhooks</strong>" → בוחרים <strong>"Custom Webhook"</strong></li>
         <li><strong>Add</strong> → נותנים לו שם ("Form submissions") → <strong>OK</strong></li>
-        <li>Make ייצר עכשיו URL ייחודי. <strong>תעתיקו אותו.</strong> הוא נראה ככה: <code>https://hook.eu2.make.com/abc123xyz</code></li>
+        <li>Make ייצר עכשיו URL ייחודי. <strong>תעתיקו אותו.</strong> הוא נראה ככה: <code dir="ltr">https://hook.eu2.make.com/abc123xyz</code></li>
       </ol>
       <p>זה ה-URL שהטופס שלך יישלח אליו.</p>
 
@@ -199,7 +201,7 @@
         <li>מדביקים את ה-URL שהעתקתם</li>
         <li>שולחים בדיקה - ממלאים את הטופס פעם אחת</li>
       </ol>
-      <p>אם יש לך אתר עם טופס משלך (כמו <code>/api/subscribe</code> שיש ב-yarinmalka.co.il) - תוסיף בקוד שורה שתשלח גם ל-webhook URL הזה.</p>
+      <p>אם יש לך אתר עם טופס משלך (כמו <code dir="ltr">/api/subscribe</code> שיש ב-yarinmalka.co.il) - תוסיף בקוד שורה שתשלח גם ל-webhook URL הזה.</p>
       <div class="note-box"><strong>הסבר:</strong> webhook זה כמו "טריגר" - כתובת שכל פעם שמישהו שולח אליה מידע, היא מפעילה את האוטומציה שלך.</div>
 
       <h2 id="step3">6. שלב 3: Claude מסכם</h2>
@@ -207,9 +209,9 @@
       <ol>
         <li><strong>+</strong> ליד עיגול ה-Webhook → מחפשים "<strong>Anthropic</strong>" → בוחרים "<strong>Create a Message</strong>"</li>
         <li>נותנים את ה-API Key מ-anthropic.com (Settings → API Keys)</li>
-        <li>בוחרים מודל: <code>claude-haiku-4-5</code> (מספיק טוב, הכי זול)</li>
+        <li>בוחרים מודל: <code dir="ltr">claude-haiku-4-5</code> (מספיק טוב, הכי זול)</li>
         <li>בשדה "Messages" כותבים פרומפט: <code>תכין סיכום קצר של 2 שורות בעברית של הפניה הבאה: שם: {name} | טלפון: {phone} | הודעה: {message}</code></li>
-        <li>במקום <code>{name}</code>, <code>{phone}</code>, <code>{message}</code> - תבחרו את השדות מה-Webhook (Make מציע אותם בתפריט)</li>
+        <li>במקום <code dir="ltr">{name}</code>, <code dir="ltr">{phone}</code>, <code dir="ltr">{message}</code> - תבחרו את השדות מה-Webhook (Make מציע אותם בתפריט)</li>
         <li>Max tokens: <strong>200</strong> (סיכום קצר)</li>
       </ol>
 
