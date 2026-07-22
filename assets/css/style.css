@@ -560,10 +560,10 @@ nav#mainNav {
   content: '';
   position: absolute;
   bottom: 2%; right: 0;
-  width: 62%; height: 4px;
-  background: linear-gradient(90deg, var(--accent), transparent 75%);
-  filter: blur(11px);
-  opacity: 0.28;
+  width: 48%; height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent 85%);
+  filter: blur(16px);
+  opacity: 0.16;
 }
 .hero-sub {
   font-size: clamp(16px, 2vw, 20px);
