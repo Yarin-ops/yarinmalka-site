@@ -3054,7 +3054,9 @@ figure.screenshot { margin-inline-start: 0; margin-inline-end: 0; }
   .marquee-track { gap: 28px; }
 
   /* WhatsApp float - tighter to edge */
-  .wa-float { bottom: 20px; left: 20px; }
+  /* smaller and tucked into the corner so it covers less content on small screens */
+  .wa-float { bottom: 14px; left: 14px; width: 46px; height: 46px; }
+  .wa-float svg { width: 24px; height: 24px; }
 
   /* Testimonial */
   .testi-card { padding: 26px 22px; }
