@@ -31,7 +31,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/style.css?v=20260722c">
+    <link rel="stylesheet" href="/assets/css/style.css?v=20260722d">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -344,7 +344,7 @@
             <a href="/projects/alayas" data-tilt class="glass port-card reveal reveal-delay-1" style="text-decoration:none;color:inherit">
                 <div class="port-thumb"><img src="assets/project-alayas.jpg" alt="ALAYAS" loading="lazy"><div class="port-badge">אתר + מערכת</div></div>
                 <div class="port-info">
-                    <h3>ALAYAS - The System</h3>
+                    <h3><span dir="ltr">ALAYAS - The System</span></h3>
                     <p>פלטפורמה לניהול והתפתחות אישית ועסקית.</p>
                     <span class="port-link">סיפור הפרויקט <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></span>
                 </div>
@@ -411,7 +411,7 @@
             </div>
             <div class="showcase-caption">
                 <span class="showcase-badge">אתר + מערכת · 2025</span>
-                <h3>ALAYAS · <span class="accent">The System.</span></h3>
+                <h3><span dir="ltr">ALAYAS · <span class="accent">The System.</span></span></h3>
                 <p>פלטפורמה לניהול והתפתחות אישית ועסקית. עיצוב נקי, ארכיטקטורת מידע ברורה, אזור אישי עם דשבורד ומעקב התקדמות. נבנה ב-Base44 עם פיתוח מותאם בקוד.</p>
                 <a href="https://alayas-system-72f20027.base44.app" target="_blank" rel="noopener" class="showcase-cta">לאתר החי
                     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -501,7 +501,7 @@
                 <div class="card-art card-art-framed"><img src="/assets/guide-covers/make.jpg" alt="Make automation" loading="lazy"></div>
                 <span class="guide-card-tag">AI · אוטומציה</span>
                 <h3>Make + AI - אוטומציה ראשונה ב-30 דקות</h3>
-                <p>דוגמה מקצה לקצה: טופס באתר → סיכום עם Claude → שמירה ב-Notion → מייל. בלי קוד, חינם.</p>
+                <p>דוגמה מקצה לקצה: טופס באתר ← סיכום עם Claude ← שמירה ב-Notion ← מייל. בלי קוד, חינם.</p>
                 <div class="footer-meta">
                     <span>08.05.2026</span>
                     <span>30 דקות קריאה</span>
@@ -581,7 +581,7 @@
             <p class="sub2">שיחת ייעוץ ראשונה ללא עלות</p>
             <a href="/contact" class="cta-btn">בואו נדבר <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
             <div class="cta-or">or just email</div>
-            <a class="cta-mail" dir="ltr" href="mailto:office@yarinmalka.co.il" data-setting-href="contact.email:mailto" data-setting="contact.email">office@yarinmalka.co.il</a>
+            <a class="cta-mail" dir="ltr" href="mailto:office@yarinmalka.co.il" data-setting-href="contact.email:mailto" onclick="copyEmail(event,this)" title="לחצו להעתקת המייל"><b>office</b>@yarinmalka.co.il</a>
         </div>
     </div>
 </section>
@@ -616,7 +616,7 @@
             </nav>
         </div>
         <div class="footer-bottom">
-            <div class="fb-copy">&copy; 2026 YARIN.MALKA</div>
+            <div class="fb-copy" dir="ltr">&copy; 2026 YARIN.MALKA</div>
             <div class="fb-legal">
                 <a href="/privacy">פרטיות</a><span class="sep">·</span><a href="/terms">תנאים</a><span class="sep">·</span><a href="/accessibility">נגישות</a>
             </div>
@@ -681,6 +681,26 @@ document.querySelectorAll('[data-tilt]').forEach(card=>{
 
 // Theme toggle
 function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark';var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('theme',n);}
+
+// Copy email to clipboard on click (modern API + execCommand fallback)
+function copyEmail(e,el){
+  e.preventDefault();
+  var email=(el.getAttribute('href')||'').replace('mailto:','');
+  function feedback(){
+    if(!el.getAttribute('data-orig'))el.setAttribute('data-orig',el.innerHTML);
+    el.innerHTML='הועתק ✓';el.classList.add('copied');
+    clearTimeout(el._t);
+    el._t=setTimeout(function(){el.innerHTML=el.getAttribute('data-orig');el.classList.remove('copied');},1600);
+  }
+  function legacy(){
+    try{var ta=document.createElement('textarea');ta.value=email;ta.style.cssText='position:fixed;opacity:0';
+      document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);feedback();}
+    catch(err){window.location.href=el.getAttribute('href');}
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(email).then(feedback).catch(legacy);
+  }else{legacy();}
+}
 </script>
 <!-- Cloudflare Web Analytics --><script defer src="/assets/js/a11y.js"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "9105c6491cdc412ba8510ee4615553c5"}'></script><!-- End Cloudflare Web Analytics -->
