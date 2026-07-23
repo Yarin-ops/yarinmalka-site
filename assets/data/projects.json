@@ -1,6 +1,19 @@
 {
   "projects": [
     {
+      "id": "derech-rut",
+      "title": "דרך רות",
+      "url": "https://derechrut.co.il",
+      "linkType": "site",
+      "image": "assets/project-derechrut.jpg",
+      "imageStyle": "",
+      "badge": "אתר + מערכת",
+      "description": "בית לגיור בהובלת הרב גדי אלבז. אתר רב-לשוני, אזור אישי עם מעקב חי אחרי כל שלב בתהליך, ומנטורית AI זמינה 24/7. כולל הקמת נוכחות דיגיטלית מלאה: דומיין, פרופיל עסקי בגוגל ושיווק.",
+      "featured": true,
+      "year": "2026",
+      "caseStudy": ""
+    },
+    {
       "id": "claude-usage-dashboard",
       "title": "Claude Usage Dashboard",
       "url": "https://github.com/Yarin-ops/claude-usage-dashboard",
